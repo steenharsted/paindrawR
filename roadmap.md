@@ -7,9 +7,12 @@
 * SFH:
     - pdr_add_rgba.R
     - pdr_alpha.R
-    - pdr_plot_heatmap.R
-    - pdr_plot_drawing.R
+    - pdr_plot_rgba_heatmap.R
+    - pdr_plot_rgba.R
+    - pdr_plot_xy.R
     - pdr_summarize_alpha_
+    - pdr_import_png
+    - pdr_collapse_stencils
 * SON
     - pdr_check_data.R
     - pdr_explode.R
