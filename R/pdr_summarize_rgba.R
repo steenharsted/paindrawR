@@ -96,16 +96,10 @@ pdr_summarize_rgba <- function(
     )
   )
 
-  summarize_drawing_as_tibble <- function(
-    one_pdr_list,
-    summary_stat,
-    alpha_range,
-    one_stencil,
-    col_name
-  ) {
+  summarize_drawing_as_tibble <- function(one_pdr_list, summary_stat, alpha_range, one_stencil, col_name) {
     # This function is intended to take a single pdr_list as input and iterate over each drawing
     # Apply a single stencil (a matrix) and apply an alpha range, before calculating a number
-    # of summary statistics and retuning the result as a tibble of same number of rows as pdr_list
+    # of summary statistics and returning the result as a tibble of same number of rows as pdr_list
     # with columns of col_name as prefix to the statistical summary function.
 
     # It is worth noting: The calculations are performed on the alpha channel only. Initially, we
@@ -124,7 +118,7 @@ pdr_summarize_rgba <- function(
           all(is.na(pdr_drawing$.rgba[,, 4]))
 
         if (is_missing) {
-          alpha_channel <- numeric(0)
+          alpha_channel <- NA_integer_
         } else {
           # apply stencil while alpha_channel dimensions are unchanged width x height
           alpha_channel <- pdr_drawing$.rgba[,, 4]
@@ -138,101 +132,187 @@ pdr_summarize_rgba <- function(
           ]
         }
 
+        is_empty <- length(alpha_channel)==0
+
         result_tib <- tibble::tibble(.rows = 1)
+
         if ("px" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
-            result_tib,
-            px = length(alpha_channel)
+            result_tib, 
+            px = dplyr::case_when(
+              is_missing ~ NA_integer_,
+              is_empty ~ 0,
+              .default = length(alpha_channel)
+            )
           )
         }
+
         if ("area_prop" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            area_prop = if (is_missing) {
-              NA_real_
-            } else {
-              length(alpha_channel) / (pdr_drawing$.width * pdr_drawing$.height)
-            }
+            area_prop = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = length(alpha_channel) / (pdr_drawing$.width * pdr_drawing$.height)
+            )
           )
         }
+        
         if ("mean" %in% summary_stat) {
-          result_tib <- dplyr::bind_cols(result_tib, mean = mean(alpha_channel))
+          result_tib <- dplyr::bind_cols(
+            result_tib,
+            mean = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = mean(alpha_channel, na.rm=TRUE)
+            )
+          )
         }
+
         if ("sd" %in% summary_stat) {
-          result_tib <- dplyr::bind_cols(result_tib, sd = sd(alpha_channel))
+          result_tib <- dplyr::bind_cols(
+            result_tib,
+            sd = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = sd(alpha_channel, na.rm=TRUE)
+            )
+          )
         }
+
         if ("median" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            median = median(alpha_channel)
+            median = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = median(alpha_channel, na.rm=TRUE)
+            )
           )
         }
+
         if ("iqr" %in% summary_stat) {
-          result_tib <- dplyr::bind_cols(result_tib, iqr = IQR(alpha_channel))
+          result_tib <- dplyr::bind_cols(
+            result_tib,
+            iqr = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = IQR(alpha_channel, na.rm=TRUE)
+            )
+          )
         }
+
         if ("min" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            min = if (is_missing) NA_real_ else min(alpha_channel)
+            min = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = min(alpha_channel, na.rm=TRUE)
+            )
           )
         }
+
         if ("max" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            max = if (is_missing) NA_real_ else max(alpha_channel)
+            max = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = max(alpha_channel, na.rm=TRUE)
+            )
           )
         }
+
         if ("q1" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q1 = quantile(alpha_channel, probs = 0.01)
+            q1 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.01, na.rm=TRUE)
+            )
           )
         }
+
         if ("q5" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q5 = quantile(alpha_channel, probs = 0.05)
+            q5 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.05, na.rm=TRUE)
+            )
           )
         }
+
         if ("q10" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q10 = quantile(alpha_channel, probs = 0.1)
+            q10 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.10, na.rm=TRUE)
+            )
           )
         }
+
         if ("q25" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q25 = quantile(alpha_channel, probs = 0.25)
+            q25 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.25, na.rm=TRUE)
+            )
           )
         }
+
         if ("q75" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q75 = quantile(alpha_channel, probs = 0.75)
+            q75 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.75, na.rm=TRUE)
+            )
           )
         }
+
         if ("q90" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q90 = quantile(alpha_channel, probs = 0.90)
+            q90 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.90, na.rm=TRUE)
+            )
           )
         }
+
         if ("q95" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q95 = quantile(alpha_channel, probs = 0.95)
+            q95 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.95, na.rm=TRUE)
+            )
           )
         }
+
         if ("q99" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
-            q99 = quantile(alpha_channel, probs = 0.99)
+            q99 = dplyr::case_when(
+              is_missing ~ NA_real_,
+              is_empty ~ 0,
+              .default = quantile(alpha_channel, probs = 0.99, na.rm=TRUE)
+            )
           )
         }
-        if (is_missing) {
-          result_tib[] <- NA_real_
-        }
+
+        
         names(result_tib) <- paste0(col_name, "_", names(result_tib))
         return(result_tib)
       })
@@ -276,22 +356,22 @@ pdr_summarize_rgba <- function(
       "`alpha_range` must be a numeric vector of length 2 with 0 <= alpha_range[1] < alpha_range[2] <= 1."
     )
   }
-  # Every non-missing drawing in each selected column has .rgba
-  for (i in pdr_col) {
-    if (
-      !all(purrr::map_lgl(
-        .data[[i]],
-        \(d) !is.list(d) || ".rgba" %in% names(d)
-      ))
-    ) {
-      stop(
-        "Not all drawings in column '",
-        i,
-        "' contain a .rgba element; see pdr_add_rgba()"
-      )
-    }
-  }
-  # Check stencils is a pdr_list
+  # Every non-missing drawing in each selected column must have .rgba
+  # for (i in pdr_col) {
+  #   if (
+  #     !all(purrr::map_lgl(
+  #       .data[[i]],
+  #       \(d) !is.list(d) || ".rgba" %in% names(d)
+  #     ))
+  #   ) {
+  #     stop(
+  #       "Not all drawings in column '",
+  #       i,
+  #       "' contain a .rgba element; see pdr_add_rgba()"
+  #     )
+  #   }
+  # }
+  # Stencils must be a pdr_list
   if (!pdr_match(stencils, as = "pdr_list")) {
     if (!is.null(stencils)) {
       stop(
@@ -299,8 +379,6 @@ pdr_summarize_rgba <- function(
       )
     }
   }
-  # summary_stat ok
-  #summary_stat <- match.arg(summary_stat)
   #########################
   ### End sanity cheks ####
   #########################
