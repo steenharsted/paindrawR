@@ -175,7 +175,7 @@ pdr_example_data <- pdr_example_data |>
     pain = ifelse(pain > 10, 10, pain),
     pain = ifelse(pain < 0, 0, pain)
   ) |>
-  #mutate(pdr_data = pdr_modify_points(pdr_data, op = "flipy")) |>
+  #mutate(pdr_data = pdr_modify_xy(pdr_data, op = "flipy")) |>
   tibble::as_tibble()
 
 save(

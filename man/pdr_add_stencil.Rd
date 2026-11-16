@@ -4,7 +4,7 @@
 \alias{pdr_add_stencil}
 \title{Create and add a stencil to pain drawings.}
 \usage{
-pdr_add_stencil(pdr_list, threshold = 1, channel = "A", by = "<")
+pdr_add_stencil(pdr_list, threshold = 0, channel = "A", by = ">")
 }
 \arguments{
 \item{pdr_list}{A pdr_list in which every pdr_drawing has an \code{.rgba}

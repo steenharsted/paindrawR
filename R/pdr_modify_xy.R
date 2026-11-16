@@ -1,4 +1,4 @@
-#' Modify the points of pain drawings
+#' Modify the coordinate points of pain drawings
 #'
 #' Performs an operation on the `.points` of each pdr_drawing in a pdr_list
 #' and returns a pdr_list of the same length. It is thus suited for use inside
@@ -21,19 +21,19 @@
 #' @examples
 #' # Flip the y-coordinates and store in a new pdr_list column
 #' pdr_example_data |>
-#'   dplyr::mutate(pdr_data_flipped = pdr_modify_points(pdr_data, "flipy"))
-pdr_modify_points <- function(pdr_list, op = "flipy") {
+#'   dplyr::mutate(pdr_data_flipped = pdr_modify_xy(pdr_data, "flipy"))
+pdr_modify_xy <- function(pdr_list, op = "flipy") {
   ########## Sanity checks ##########
   accepted_ops <- c("flipy")
 
   # Require 'op' to be a character vector of fixed options
   if (!is.character(op)) {
     stop(
-      "Stopped: The function `pdr_modify_points()` expects a character vector as parameter 'op'."
+      "Stopped: The function `pdr_modify_xy()` expects a character vector as parameter 'op'."
     )
   }
   if (any(identical(NA, op)) || any(op == "")) {
-    warning("Unknown op specified in function `pdr_modify_points()`.")
+    warning("Unknown op specified in function `pdr_modify_xy()`.")
     return(pdr)
   }
   if (
@@ -43,7 +43,7 @@ pdr_modify_points <- function(pdr_list, op = "flipy") {
       }
     )
   ) {
-    warning("Unknown op specified in function `pdr_modify_points()`.")
+    warning("Unknown op specified in function `pdr_modify_xy()`.")
   }
 
   ########## End sanity checks ##########

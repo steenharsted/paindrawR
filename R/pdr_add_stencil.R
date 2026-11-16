@@ -50,7 +50,7 @@
 #'   dplyr::mutate(pdr_data = pdr_add_rgba(pdr_data, polygon = "both")) |>
 #'   dplyr::mutate(pdr_data = pdr_add_stencil(pdr_data, threshold = 0.5, channel = "A", by = "<"))
 #' }
-pdr_add_stencil <- function(pdr_list, threshold = 1, channel = "A", by = "<") {
+pdr_add_stencil <- function(pdr_list, threshold = 0, channel = "A", by = ">") {
   # NOTE. This function is based on any one of the
   # R, G, B or A levels/channels of the .rgba array being
   # smaller than the threshold value (i.e darker) ... if

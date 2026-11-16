@@ -40,7 +40,7 @@
 #' @param alpha Alpha, numeric between 0 and 1 (default `1.0`).
 #' @param color Stroke colour (default `"#ff0000"`).
 #' @param flipy Logical (default `TRUE`). If `TRUE`, the y-axis is flipped
-#'   (via [pdr_modify_points()] with `op = "flipy"`), because MIRD has its
+#'   (via [pdr_modify_xy()] with `op = "flipy"`), because MIRD has its
 #'   origin in the upper left corner whereas paindrawr uses the lower left.
 #'
 #' @returns A pdr_list (see [pdr_match()]) of length `length(mird_pd)`.
@@ -288,7 +288,7 @@ pdr_mird2pdr <- function(
     )
 
   if (flipy) {
-    pdr_list <- pdr_list |> pdr_modify_points(op = "flipy")
+    pdr_list <- pdr_list |> pdr_modify_xy(op = "flipy")
   }
 
   # Return this

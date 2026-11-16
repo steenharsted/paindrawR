@@ -58,7 +58,7 @@ pdr_mird2pdr(
 \item{color}{Stroke colour (default \code{"#ff0000"}).}
 
 \item{flipy}{Logical (default \code{TRUE}). If \code{TRUE}, the y-axis is flipped
-(via \code{\link[=pdr_modify_points]{pdr_modify_points()}} with \code{op = "flipy"}), because MIRD has its
+(via \code{\link[=pdr_modify_xy]{pdr_modify_xy()}} with \code{op = "flipy"}), because MIRD has its
 origin in the upper left corner whereas paindrawr uses the lower left.}
 }
 \value{
