@@ -59,7 +59,7 @@ pdr_mird2pdr(
 
 \item{flipy}{Logical (default \code{TRUE}). If \code{TRUE}, the y-axis is flipped
 (via \code{\link[=pdr_modify_xy]{pdr_modify_xy()}} with \code{op = "flipy"}), because MIRD has its
-origin in the upper left corner whereas paindrawr uses the lower left.}
+origin in the upper left corner whereas paindrawR uses the lower left.}
 }
 \value{
 A pdr_list (see \code{\link[=pdr_match]{pdr_match()}}) of length \code{length(mird_pd)}.

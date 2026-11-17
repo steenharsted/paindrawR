@@ -21,8 +21,8 @@ Collected by the package authors; created in
 pdr_example_zealand
 }
 \description{
-A small, deliberately silly data set collected to demonstrate the PainDraw
-and paindrawr workflows. Participants first rated their knowledge of the
+A small, deliberately silly data set collected to demonstrate the paindrawEM
+and paindrawR workflows. Participants first rated their knowledge of the
 geography of East Denmark from 0 ("I think Copenhagen is in Sweden") to 10
 ("I can name every cobblestone in Nyhavn"). They were then asked to draw one
 or two circles around the cities Holbæk and Præstø, as small as
@@ -33,6 +33,6 @@ One participant (\code{id} 22) has a missing drawing, stored as \code{NULL}. Fil
 paths and timestamps have been removed from the drawings. Use
 \code{pdr_add_rgba()} (optionally with \code{polygon = "both"}) to rasterise the
 drawings. The matching background image is \code{bg_zealand.png} in
-\code{system.file("extdata", package = "paindrawr")}.
+\code{system.file("extdata", package = "paindrawR")}.
 }
 \keyword{datasets}

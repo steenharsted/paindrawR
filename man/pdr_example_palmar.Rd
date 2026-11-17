@@ -23,8 +23,8 @@ Collected by the package authors; created in
 pdr_example_palmar
 }
 \description{
-A small, deliberately silly data set collected to demonstrate the PainDraw
-and paindrawr workflows. Participants first chose between a hammer and an
+A small, deliberately silly data set collected to demonstrate the paindrawEM
+and paindrawR workflows. Participants first chose between a hammer and an
 apple, and then a distance (10 cm or 1 m). They were then told that the
 chosen object had fallen from that height and landed on their left hand,
 and were asked to draw their imaginary hand pain on a palmar lower arm
@@ -36,6 +36,6 @@ One participant (\code{id} 22) has a missing drawing (and missing \code{tool} an
 missing drawings are handled as opposed to empty drawings. File paths and
 timestamps have been removed from the drawings. Use \code{pdr_add_rgba()} to
 rasterise the drawings. The matching background image is
-\code{bg_lower_arm_palmar.png} in \code{system.file("extdata", package = "paindrawr")}.
+\code{bg_lower_arm_palmar.png} in \code{system.file("extdata", package = "paindrawR")}.
 }
 \keyword{datasets}
