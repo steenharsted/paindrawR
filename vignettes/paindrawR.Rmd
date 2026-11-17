@@ -1,12 +1,12 @@
 ---
-title: "Introduction to paindrawr"
+title: "Introduction to paindrawR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to paindrawr}
+  %\VignetteIndexEntry{Introduction to paindrawR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-# Welcome to `paindrawr`
+# Welcome to `paindrawR`
 
 This page is under construction

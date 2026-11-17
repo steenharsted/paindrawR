@@ -1,4 +1,4 @@
-url: https://steenharsted.github.io/paindrawr/
+url: https://steenharsted.github.io/paindrawR/
 template:
   bootstrap: 5
   bootswatch: flatly
@@ -11,7 +11,7 @@ articles:
 
 reference:
 - title: "Importing"
-  desc: "Functions for importing data into paindrawr"
+  desc: "Functions for importing data into paindrawR"
   contents: 
   - pdr_import_json
   - pdr_import_png
@@ -26,7 +26,7 @@ reference:
   contents:
   - pdr_summarize_rgba
 
-- title: "paindrawr data modification"
+- title: "paindrawR data modification"
   contents:
   - pdr_add_rgba
   - pdr_explode

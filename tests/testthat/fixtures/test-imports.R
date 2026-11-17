@@ -32,8 +32,8 @@ png_files[10] <- "Not_a_file_that_exists.json"
 mird_data <- read.csv("tests/testthat/fixtures/mird/mird_test.csv")
 
 
-paindrawr::pdr_import_json(json_files)
-paindrawr::pdr_import_png(png_files)
+paindrawR::pdr_import_json(json_files)
+paindrawR::pdr_import_png(png_files)
 mird_data |>
   tibble::as.tibble() |>
   dplyr::mutate(

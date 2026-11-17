@@ -48,8 +48,8 @@
 
 #' Example hand drawings of imagined pain (palmar view)
 #'
-#' A small, deliberately silly data set collected to demonstrate the PainDraw
-#' and paindrawr workflows. Participants first chose between a hammer and an
+#' A small, deliberately silly data set collected to demonstrate the paindrawEM
+#' and paindrawR workflows. Participants first chose between a hammer and an
 #' apple, and then a distance (10 cm or 1 m). They were then told that the
 #' chosen object had fallen from that height and landed on their left hand,
 #' and were asked to draw their imaginary hand pain on a palmar lower arm
@@ -60,7 +60,7 @@
 #' missing drawings are handled as opposed to empty drawings. File paths and
 #' timestamps have been removed from the drawings. Use `pdr_add_rgba()` to
 #' rasterise the drawings. The matching background image is
-#' `bg_lower_arm_palmar.png` in `system.file("extdata", package = "paindrawr")`.
+#' `bg_lower_arm_palmar.png` in `system.file("extdata", package = "paindrawR")`.
 #'
 #' @format A tibble with 30 rows and 4 columns:
 #' \describe{
@@ -77,8 +77,8 @@
 
 #' Example drawings of locations on Zealand
 #'
-#' A small, deliberately silly data set collected to demonstrate the PainDraw
-#' and paindrawr workflows. Participants first rated their knowledge of the
+#' A small, deliberately silly data set collected to demonstrate the paindrawEM
+#' and paindrawR workflows. Participants first rated their knowledge of the
 #' geography of East Denmark from 0 ("I think Copenhagen is in Sweden") to 10
 #' ("I can name every cobblestone in Nyhavn"). They were then asked to draw one
 #' or two circles around the cities Holbæk and Præstø, as small as
@@ -88,7 +88,7 @@
 #' paths and timestamps have been removed from the drawings. Use
 #' `pdr_add_rgba()` (optionally with `polygon = "both"`) to rasterise the
 #' drawings. The matching background image is `bg_zealand.png` in
-#' `system.file("extdata", package = "paindrawr")`.
+#' `system.file("extdata", package = "paindrawR")`.
 #'
 #' @format A tibble with 30 rows and 3 columns:
 #' \describe{

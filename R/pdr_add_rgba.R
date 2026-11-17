@@ -194,7 +194,7 @@ pdr_add_rgba <- function(
       tidyr::uncount(weights = .data$.point_density) |>
 
       # Random angles and radii. The radius is uniform (not sqrt-transformed)
-      # to match the PainDraw module, so dots cluster towards the centre
+      # to match the paindrawEM module, so dots cluster towards the centre
       dplyr::mutate(
         angle = runif(dplyr::n(), 0, 2 * pi),
         radius = runif(dplyr::n(), 0, 1) * .spray_radius

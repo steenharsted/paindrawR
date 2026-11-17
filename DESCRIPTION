@@ -1,4 +1,4 @@
-Package: paindrawr
+Package: paindrawR
 Type: Package
 Title: Quantification of pain drawings
 Version: 0.1.0
@@ -14,7 +14,7 @@ Authors@R: c(
       role = c("aut", "cre")
     )
   )
-Description: Provides tools for importing, processing, quantifying, and visualising digital pain drawings. Pain drawings are commonly used in clinical research to document the location and distribution of pain on a schematic representation of the human body. Digital pain drawings can capture individual pen strokes as x- and y-coordinates, allowing more detailed analyses than traditional region-based classifications. The package supports the reconstruction of individual drawings, quantification of marked areas, anatomical region-based analyses, and the generation of group-level pain heatmaps. It is designed to work with data collected using the 'paindraw' REDCap external module, but also supports data from other sources.
+Description: Provides tools for importing, processing, quantifying, and visualising digital pain drawings. Pain drawings are commonly used in clinical research to document the location and distribution of pain on a schematic representation of the human body. Digital pain drawings can capture individual pen strokes as x- and y-coordinates, allowing more detailed analyses than traditional region-based classifications. The package supports the reconstruction of individual drawings, quantification of marked areas, anatomical region-based analyses, and the generation of group-level pain heatmaps. It is designed to work with data collected using the 'paindrawEM' REDCap external module, but also supports data from other sources.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -50,5 +50,5 @@ VignetteBuilder: knitr
 Config/Needs/website: quarto
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1
-URL: https://github.com/steenharsted/paindrawr, https://steenharsted.github.io/paindrawr/
-BugReports: https://github.com/steenharsted/paindrawr/issues
+URL: https://github.com/steenharsted/paindrawR, https://steenharsted.github.io/paindrawR/
+BugReports: https://github.com/steenharsted/paindrawR/issues

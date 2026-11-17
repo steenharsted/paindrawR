@@ -9,7 +9,7 @@
 ^articles$
 ^presentation$
 ^roadmap\.md$
-^todo_paindrawr$
+^todo_paindrawR$
 ^wip$
 ^\.github$
 ^codecov\.yml$
@@ -18,7 +18,7 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^vignettes/paindrawr_files$
+^vignettes/paindrawR_files$
 ^vignettes/.*_files$
 ^vignettes/\.quarto$
 ^vignettes/articles$

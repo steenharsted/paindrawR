@@ -1,16 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# paindrawr <img src="man/figures/paindrawr-logo.png" align="right" height="220" alt="paindrawr package logo" />
+# paindrawR <img src="man/figures/paindrawR-logo.png" align="right" height="220" alt="paindrawR package logo" />
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/steenharsted/paindrawr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/steenharsted/paindrawr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/steenharsted/paindrawR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/steenharsted/paindrawR/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/steenharsted/paindrawr/graph/badge.svg)](https://app.codecov.io/gh/steenharsted/paindrawr)
+coverage](https://codecov.io/gh/steenharsted/paindrawR/graph/badge.svg)](https://app.codecov.io/gh/steenharsted/paindrawR)
 <!-- badges: end -->
 
-**paindrawr** is an R package for analysing and visualising pain
+**paindrawR** is an R package for analysing and visualising pain
 drawings — illustrations on which patients indicate where they
 experience pain. Pain drawings typically use a full-body outline but can
 also focus on specific anatomical regions.
@@ -25,29 +25,29 @@ fixed set of anatomical regions and recording, for each region, whether
 it was marked or not. Modern digital tools (web and tablet apps) instead
 capture each drawing as a series of pen-stroke *x/y coordinates*. This
 coordinate-based data is far richer, but it is also harder to work with.
-paindrawr provides a consistent workflow for turning that raw coordinate
+paindrawR provides a consistent workflow for turning that raw coordinate
 data into figures and quantitative summaries.
 
 ## Installation
 
-You can install the development version of paindrawr from
-[GitHub](https://github.com/steenharsted/paindrawr) with:
+You can install the development version of paindrawR from
+[GitHub](https://github.com/steenharsted/paindrawR) with:
 
 ``` r
-pak::pak("steenharsted/paindrawr")
+pak::pak("steenharsted/paindrawR")
 ```
 
-## Collect with paindraw. Analyse with paindrawr.
+## Collect with paindrawEM. Analyse with paindrawR.
 
 <p align="center">
 
-<img src="man/figures/paindraw_and_paindrawr.png" height="200" alt="paindraw and paindrawr logos" />
+<img src="man/figures/paindrawEM_and_paindrawR.png" height="200" alt="paindrawEM and paindrawR logos" />
 </p>
 
-**paindraw** is a REDCap external module for collecting digital pain
+**paindrawEM** is a REDCap external module for collecting digital pain
 drawings.
 
-**paindrawr** is an R package for importing, quantifying, analysing, and
+**paindrawR** is an R package for importing, quantifying, analysing, and
 visualising pain drawings.
 
 Together, they provide a workflow from digital data collection to
@@ -55,7 +55,7 @@ research-ready results.
 
 ## Typical workflow
 
-paindrawr functions are organised around a common analysis pipeline:
+paindrawR functions are organised around a common analysis pipeline:
 
 1.  **Import** raw drawings: `pdr_import_json()`, `pdr_import_png()`
 2.  **Check** individual drawings against the background image with
@@ -70,7 +70,7 @@ paindrawr functions are organised around a common analysis pipeline:
 
 ## Data structure
 
-paindrawr works with a tibble in which each row is one respondent. The
+paindrawR works with a tibble in which each row is one respondent. The
 pain drawings live in a dedicated list-column (named `pdr_data` by
 default, but any name can be used), so that each drawing, with its
 metadata, strokes and point coordinates, travels alongside covariates
@@ -87,7 +87,7 @@ The `pdr_*()` functions are designed to be used with the native pipe
 (`|>`) alongside tidyverse verbs such as `mutate()` and `filter()`.
 
 ``` r
-library(paindrawr)
+library(paindrawR)
 library(dplyr)
 
 pdr_example_palmar
@@ -208,7 +208,7 @@ pd |>
 ## Importing your own data
 
 ``` r
-# Drawings exported as JSON from the REDCap PainDraw module
+# Drawings exported as JSON from the REDCap paindrawEM module
 pdr_import_json(list.files("path/to/json", full.names = TRUE))
 ```
 

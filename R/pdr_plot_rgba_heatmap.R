@@ -242,7 +242,7 @@ pdr_plot_rgba_heatmap <- function(
 
   if (!".rgba" %in% names(.data)) {
     cli::cli_abort(c(
-      "No {.field .rgba} found in the paindrawr data.",
+      "No {.field .rgba} found in the paindrawR data.",
       "i" = "Add it first with {.fn pdr_add_rgba}, e.g. {.code mutate(pdr_data = pdr_add_rgba(pdr_data))}."
     ))
   }

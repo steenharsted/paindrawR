@@ -1,11 +1,11 @@
 #' Check or coerce pain drawing data types
 #'
 #' `pdr_match()` matches an input against the three pain drawing data types
-#' used throughout paindrawr, and either reports which type it is (or whether
+#' used throughout paindrawR, and either reports which type it is (or whether
 #' it is a given type), or coerces it to another type.
 #'
 #' @section Terminology:
-#' This is where the paindrawr data types are defined; all other functions
+#' This is where the paindrawR data types are defined; all other functions
 #' refer here.
 #'
 #' | Term | Meaning |

@@ -41,7 +41,7 @@
 #' @param color Stroke colour (default `"#ff0000"`).
 #' @param flipy Logical (default `TRUE`). If `TRUE`, the y-axis is flipped
 #'   (via [pdr_modify_xy()] with `op = "flipy"`), because MIRD has its
-#'   origin in the upper left corner whereas paindrawr uses the lower left.
+#'   origin in the upper left corner whereas paindrawR uses the lower left.
 #'
 #' @returns A pdr_list (see [pdr_match()]) of length `length(mird_pd)`.
 #'
