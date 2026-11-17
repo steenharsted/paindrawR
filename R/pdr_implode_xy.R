@@ -33,14 +33,14 @@
 #'
 #' @export
 #' @examples
-#' pdr_example_data |> pdr_implode()
+#' pdr_example_data |> pdr_implode_xy()
 #'
 #' # Compare plots of three original drawings and the imploded drawing
 #' bg <- pdr_example_file("bg_zealand.png")
 #' three <- pdr_example_data[1:3, ]
 #' three |> pdr_plot_xy(background_image = bg)
-#' three |> pdr_implode() |> pdr_plot_xy(background_image = bg)
-pdr_implode <- function(.data, pdr_col = pdr_data) {
+#' three |> pdr_implode_xy() |> pdr_plot_xy(background_image = bg)
+pdr_implode_xy <- function(.data, pdr_col = pdr_data) {
   pdr <- .data |> dplyr::pull({{ pdr_col }})
 
   # Sanity checks

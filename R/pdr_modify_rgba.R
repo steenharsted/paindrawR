@@ -59,7 +59,7 @@
 #'     pdr_data = pdr_add_rgba(pdr_data) |>
 #'       pdr_modify_rgba(op = "low_trim", threshold = 0.3)
 #'   )
-pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, threshold = 0.5) {
+pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, inverted_stencil = FALSE, threshold = 0.5) {
   # Sanity checks -- see stop message for explanation
   if (
     !op %in% c("multiply", "addition", "apply_stencil", "low_trim", "high_trim", "invert_alpha", "dichotomize_alpha")
@@ -85,7 +85,8 @@ pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, threshold = 0.5) 
   if (!is.null(stencil)) {
     if (is.matrix(stencil)) {
       # stencil is a matrix so:
-      # make stencil a list of length 1 (unnamed) with a matrix
+      # make stencil a list of length 1 (unnamed) with a 
+      # matrix, otherwise leave as is
       stencil <- list(stencil)
     } else if (
       is.list(stencil) &&
@@ -107,9 +108,14 @@ pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, threshold = 0.5) 
             })
         )
     ) {
-      # stencil is a list of lists with named elements '.stencil. so:
+      # stencil is a list of lists with named elements '.stencil. 
+      # (and stencil_inverted), so:
       # make stencil a list of the .rgba matrices
-      stencil <- stencil |> purrr::map(".stencil")
+      if(inverted_stencil) {
+        stencil <- stencil |> purrr::map(".stencil_inverted")
+      } else {
+        stencil <- stencil |> purrr::map(".stencil")
+      }
     } else {
       stop(
         "Parameter 'stencil' must be a) a matrix, b) a list of matrices or c) pain drawing list column with .stencil elements."
