@@ -54,5 +54,5 @@ pdr_stencil_full_body |>
 }
 }
 \seealso{
-\code{\link[=pdr_add_stencil]{pdr_add_stencil()}}, \code{\link[=pdr_implode]{pdr_implode()}}, \code{\link[=pdr_plot_stencil]{pdr_plot_stencil()}}
+\code{\link[=pdr_add_stencil]{pdr_add_stencil()}}, \code{\link[=pdr_implode_xy]{pdr_implode_xy()}}, \code{\link[=pdr_plot_stencil]{pdr_plot_stencil()}}
 }

@@ -26,7 +26,7 @@
 #' @returns A pdr_list of length 1 with a single pdr_drawing whose `.stencil`
 #'   is the union of the input stencils and whose `.stencil_inverted` is its
 #'   complement. `.points` and `.strokes` are empty.
-#' @seealso [pdr_add_stencil()], [pdr_implode()], [pdr_plot_stencil()]
+#' @seealso [pdr_add_stencil()], [pdr_implode_xy()], [pdr_plot_stencil()]
 #'
 #' @export
 #' @examples

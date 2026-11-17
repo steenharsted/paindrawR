@@ -18,11 +18,11 @@
 #' which a pixel's value is dichotomized to 0 or 1 (FALSE or
 #' TRUE) as per the 'by' parameter. E.g. a pixel with alpha
 #' value 0.4 will evaluate to 0 by '>' a 'threshold' of 0.5.
-#' With the defaults (`threshold = 1`, `by = "<"`, `channel = "A"`)
-#' a pixel is set to 1 when its alpha is below 1, i.e. when it is
-#' not fully opaque. For a drawing rendered with `pdr_add_rgba()`,
-#' this is the transparent (undrawn) area, while fully opaque
-#' (drawn) pixels become 0. The inverse is stored in `.stencil_inverted`.
+#' With the defaults (`threshold = 0`, `by = ">"`, `channel = "A"`)
+#' a pixel is set to 1 when its alpha is above 0, i.e. when it is
+#' not fully transparent. For a drawing rendered with `pdr_add_rgba()`,
+#' this is the drawn area, while fully transparent (undrawn)
+#' pixels become 0. The inverse is stored in `.stencil_inverted`.
 #'
 #' The 'channel' parameter determines which of the R, G, B and
 #' A channels should be evaluated in reference to the
@@ -53,7 +53,7 @@
 pdr_add_stencil <- function(pdr_list, threshold = 0, channel = "A", by = ">") {
   # NOTE. This function is based on any one of the
   # R, G, B or A levels/channels of the .rgba array being
-  # smaller than the threshold value (i.e darker) ... if
+  # beyond the threshold value (as per 'by') ... if
   # that is the case for a given pixel, it is represented as
   # a value of 1 in the .stencil, otherwise as 0.
 

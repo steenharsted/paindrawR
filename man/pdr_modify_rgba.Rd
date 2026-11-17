@@ -4,7 +4,13 @@
 \alias{pdr_modify_rgba}
 \title{Modify the rgba data of pain drawings}
 \usage{
-pdr_modify_rgba(pdr_list, op = "", stencil = NULL, threshold = 0.5)
+pdr_modify_rgba(
+  pdr_list,
+  op = "",
+  stencil = NULL,
+  inverted_stencil = FALSE,
+  threshold = 0.5
+)
 }
 \arguments{
 \item{pdr_list}{A pdr_list (see \code{\link[=pdr_match]{pdr_match()}}) whose pdr_drawings contain

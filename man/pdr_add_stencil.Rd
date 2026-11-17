@@ -44,11 +44,11 @@ The 'threshold' parameter determines the threshold at
 which a pixel's value is dichotomized to 0 or 1 (FALSE or
 TRUE) as per the 'by' parameter. E.g. a pixel with alpha
 value 0.4 will evaluate to 0 by '>' a 'threshold' of 0.5.
-With the defaults (\code{threshold = 1}, \code{by = "<"}, \code{channel = "A"})
-a pixel is set to 1 when its alpha is below 1, i.e. when it is
-not fully opaque. For a drawing rendered with \code{pdr_add_rgba()},
-this is the transparent (undrawn) area, while fully opaque
-(drawn) pixels become 0. The inverse is stored in \code{.stencil_inverted}.
+With the defaults (\code{threshold = 0}, \code{by = ">"}, \code{channel = "A"})
+a pixel is set to 1 when its alpha is above 0, i.e. when it is
+not fully transparent. For a drawing rendered with \code{pdr_add_rgba()},
+this is the drawn area, while fully transparent (undrawn)
+pixels become 0. The inverse is stored in \code{.stencil_inverted}.
 
 The 'channel' parameter determines which of the R, G, B and
 A channels should be evaluated in reference to the

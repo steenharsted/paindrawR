@@ -47,10 +47,11 @@ test_that("inverted stencil swaps 0 and 1", {
   expect_true(all(res$.stencil + res$.stencil_inverted == 1))
 })
 
-test_that("defaults mark pixels that are not fully opaque", {
-  # threshold = 1, by = "<", channel = "A"
-  expect_equal(stencil_of(), (alpha_mat < 1) + 0)
-  expect_equal(stencil_of()[2, 2:3], c(0, 0))
+test_that("defaults mark pixels that are not fully transparent", {
+  # threshold = 0, by = ">", channel = "A"
+  expect_equal(stencil_of(), (alpha_mat > 0) + 0)
+  expect_equal(stencil_of()[1, 1], 0)
+  expect_equal(stencil_of()[2, 2:3], c(1, 1))
 })
 
 test_that("by = '<' and '>' use a strict comparison with the threshold", {
@@ -64,18 +65,18 @@ test_that("by = '<' and '>' use a strict comparison with the threshold", {
 
 test_that("channel selects which channels are evaluated", {
   d <- make_drawing(
-    r = matrix(c(1, 0, 1, 1, 1, 1), 2, byrow = TRUE),
-    g = 1,
-    b = 1,
-    a = 1
+    r = matrix(c(0, 1, 0, 0, 0, 0), 2, byrow = TRUE),
+    g = 0,
+    b = 0,
+    a = 0
   )
 
-  # Only red is below the threshold at (1, 2)
+  # Only red is above the threshold at (1, 2)
   expect_equal(
     stencil_of(channel = "R", d = d),
     matrix(c(0, 1, 0, 0, 0, 0), 2, byrow = TRUE)
   )
-  # Other channels are all 1, so nothing is below the threshold
+  # Other channels are all 0, so nothing is above the threshold
   expect_true(all(stencil_of(channel = "G", d = d) == 0))
   expect_true(all(stencil_of(channel = "B", d = d) == 0))
   expect_true(all(stencil_of(channel = "A", d = d) == 0))
@@ -83,10 +84,10 @@ test_that("channel selects which channels are evaluated", {
 
 test_that("several channels are combined with OR", {
   d <- make_drawing(
-    r = matrix(c(0, 1, 1, 1, 1, 1), 2, byrow = TRUE),
-    g = matrix(c(1, 0, 1, 1, 1, 1), 2, byrow = TRUE),
-    b = matrix(c(1, 1, 0, 1, 1, 1), 2, byrow = TRUE),
-    a = 1
+    r = matrix(c(1, 0, 0, 0, 0, 0), 2, byrow = TRUE),
+    g = matrix(c(0, 1, 0, 0, 0, 0), 2, byrow = TRUE),
+    b = matrix(c(0, 0, 1, 0, 0, 0), 2, byrow = TRUE),
+    a = 0
   )
 
   expect_equal(
@@ -120,7 +121,7 @@ test_that("each drawing gets its own stencil", {
   res <- pdr_add_stencil(list(drawing, other))
 
   expect_false(identical(res[[1]]$.stencil, res[[2]]$.stencil))
-  expect_true(all(res[[2]]$.stencil == 0))
+  expect_true(all(res[[2]]$.stencil == 1))
 })
 
 test_that("works on a pdr_list column from rendered example data", {
@@ -129,11 +130,11 @@ test_that("works on a pdr_list column from rendered example data", {
   expect_length(res, 3)
   expect_equal(dim(res[[1]]$.stencil), c(500, 450))
   expect_true(all(res[[1]]$.stencil %in% c(0, 1)))
-  # Drawn pixels are opaque (stencil 0), undrawn are transparent (stencil 1)
-  drawn <- res[[1]]$.rgba[,, 4] >= 0.5
+  # Drawn pixels are opaque (stencil 1), undrawn are transparent (stencil 0)
+  drawn <- res[[1]]$.rgba[,, 4] > 0.5
   expect_true(any(drawn))
-  expect_true(all(res[[1]]$.stencil[drawn] == 0))
-  expect_true(all(res[[1]]$.stencil[!drawn] == 1))
+  expect_true(all(res[[1]]$.stencil[drawn] == 1))
+  expect_true(all(res[[1]]$.stencil[!drawn] == 0))
 })
 
 test_that("works inside mutate on a pdr_tibble", {
