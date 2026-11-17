@@ -148,12 +148,14 @@ pdr_summarize_rgba <- function(
         }
 
         if ("area_prop" %in% summary_stat) {
+          prop <- length(alpha_channel) / sum(one_stencil)
+          if(is.na(one_stencil) || is.null(one_stencil) || sum(one_stencil)==0) { prop <- NA}
           result_tib <- dplyr::bind_cols(
             result_tib,
             area_prop = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = length(alpha_channel) / (pdr_drawing$.width * pdr_drawing$.height)
+              .default = prop
             )
           )
         }

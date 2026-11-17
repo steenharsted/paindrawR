@@ -59,15 +59,10 @@
 #'     pdr_data = pdr_add_rgba(pdr_data) |>
 #'       pdr_modify_rgba(op = "low_trim", threshold = 0.3)
 #'   )
-pdr_modify_rgba <- function(
-  pdr_list,
-  op = "",
-  stencil = NULL,
-  threshold = 0.5
-) {
+pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, threshold = 0.5) {
   # Sanity checks -- see stop message for explanation
   if (
-    !op %in% c("multiply", "addition", "apply_stencil", "low_trim", "high_trim")
+    !op %in% c("multiply", "addition", "apply_stencil", "low_trim", "high_trim", "invert_alpha", "dichotomize_alpha")
   ) {
     stop("Parameter 'op' has invalid value.")
   }
@@ -186,6 +181,16 @@ pdr_modify_rgba <- function(
   } else if (op == "apply_stencil") {
     pdr_list <- purrr::map2(pdr_list, stencil, \(pd, st) {
       pd$.rgba[,, 4] <- pd$.rgba[,, 4] * st
+      pd
+    })
+  } else if (op == "invert_alpha") {
+    pdr_list <- purrr::map(pdr_list, \(pd) {
+      pd$.rgba[,, 4] <- 1 - pd$.rgba[,, 4] 
+      pd
+    })
+  } else if (op == "dichotomize_alpha") {
+    pdr_list <- purrr::map(pdr_list, \(pd) {
+      pd$.rgba[,, 4] <- (pd$.rgba[,, 4] > threshold) +0 # Make it integer
       pd
     })
   }
