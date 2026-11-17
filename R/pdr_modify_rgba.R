@@ -32,6 +32,7 @@
 #'   the length of `pdr_list` (stencils are paired with drawings by position).
 #'   The height and width of each stencil must match the `.rgba` of the
 #'   drawing it is paired with. Default is `NULL`.
+#' @param inverted_stencil  A logical indicating whether to use an inverted stencil.
 #' @param threshold A number between 0 and 1 used by `"low_trim"` and
 #'   `"high_trim"`; otherwise ignored. Default is `0.5`.
 #'
@@ -59,10 +60,25 @@
 #'     pdr_data = pdr_add_rgba(pdr_data) |>
 #'       pdr_modify_rgba(op = "low_trim", threshold = 0.3)
 #'   )
-pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, inverted_stencil = FALSE, threshold = 0.5) {
+pdr_modify_rgba <- function(
+  pdr_list,
+  op = "",
+  stencil = NULL,
+  inverted_stencil = FALSE,
+  threshold = 0.5
+) {
   # Sanity checks -- see stop message for explanation
   if (
-    !op %in% c("multiply", "addition", "apply_stencil", "low_trim", "high_trim", "invert_alpha", "dichotomize_alpha")
+    !op %in%
+      c(
+        "multiply",
+        "addition",
+        "apply_stencil",
+        "low_trim",
+        "high_trim",
+        "invert_alpha",
+        "dichotomize_alpha"
+      )
   ) {
     stop("Parameter 'op' has invalid value.")
   }
@@ -85,7 +101,7 @@ pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, inverted_stencil 
   if (!is.null(stencil)) {
     if (is.matrix(stencil)) {
       # stencil is a matrix so:
-      # make stencil a list of length 1 (unnamed) with a 
+      # make stencil a list of length 1 (unnamed) with a
       # matrix, otherwise leave as is
       stencil <- list(stencil)
     } else if (
@@ -108,10 +124,10 @@ pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, inverted_stencil 
             })
         )
     ) {
-      # stencil is a list of lists with named elements '.stencil. 
+      # stencil is a list of lists with named elements '.stencil.
       # (and stencil_inverted), so:
       # make stencil a list of the .rgba matrices
-      if(inverted_stencil) {
+      if (inverted_stencil) {
         stencil <- stencil |> purrr::map(".stencil_inverted")
       } else {
         stencil <- stencil |> purrr::map(".stencil")
@@ -191,12 +207,12 @@ pdr_modify_rgba <- function(pdr_list, op = "", stencil = NULL, inverted_stencil 
     })
   } else if (op == "invert_alpha") {
     pdr_list <- purrr::map(pdr_list, \(pd) {
-      pd$.rgba[,, 4] <- 1 - pd$.rgba[,, 4] 
+      pd$.rgba[,, 4] <- 1 - pd$.rgba[,, 4]
       pd
     })
   } else if (op == "dichotomize_alpha") {
     pdr_list <- purrr::map(pdr_list, \(pd) {
-      pd$.rgba[,, 4] <- (pd$.rgba[,, 4] > threshold) +0 # Make it integer
+      pd$.rgba[,, 4] <- (pd$.rgba[,, 4] > threshold) + 0 # Make it integer
       pd
     })
   }

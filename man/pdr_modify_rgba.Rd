@@ -45,6 +45,8 @@ the length of \code{pdr_list} (stencils are paired with drawings by position).
 The height and width of each stencil must match the \code{.rgba} of the
 drawing it is paired with. Default is \code{NULL}.}
 
+\item{inverted_stencil}{A logical indicating whether to use an inverted stencil.}
+
 \item{threshold}{A number between 0 and 1 used by \code{"low_trim"} and
 \code{"high_trim"}; otherwise ignored. Default is \code{0.5}.}
 }
