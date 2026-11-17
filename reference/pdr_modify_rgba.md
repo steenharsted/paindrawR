@@ -70,6 +70,10 @@ pdr_modify_rgba(
   position). The height and width of each stencil must match the `.rgba`
   of the drawing it is paired with. Default is `NULL`.
 
+- inverted_stencil:
+
+  A logical indicating whether to use an inverted stencil.
+
 - threshold:
 
   A number between 0 and 1 used by `"low_trim"` and `"high_trim"`;

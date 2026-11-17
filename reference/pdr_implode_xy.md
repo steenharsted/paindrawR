@@ -58,9 +58,9 @@ for the terminology (pdr_tibble, pdr_list, pdr_drawing).
 ``` r
 pdr_example_data |> pdr_implode_xy()
 #> # A tibble: 1 × 2
-#>   id                                  pdr_data         
-#>   <chr>                               <list>           
-#> 1 imploded_2026-11-17 21:55:28.392163 <named list [10]>
+#>   id                                pdr_data         
+#>   <chr>                             <list>           
+#> 1 imploded_2026-11-17 23:19:05.4312 <named list [10]>
 
 # Compare plots of three original drawings and the imploded drawing
 bg <- pdr_example_file("bg_zealand.png")
