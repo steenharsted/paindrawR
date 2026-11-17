@@ -16,9 +16,9 @@ pdr_implode_stencils(pdr_list, id = NULL)
 - pdr_list:
 
   A pdr_list (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   where every pdr_drawing has a `.stencil` element (see
-  [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md)).
+  [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md)).
   All drawings must have identical `.width`, `.height` and `.units`.
 
 - id:
@@ -38,7 +38,7 @@ The function is intended for use inside
 [`dplyr::summarise()`](https://dplyr.tidyverse.org/reference/summarise.html),
 where the result should be a single drawing per group. All input
 drawings must have `.stencil` elements (see
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md))
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md))
 and identical canvas dimensions and `.units`.
 
 The result holds no strokes or points – it is a stencil, not a drawing.
@@ -47,14 +47,14 @@ otherwise `"multiple"` (or `NA` for `.version`). `.timestamp` is the
 maximum of the inputs (`NA` if all inputs are `NA`). The collapsed
 stencil is also stored in the alpha channel of `.rgba` (as a black
 image), so that
-[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_stencil.md)
+[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_stencil.md)
 works on the result.
 
 ## See also
 
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md),
-[`pdr_implode()`](https://steenharsted.github.io/paindrawr/reference/pdr_implode.md),
-[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_stencil.md)
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md),
+[`pdr_implode_xy()`](https://steenharsted.github.io/paindrawR/reference/pdr_implode_xy.md),
+[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_stencil.md)
 
 ## Examples
 

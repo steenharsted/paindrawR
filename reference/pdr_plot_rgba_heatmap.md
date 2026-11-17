@@ -3,7 +3,7 @@
 Creates faceted heatmaps showing how pain location patterns vary across
 one or two stratification variables. The function works on the rendered
 `.rgba` rasters added by
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md).
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md).
 Each drawing is reduced to its alpha channel, drawings are summed
 pixel-wise within each group, and the sum is divided by the number of
 drawings in the group. Because every group is expressed relative to its
@@ -35,9 +35,9 @@ pdr_plot_rgba_heatmap(
 - .data:
 
   A pdr_tibble (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   where each pdr_drawing contains an `.rgba` element (see
-  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)).
+  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)).
   All drawings must share the same canvas dimensions (`.width` and
   `.height`). Any additional columns (e.g. grouping variables such as
   `sex` or `age`) are preserved and available via `variables`.
@@ -90,7 +90,7 @@ pdr_plot_rgba_heatmap(
 - background_image:
 
   Optional background image displayed behind the heatmap. See
-  [`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md).
+  [`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md).
   Defaults to `NULL` (no background).
 
 - alpha_scale:
@@ -201,7 +201,7 @@ opacity at `u = m`, and full opacity at `u = 1`. It is linear only with
 values boosted), with `m > 0.5` convex.
 
 The heatmap inherits the rendering choices made in
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)
 (e.g. `polygon` mode and stroke widths).
 
 With `value = "mean"`, note that alpha is not additive: where strokes

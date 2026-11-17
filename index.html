@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Quantification of pain drawings • paindrawr</title>
+<title>Quantification of pain drawings • paindrawR</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Quantification of pain drawings">
-<meta name="description" content="Provides tools for importing, processing, quantifying, and visualising digital pain drawings. Pain drawings are commonly used in clinical research to document the location and distribution of pain on a schematic representation of the human body. Digital pain drawings can capture individual pen strokes as x- and y-coordinates, allowing more detailed analyses than traditional region-based classifications. The package supports the reconstruction of individual drawings, quantification of marked areas, anatomical region-based analyses, and the generation of group-level pain heatmaps. It is designed to work with data collected using the paindraw REDCap external module, but also supports data from other sources.">
-<meta property="og:description" content="Provides tools for importing, processing, quantifying, and visualising digital pain drawings. Pain drawings are commonly used in clinical research to document the location and distribution of pain on a schematic representation of the human body. Digital pain drawings can capture individual pen strokes as x- and y-coordinates, allowing more detailed analyses than traditional region-based classifications. The package supports the reconstruction of individual drawings, quantification of marked areas, anatomical region-based analyses, and the generation of group-level pain heatmaps. It is designed to work with data collected using the paindraw REDCap external module, but also supports data from other sources.">
+<meta name="description" content="Provides tools for importing, processing, quantifying, and visualising digital pain drawings. Pain drawings are commonly used in clinical research to document the location and distribution of pain on a schematic representation of the human body. Digital pain drawings can capture individual pen strokes as x- and y-coordinates, allowing more detailed analyses than traditional region-based classifications. The package supports the reconstruction of individual drawings, quantification of marked areas, anatomical region-based analyses, and the generation of group-level pain heatmaps. It is designed to work with data collected using the paindrawEM REDCap external module, but also supports data from other sources.">
+<meta property="og:description" content="Provides tools for importing, processing, quantifying, and visualising digital pain drawings. Pain drawings are commonly used in clinical research to document the location and distribution of pain on a schematic representation of the human body. Digital pain drawings can capture individual pen strokes as x- and y-coordinates, allowing more detailed analyses than traditional region-based classifications. The package supports the reconstruction of individual drawings, quantification of marked areas, anatomical region-based analyses, and the generation of group-level pain heatmaps. It is designed to work with data collected using the paindrawEM REDCap external module, but also supports data from other sources.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -19,7 +19,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">paindrawr</a>
+    <a class="navbar-brand me-2" href="index.html">paindrawR</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
@@ -30,20 +30,14 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="articles/paindrawr.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/paindrawR.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/how_to_create_stencil.html">How to create a stencil</a></li>
-  </ul>
-</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/steenharsted/paindrawr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/steenharsted/paindrawR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -52,33 +46,33 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="paindrawr-">paindrawr <img src="reference/figures/paindrawr-logo.png" align="right" height="220" alt="paindrawr package logo"><a class="anchor" aria-label="anchor" href="#paindrawr-"></a>
+<div class="page-header"><h1 id="paindrawr-">paindrawR <img src="reference/figures/paindrawR-logo.png" align="right" height="220" alt="paindrawR package logo"><a class="anchor" aria-label="anchor" href="#paindrawr-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p><strong>paindrawr</strong> is an R package for analysing and visualising pain drawings — illustrations on which patients indicate where they experience pain. Pain drawings typically use a full-body outline but can also focus on specific anatomical regions.</p>
+<p><strong>paindrawR</strong> is an R package for analysing and visualising pain drawings — illustrations on which patients indicate where they experience pain. Pain drawings typically use a full-body outline but can also focus on specific anatomical regions.</p>
 <p>The package provides tools to import pain drawing data, visualise the marked areas, and quantify pain location, distribution, and extent. This allows researchers to turn patient-reported pain drawings into quantitative data for statistical analysis.</p>
-<p>Pain drawings have traditionally been scored by dividing the body into a fixed set of anatomical regions and recording, for each region, whether it was marked or not. Modern digital tools (web and tablet apps) instead capture each drawing as a series of pen-stroke <em>x/y coordinates</em>. This coordinate-based data is far richer, but it is also harder to work with. paindrawr provides a consistent workflow for turning that raw coordinate data into figures and quantitative summaries.</p>
+<p>Pain drawings have traditionally been scored by dividing the body into a fixed set of anatomical regions and recording, for each region, whether it was marked or not. Modern digital tools (web and tablet apps) instead capture each drawing as a series of pen-stroke <em>x/y coordinates</em>. This coordinate-based data is far richer, but it is also harder to work with. paindrawR provides a consistent workflow for turning that raw coordinate data into figures and quantitative summaries.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of paindrawr from <a href="https://github.com/steenharsted/paindrawr" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of paindrawR from <a href="https://github.com/steenharsted/paindrawR" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steenharsted/paindrawr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steenharsted/paindrawR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="collect-with-paindraw-analyse-with-paindrawr">Collect with paindraw. Analyse with paindrawr.<a class="anchor" aria-label="anchor" href="#collect-with-paindraw-analyse-with-paindrawr"></a>
+<h2 id="collect-with-paindrawem-analyse-with-paindrawr">Collect with paindrawEM. Analyse with paindrawR.<a class="anchor" aria-label="anchor" href="#collect-with-paindrawem-analyse-with-paindrawr"></a>
 </h2>
 <p align="center">
-<img src="reference/figures/paindraw_and_paindrawr.png" height="200" alt="paindraw and paindrawr logos"></p>
-<p><strong>paindraw</strong> is a REDCap external module for collecting digital pain drawings.</p>
-<p><strong>paindrawr</strong> is an R package for importing, quantifying, analysing, and visualising pain drawings.</p>
+<img src="reference/figures/paindrawEM_and_paindrawR.png" height="200" alt="paindrawEM and paindrawR logos"></p>
+<p><strong>paindrawEM</strong> is a REDCap external module for collecting digital pain drawings.</p>
+<p><strong>paindrawR</strong> is an R package for importing, quantifying, analysing, and visualising pain drawings.</p>
 <p>Together, they provide a workflow from digital data collection to research-ready results.</p>
 </div>
 <div class="section level2">
 <h2 id="typical-workflow">Typical workflow<a class="anchor" aria-label="anchor" href="#typical-workflow"></a>
 </h2>
-<p>paindrawr functions are organised around a common analysis pipeline:</p>
+<p>paindrawR functions are organised around a common analysis pipeline:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>Import</strong> raw drawings: <code><a href="reference/pdr_import_json.html">pdr_import_json()</a></code>, <code><a href="reference/pdr_import_png.html">pdr_import_png()</a></code>
@@ -98,7 +92,7 @@
 <div class="section level2">
 <h2 id="data-structure">Data structure<a class="anchor" aria-label="anchor" href="#data-structure"></a>
 </h2>
-<p>paindrawr works with a tibble in which each row is one respondent. The pain drawings live in a dedicated list-column (named <code>pdr_data</code> by default, but any name can be used), so that each drawing, with its metadata, strokes and point coordinates, travels alongside covariates such as sex, age, symptom duration or pain intensity.</p>
+<p>paindrawR works with a tibble in which each row is one respondent. The pain drawings live in a dedicated list-column (named <code>pdr_data</code> by default, but any name can be used), so that each drawing, with its metadata, strokes and point coordinates, travels alongside covariates such as sex, age, symptom duration or pain intensity.</p>
 <p>The package ships with several example datasets; this README uses <code>pdr_example_palmar</code>. In it, the drawing column is called <code>palmar</code>, which is why later code uses <code>pdr_col = palmar</code>. See <code><a href="reference/pdr_match.html">?pdr_match</a></code> for the terminology (pdr_drawing, pdr_list, pdr_tibble).</p>
 </div>
 <div class="section level2">
@@ -106,7 +100,7 @@
 </h2>
 <p>The <code>pdr_*()</code> functions are designed to be used with the native pipe (<code>|&gt;</code>) alongside tidyverse verbs such as <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/steenharsted/paindrawr" class="external-link">paindrawr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/steenharsted/paindrawR" class="external-link">paindrawR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pdr_example_palmar</span></span>
@@ -164,16 +158,16 @@
 <span><span class="co">#&gt; # A tibble: 30 × 6</span></span>
 <span><span class="co">#&gt;       id palmar            tool   distance       palmar_px palmar_area_prop</span></span>
 <span><span class="co">#&gt;    &lt;dbl&gt; &lt;list&gt;            &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 &lt;named list [11]&gt; Hammer 10 centimeters      4854          0.0108 </span></span>
-<span><span class="co">#&gt;  2     2 &lt;named list [11]&gt; Apple  1 meter            14464          0.0322 </span></span>
-<span><span class="co">#&gt;  3     3 &lt;named list [11]&gt; Apple  1 meter             3759          0.00837</span></span>
-<span><span class="co">#&gt;  4     4 &lt;named list [11]&gt; Apple  1 meter             2125          0.00473</span></span>
-<span><span class="co">#&gt;  5     5 &lt;named list [11]&gt; Apple  10 centimeters      1069          0.00238</span></span>
-<span><span class="co">#&gt;  6     6 &lt;named list [11]&gt; Hammer 1 meter            46663          0.104  </span></span>
-<span><span class="co">#&gt;  7     7 &lt;named list [11]&gt; Hammer 10 centimeters      4897          0.0109 </span></span>
-<span><span class="co">#&gt;  8     8 &lt;named list [11]&gt; Apple  10 centimeters     13610          0.0303 </span></span>
-<span><span class="co">#&gt;  9     9 &lt;named list [11]&gt; Apple  1 meter            13161          0.0293 </span></span>
-<span><span class="co">#&gt; 10    10 &lt;named list [11]&gt; Hammer 1 meter            11527          0.0257 </span></span>
+<span><span class="co">#&gt;  1     1 &lt;named list [11]&gt; Hammer 10 centimeters      4955               NA</span></span>
+<span><span class="co">#&gt;  2     2 &lt;named list [11]&gt; Apple  1 meter            14512               NA</span></span>
+<span><span class="co">#&gt;  3     3 &lt;named list [11]&gt; Apple  1 meter             3768               NA</span></span>
+<span><span class="co">#&gt;  4     4 &lt;named list [11]&gt; Apple  1 meter             2119               NA</span></span>
+<span><span class="co">#&gt;  5     5 &lt;named list [11]&gt; Apple  10 centimeters      1128               NA</span></span>
+<span><span class="co">#&gt;  6     6 &lt;named list [11]&gt; Hammer 1 meter            47053               NA</span></span>
+<span><span class="co">#&gt;  7     7 &lt;named list [11]&gt; Hammer 10 centimeters      4849               NA</span></span>
+<span><span class="co">#&gt;  8     8 &lt;named list [11]&gt; Apple  10 centimeters     13778               NA</span></span>
+<span><span class="co">#&gt;  9     9 &lt;named list [11]&gt; Apple  1 meter            13157               NA</span></span>
+<span><span class="co">#&gt; 10    10 &lt;named list [11]&gt; Hammer 1 meter            11766               NA</span></span>
 <span><span class="co">#&gt; # ℹ 20 more rows</span></span></code></pre></div>
 <p>Supplying <code>stencils</code> (for example body regions) gives statistics per region; see <code><a href="reference/pdr_summarize_rgba.html">?pdr_summarize_rgba</a></code>.</p>
 </div>
@@ -195,7 +189,7 @@
 <h2 id="importing-your-own-data">Importing your own data<a class="anchor" aria-label="anchor" href="#importing-your-own-data"></a>
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Drawings exported as JSON from the REDCap PainDraw module</span></span>
+<code class="sourceCode R"><span><span class="co"># Drawings exported as JSON from the REDCap paindrawEM module</span></span>
 <span><span class="fu"><a href="reference/pdr_import_json.html">pdr_import_json</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"path/to/json"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>See <code><a href="reference/pdr_import_json.html">?pdr_import_json</a></code> and <code><a href="reference/pdr_import_png.html">?pdr_import_png</a></code> for details.</p>
 </div>
@@ -203,8 +197,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/steenharsted/paindrawr/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/steenharsted/paindrawr/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/steenharsted/paindrawR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/steenharsted/paindrawR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -220,7 +214,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing paindrawr</a></li>
+<li><a href="authors.html#citation">Citing paindrawR</a></li>
 </ul>
 </div>
 
@@ -235,8 +229,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/steenharsted/paindrawr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/steenharsted/paindrawr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/steenharsted/paindrawr" class="external-link"><img src="https://codecov.io/gh/steenharsted/paindrawr/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/steenharsted/paindrawR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/steenharsted/paindrawR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/steenharsted/paindrawR" class="external-link"><img src="https://codecov.io/gh/steenharsted/paindrawR/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

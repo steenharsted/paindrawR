@@ -24,17 +24,17 @@ specified, a vector of file names from the folder, is returned.
 
 This function does not take a pdr_list or pdr_tibble as input, nor
 return one as output (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)).
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)).
 
 ## Examples
 
 ``` r
 # Get a vector of files in the _example files_ folder
 pdr_example_file()
-#>  [1] "9_draw_zealand.json"     "LibreCAD_test_1.dxf"    
-#>  [3] "bg_feet.png"             "bg_full_body.png"       
-#>  [5] "bg_head.png"             "bg_lower_arm_dorsal.png"
-#>  [7] "bg_lower_arm_palmar.png" "bg_spiral.png"          
+#>  [1] "LibreCAD_test_1.dxf"     "bg_feet.png"            
+#>  [3] "bg_full_body.png"        "bg_head.png"            
+#>  [5] "bg_lower_arm_dorsal.png" "bg_lower_arm_palmar.png"
+#>  [7] "bg_lower_leg.png"        "bg_spiral.png"          
 #>  [9] "bg_spiral_grey.png"      "bg_square_paper.png"    
 #> [11] "bg_zealand.png"         
 

@@ -2,7 +2,7 @@
 
 Ten small drawings (e.g. no area, duplicated points) useful for testing
 geometry handling. See
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the definition of a pdr_tibble.
 
 ## Usage

@@ -27,7 +27,7 @@ pdr_add_rgba(
 
   - A single drawing: a named list containing a `.strokes` element, as
     produced by
-    [`pdr_import_json()`](https://steenharsted.github.io/paindrawr/reference/pdr_import_json.md)
+    [`pdr_import_json()`](https://steenharsted.github.io/paindrawR/reference/pdr_import_json.md)
     or extracted from a list-column (e.g. `pd$pdr_data[[1]]`).
 
   - A list of drawings of any length, including 1 (e.g.

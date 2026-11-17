@@ -1,7 +1,7 @@
 # Extract information from pain drawing objects
 
 Extracts metadata or variables from a pdr_list (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)),
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)),
 e.g. the list-column `pdr_data`. Simple elements (such as `".id"` or
 `".timestamp"`) are returned as a vector, whereas the nested elements
 `.points`, `.strokes`, `.polygons`, `.rgba` and `.stencil` are returned
@@ -18,7 +18,7 @@ pdr_get_info(pdr_list, id1 = ".id", id2 = NULL)
 - pdr_list:
 
   A pdr_list (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)),
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)),
   e.g. the `pdr_data` column of a pdr_tibble.
 
 - id1:
@@ -43,7 +43,7 @@ drawing contributes exactly one value).
 
 ## See also
 
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 
 ## Examples
 

@@ -26,9 +26,9 @@ pdr_summarize_rgba(
 - .data:
 
   A pdr_tibble (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   whose pdr_drawings contain an `.rgba` element. Add it first with
-  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md).
+  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md).
 
 - pdr_col:
 
@@ -69,12 +69,12 @@ pdr_summarize_rgba(
   Optional pdr_list in which each element has a `.stencil` (a height x
   width matrix of 0/1) and an `.id`, e.g. the list-column
   `pdr_stencil_full_body$pdr_data` or a list built with
-  [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md).
+  [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md).
   Each stencil is applied (multiplied) to the alpha channel of every
   drawing before summarising, so the stencil dimensions must match the
   drawings. Defaults to `NULL` (no stencil). Note that this is
   deliberately plural and differs from `stencil` in
-  [`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_modify_rgba.md).
+  [`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_rgba.md).
 
 ## Value
 
@@ -92,19 +92,19 @@ ignored.
 ## Details
 
 The drawings must already contain `.rgba`; see
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md).
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md).
 For the terms pdr_drawing, pdr_list and pdr_tibble, see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md).
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md).
 
 ## See also
 
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)
 to add `.rgba`,
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md)
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md)
 and
-[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_modify_rgba.md)
+[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_rgba.md)
 for stencils,
-[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md)
+[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md)
 to plot the arrays.
 
 ## Examples
@@ -121,7 +121,7 @@ pdr_summarize_rgba(pd)
 #> Warning: no non-missing arguments to max; returning -Inf
 #> # A tibble: 50 × 13
 #>    id          pdr_data     sex     age duration  pain pdr_data_px pdr_data_mean
-#>    <chr>       <list>       <fct> <dbl> <fct>    <dbl>       <int>         <dbl>
+#>    <chr>       <list>       <fct> <dbl> <fct>    <dbl>       <dbl>         <dbl>
 #>  1 6d63804892… <named list> Fema…  46   Chronic      6        1452         0.814
 #>  2 c8b12cd45d… <named list> Fema…  35.4 Acute        6        5724         0.827
 #>  3 25062ac7db… <named list> Fema…  38.4 Acute        5        1242         0.852
@@ -144,17 +144,17 @@ pdr_summarize_rgba(
 )
 #> # A tibble: 50 × 9
 #>    id     pdr_data     sex     age duration  pain pdr_data_px pdr_data_area_prop
-#>    <chr>  <list>       <fct> <dbl> <fct>    <dbl>       <int>              <dbl>
-#>  1 6d638… <named list> Fema…  46   Chronic      6        1273            0.00566
-#>  2 c8b12… <named list> Fema…  35.4 Acute        6        5058            0.0225 
-#>  3 25062… <named list> Fema…  38.4 Acute        5        1088            0.00484
-#>  4 0dc65… <named list> Male   98   Subacute     3        3774            0.0168 
-#>  5 fb61c… <named list> Fema…  58.3 Acute        1         469            0.00208
-#>  6 328d3… <named list> Male   68.9 Subacute     7        3178            0.0141 
-#>  7 e07d8… <named list> Fema…  67.4 Subacute     6        1134            0.00504
-#>  8 9996f… <named list> Fema…  53.4 Chronic      9        2016            0.00896
-#>  9 41aa3… <named list> Fema…  36.8 Chronic      9         763            0.00339
-#> 10 0bcfd… <named list> Fema…  34.9 Subacute     4        2209            0.00982
+#>    <chr>  <list>       <fct> <dbl> <fct>    <dbl>       <dbl>              <dbl>
+#>  1 6d638… <named list> Fema…  46   Chronic      6        1273                 NA
+#>  2 c8b12… <named list> Fema…  35.4 Acute        6        5058                 NA
+#>  3 25062… <named list> Fema…  38.4 Acute        5        1088                 NA
+#>  4 0dc65… <named list> Male   98   Subacute     3        3774                 NA
+#>  5 fb61c… <named list> Fema…  58.3 Acute        1         469                 NA
+#>  6 328d3… <named list> Male   68.9 Subacute     7        3178                 NA
+#>  7 e07d8… <named list> Fema…  67.4 Subacute     6        1134                 NA
+#>  8 9996f… <named list> Fema…  53.4 Chronic      9        2016                 NA
+#>  9 41aa3… <named list> Fema…  36.8 Chronic      9         763                 NA
+#> 10 0bcfd… <named list> Fema…  34.9 Subacute     4        2209                 NA
 #> # ℹ 40 more rows
 #> # ℹ 1 more variable: pdr_data_mean <dbl>
 
@@ -166,7 +166,7 @@ pdr_summarize_rgba(
 )
 #> # A tibble: 50 × 8
 #>    id              pdr_data     sex     age duration  pain pdr_data_Back_head_px
-#>    <chr>           <list>       <fct> <dbl> <fct>    <dbl>                 <int>
+#>    <chr>           <list>       <fct> <dbl> <fct>    <dbl>                 <dbl>
 #>  1 6d63804892233b… <named list> Fema…  46   Chronic      6                     0
 #>  2 c8b12cd45d08e9… <named list> Fema…  35.4 Acute        6                     0
 #>  3 25062ac7dbeb08… <named list> Fema…  38.4 Acute        5                     0
@@ -178,5 +178,5 @@ pdr_summarize_rgba(
 #>  9 41aa308e694ad2… <named list> Fema…  36.8 Chronic      9                     0
 #> 10 0bcfd36a71b799… <named list> Fema…  34.9 Subacute     4                     0
 #> # ℹ 40 more rows
-#> # ℹ 1 more variable: pdr_data_Back_left_arm_px <int>
+#> # ℹ 1 more variable: pdr_data_Back_left_arm_px <dbl>
 ```

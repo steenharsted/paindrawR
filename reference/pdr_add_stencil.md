@@ -2,12 +2,12 @@
 
 Users should only add a stencil to pain drawings that are intended to
 serve as stencils for other pain drawings. To apply stencils see
-[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_modify_rgba.md).
+[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_rgba.md).
 
 ## Usage
 
 ``` r
-pdr_add_stencil(pdr_list, threshold = 1, channel = "A", by = "<")
+pdr_add_stencil(pdr_list, threshold = 0, channel = "A", by = ">")
 ```
 
 ## Arguments
@@ -15,9 +15,9 @@ pdr_add_stencil(pdr_list, threshold = 1, channel = "A", by = "<")
 - pdr_list:
 
   A pdr_list in which every pdr_drawing has an `.rgba` element (see
-  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)
+  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)
   and
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)).
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)).
 
 - threshold:
 
@@ -35,7 +35,7 @@ pdr_add_stencil(pdr_list, threshold = 1, channel = "A", by = "<")
 ## Value
 
 A pdr_list (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
 where each pdr_drawing has two added elements: `.stencil`, a numeric
 matrix of dimensions height x width with values 0 or 1, and
 `.stencil_inverted`, the same matrix with 0 and 1 swapped.
@@ -53,12 +53,12 @@ reduced to a single level (alpha) with just 0 and 1 values.
 The 'threshold' parameter determines the threshold at which a pixel's
 value is dichotomized to 0 or 1 (FALSE or TRUE) as per the 'by'
 parameter. E.g. a pixel with alpha value 0.4 will evaluate to 0 by '\>'
-a 'threshold' of 0.5. With the defaults (`threshold = 1`, `by = "<"`,
-`channel = "A"`) a pixel is set to 1 when its alpha is below 1, i.e.
-when it is not fully opaque. For a drawing rendered with
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md),
-this is the transparent (undrawn) area, while fully opaque (drawn)
-pixels become 0. The inverse is stored in `.stencil_inverted`.
+a 'threshold' of 0.5. With the defaults (`threshold = 0`, `by = ">"`,
+`channel = "A"`) a pixel is set to 1 when its alpha is above 0, i.e.
+when it is not fully transparent. For a drawing rendered with
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md),
+this is the drawn area, while fully transparent (undrawn) pixels become
+0. The inverse is stored in `.stencil_inverted`.
 
 The 'channel' parameter determines which of the R, G, B and A channels
 should be evaluated in reference to the threshold. E.g. 'RGBA' evaluates
@@ -66,8 +66,8 @@ all of the channels by 'OR', and 'A' evaluates only the alpha channel.
 
 ## See also
 
-[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_modify_rgba.md),
-[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_stencil.md)
+[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_rgba.md),
+[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_stencil.md)
 
 ## Examples
 

@@ -6,15 +6,21 @@ trim low/high alpha values. It returns a pdr_list of the same length and
 is thus suited for use inside
 [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html). The
 drawings must already have an `.rgba` element (see
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)).
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)).
 See
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the definitions of pdr_list and pdr_drawing.
 
 ## Usage
 
 ``` r
-pdr_modify_rgba(pdr_list, op = "", stencil = NULL, threshold = 0.5)
+pdr_modify_rgba(
+  pdr_list,
+  op = "",
+  stencil = NULL,
+  inverted_stencil = FALSE,
+  threshold = 0.5
+)
 ```
 
 ## Arguments
@@ -22,7 +28,7 @@ pdr_modify_rgba(pdr_list, op = "", stencil = NULL, threshold = 0.5)
 - pdr_list:
 
   A pdr_list (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   whose pdr_drawings contain `.rgba`, e.g. the `pdr_data` column of a
   pdr_tibble.
 
@@ -56,7 +62,7 @@ pdr_modify_rgba(pdr_list, op = "", stencil = NULL, threshold = 0.5)
   - a list of matrices, or
 
   - a pdr_list in which every pdr_drawing has a `.stencil` element (see
-    [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md)),
+    [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md)),
     e.g. `pdr_stencil_full_body$pdr_data`.
 
   The length must be 1 (the stencil is used for every drawing) or equal
@@ -76,9 +82,9 @@ elements.
 
 ## See also
 
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md),
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md),
-[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_stencil.md)
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md),
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md),
+[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_stencil.md)
 
 ## Examples
 

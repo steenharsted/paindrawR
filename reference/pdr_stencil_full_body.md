@@ -2,13 +2,13 @@
 
 One drawing per anatomical region of the full body template, each with
 `.rgba` and a `.stencil` / `.stencil_inverted` (see
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md)).
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md)).
 Intended for use as `stencils` in
-[`pdr_summarize_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_summarize_rgba.md)
+[`pdr_summarize_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_summarize_rgba.md)
 or as `stencil` in
-[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_modify_rgba.md).
+[`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_rgba.md).
 See
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the definition of a pdr_tibble.
 
 ## Usage

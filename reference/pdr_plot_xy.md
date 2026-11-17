@@ -27,9 +27,9 @@ pdr_plot_xy(
 - .data:
 
   A pdr_tibble (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   whose pdr_drawings contain an `.rgba` element. Add it first with
-  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md).
+  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md).
 
 - pdr_col:
 
@@ -43,7 +43,7 @@ pdr_plot_xy(
   returned by
   [`png::readPNG()`](https://rdrr.io/pkg/png/man/readPNG.html). If
   `NULL` (default), no background is drawn. Use
-  [`pdr_example_file()`](https://steenharsted.github.io/paindrawr/reference/pdr_example_file.md)
+  [`pdr_example_file()`](https://steenharsted.github.io/paindrawR/reference/pdr_example_file.md)
   to get the path to a bundled background.
 
 - include_id:
@@ -113,13 +113,13 @@ with a warning; an error is raised only if no drawings remain.
 
 ## See also
 
-[`pdr_import_json()`](https://steenharsted.github.io/paindrawr/reference/pdr_import_json.md)
+[`pdr_import_json()`](https://steenharsted.github.io/paindrawR/reference/pdr_import_json.md)
 to read pain drawing JSON files,
-[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md)
+[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md)
 to plot rasterised drawings,
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)
 to store raster arrays in a pdr_list,
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the pdr_tibble definition.
 
 ## Examples

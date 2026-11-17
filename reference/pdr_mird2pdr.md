@@ -96,14 +96,14 @@ pdr_mird2pdr(
 - flipy:
 
   Logical (default `TRUE`). If `TRUE`, the y-axis is flipped (via
-  [`pdr_modify_points()`](https://steenharsted.github.io/paindrawr/reference/pdr_modify_points.md)
+  [`pdr_modify_xy()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_xy.md)
   with `op = "flipy"`), because MIRD has its origin in the upper left
-  corner whereas paindrawr uses the lower left.
+  corner whereas paindrawR uses the lower left.
 
 ## Value
 
 A pdr_list (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
 of length `length(mird_pd)`.
 
 ## Details
@@ -118,7 +118,7 @@ of length `length(mird_pd)`.
 
 This function takes a vector of length n of such MIRD strings and
 converts it into a pdr_list of length n (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the terminology). Strings that are `NA` give an `NA` element (NA in,
 NA out); strings too short to hold a point give a pdr_drawing without
 points and strokes.

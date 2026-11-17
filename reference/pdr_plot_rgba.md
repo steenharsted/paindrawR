@@ -4,7 +4,7 @@ Plots the `.rgba` raster arrays stored in the pdr_list column of a
 pdr_tibble as a ggplot, one facet per row of `.data`, using
 [`ggplot2::annotation_raster()`](https://ggplot2.tidyverse.org/reference/annotation_raster.html).
 Optionally draws a background image beneath each raster. See
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the definitions of pdr_tibble, pdr_list and pdr_drawing.
 
 ## Usage
@@ -26,9 +26,9 @@ pdr_plot_rgba(
 - .data:
 
   A pdr_tibble (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   whose pdr_drawings contain an `.rgba` element. Add it first with
-  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md).
+  [`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md).
 
 - pdr_col:
 
@@ -42,7 +42,7 @@ pdr_plot_rgba(
   returned by
   [`png::readPNG()`](https://rdrr.io/pkg/png/man/readPNG.html). If
   `NULL` (default), no background is drawn. Use
-  [`pdr_example_file()`](https://steenharsted.github.io/paindrawr/reference/pdr_example_file.md)
+  [`pdr_example_file()`](https://steenharsted.github.io/paindrawR/reference/pdr_example_file.md)
   to get the path to a bundled background.
 
 - include_id:
@@ -70,9 +70,9 @@ object with one facet per drawing.
 
 ## See also
 
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md),
-[`pdr_plot_rgba_heatmap()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba_heatmap.md),
-[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_stencil.md)
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md),
+[`pdr_plot_rgba_heatmap()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba_heatmap.md),
+[`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_stencil.md)
 
 ## Examples
 

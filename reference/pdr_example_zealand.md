@@ -1,7 +1,7 @@
 # Example drawings of locations on Zealand
 
 A small, deliberately silly data set collected to demonstrate the
-PainDraw and paindrawr workflows. Participants first rated their
+paindrawEM and paindrawR workflows. Participants first rated their
 knowledge of the geography of East Denmark from 0 ("I think Copenhagen
 is in Sweden") to 10 ("I can name every cobblestone in Nyhavn"). They
 were then asked to draw one or two circles around the cities Holbæk and
@@ -39,7 +39,7 @@ Collected by the package authors; created in
 
 One participant (`id` 22) has a missing drawing, stored as `NULL`. File
 paths and timestamps have been removed from the drawings. Use
-[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_rgba.md)
+[`pdr_add_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_rgba.md)
 (optionally with `polygon = "both"`) to rasterise the drawings. The
 matching background image is `bg_zealand.png` in
-`system.file("extdata", package = "paindrawr")`.
+`system.file("extdata", package = "paindrawR")`.

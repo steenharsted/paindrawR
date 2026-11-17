@@ -2,7 +2,7 @@
 
 A simulated data set of 50 pain drawings with accompanying patient
 variables. See
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the definition of a pdr_tibble.
 
 ## Usage

@@ -3,7 +3,7 @@
 Plots the `.stencil` matrix of each drawing (or `.stencil_inverted` for
 the inverted stencil) as a red mask. The function is primarily for
 checking stencils created with
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md).
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md).
 
 ## Usage
 
@@ -24,11 +24,11 @@ pdr_plot_stencil(
 - .data:
 
   A data frame (typically a pdr_tibble, see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
   with a pdr_list column whose pdr_drawings contain a `.stencil` element
   (and `.stencil_inverted` if `invert = TRUE`). The stencil elements are
   added by
-  [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md).
+  [`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md).
 
 - pdr_col:
 
@@ -42,7 +42,7 @@ pdr_plot_stencil(
   returned by
   [`png::readPNG()`](https://rdrr.io/pkg/png/man/readPNG.html). If
   `NULL` (default), no background is drawn. Use
-  [`pdr_example_file()`](https://steenharsted.github.io/paindrawr/reference/pdr_example_file.md)
+  [`pdr_example_file()`](https://steenharsted.github.io/paindrawR/reference/pdr_example_file.md)
   to get the path to a bundled background.
 
 - include_id:
@@ -55,7 +55,7 @@ pdr_plot_stencil(
   Number of columns and rows in the plot grid, passed to
   [`ggplot2::facet_wrap()`](https://ggplot2.tidyverse.org/reference/facet_wrap.html)
   via
-  [`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md).
+  [`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md).
   If both are `NULL` (default), `facet_wrap()` chooses the layout.
 
 - invert:
@@ -72,17 +72,17 @@ object with one facet per drawing, showing the stencil.
 ## Details
 
 It is a wrapper for
-[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md):
+[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md):
 for each drawing a red raster is built whose alpha channel is the
 stencil, and the result is passed on to
-[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md).
+[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md).
 The drawings do not need an `.rgba` element, and `.data` does not need
 an `id` column; panels are identified by the `.id` of each drawing.
 
 ## See also
 
-[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawr/reference/pdr_add_stencil.md),
-[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawr/reference/pdr_plot_rgba.md)
+[`pdr_add_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_add_stencil.md),
+[`pdr_plot_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_rgba.md)
 
 ## Examples
 

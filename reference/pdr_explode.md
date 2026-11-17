@@ -15,7 +15,7 @@ pdr_explode(pdr_list)
 - pdr_list:
 
   A pdr_list (see
-  [`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md)),
+  [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)),
   e.g. the `pdr_data` column of a pdr_tibble.
 
 ## Value
@@ -37,7 +37,7 @@ For each input pdr_drawing:
 - The `.id` element is modified – see below.
 
 The output is a pdr_list (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawr/reference/pdr_match.md))
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
 with a different number of pdr_drawings than the input. The function is
 thus not suited for
 [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) and
