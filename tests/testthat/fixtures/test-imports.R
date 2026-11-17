@@ -40,3 +40,10 @@ mird_data |>
     pdr_data = pdr_mird2pdr(paindrawing_LBP),
     .after = id
   )
+
+
+paindrawR::pdr_import_json(json_files)[1:3, ] |>
+  mutate(pdr_data = pdr_add_rgba(pdr_data)) |>
+  pdr_summarize_rgba(
+    summary_stat = c("px", "mean", "area_prop")
+  )

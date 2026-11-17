@@ -172,16 +172,16 @@ pd |>
 #> # A tibble: 30 × 6
 #>       id palmar            tool   distance       palmar_px palmar_area_prop
 #>    <dbl> <list>            <fct>  <fct>              <dbl>            <dbl>
-#>  1     1 <named list [11]> Hammer 10 centimeters      4812          0.0107 
-#>  2     2 <named list [11]> Apple  1 meter            14547          0.0324 
-#>  3     3 <named list [11]> Apple  1 meter             3798          0.00845
-#>  4     4 <named list [11]> Apple  1 meter             2100          0.00467
-#>  5     5 <named list [11]> Apple  10 centimeters      1113          0.00248
-#>  6     6 <named list [11]> Hammer 1 meter            47074          0.105  
-#>  7     7 <named list [11]> Hammer 10 centimeters      4813          0.0107 
-#>  8     8 <named list [11]> Apple  10 centimeters     13326          0.0297 
-#>  9     9 <named list [11]> Apple  1 meter            13280          0.0296 
-#> 10    10 <named list [11]> Hammer 1 meter            11623          0.0259 
+#>  1     1 <named list [11]> Hammer 10 centimeters      4955               NA
+#>  2     2 <named list [11]> Apple  1 meter            14512               NA
+#>  3     3 <named list [11]> Apple  1 meter             3768               NA
+#>  4     4 <named list [11]> Apple  1 meter             2119               NA
+#>  5     5 <named list [11]> Apple  10 centimeters      1128               NA
+#>  6     6 <named list [11]> Hammer 1 meter            47053               NA
+#>  7     7 <named list [11]> Hammer 10 centimeters      4849               NA
+#>  8     8 <named list [11]> Apple  10 centimeters     13778               NA
+#>  9     9 <named list [11]> Apple  1 meter            13157               NA
+#> 10    10 <named list [11]> Hammer 1 meter            11766               NA
 #> # ℹ 20 more rows
 ```
 

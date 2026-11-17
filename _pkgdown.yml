@@ -3,12 +3,6 @@ template:
   bootstrap: 5
   bootswatch: flatly
 
-articles:
-- title: "Articles"
-  navbar: ~
-  contents:
-  - articles/how_to_create_stencil
-
 reference:
 - title: "Importing"
   desc: "Functions for importing data into paindrawR"
@@ -30,8 +24,8 @@ reference:
   contents:
   - pdr_add_rgba
   - pdr_explode
-  - pdr_implode
-  - pdr_modify_points
+  - pdr_implode_xy
+  - pdr_modify_xy
   - pdr_modify_rgba
 
 - title: "Stencils"
