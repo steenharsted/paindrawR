@@ -106,17 +106,22 @@ the usual columns.
 
 ``` r
 # Load a single file
-json_file <- pdr_example_file("9_draw_zealand.json")
-#> Error in system.file("extdata", path, package = "paindrawR", mustWork = TRUE): no file found
+json_file <- pdr_example_file("1_palmar.json")
 pdr_import_json(json_file)
-#> Error: object 'json_file' not found
+#> # A tibble: 1 × 2
+#>   pdr_data          id                          
+#>   <list>            <chr>                       
+#> 1 <named list [10]> PID4193-R1F-palmar-E13885-I1
 
 # Load multiple files (here, the same file twice)
 pdr_import_json(c(json_file, json_file))
-#> Error: object 'json_file' not found
+#> # A tibble: 2 × 2
+#>   pdr_data          id                          
+#>   <list>            <chr>                       
+#> 1 <named list [10]> PID4193-R1F-palmar-E13885-I1
+#> 2 <named list [10]> PID4193-R1F-palmar-E13885-I1
 
 # Plot imported data
 pdr_import_json(json_file) |>
-  pdr_plot_xy(background_image = pdr_example_file("bg_zealand.png"))
-#> Error: object 'json_file' not found
+  pdr_plot_xy(background_image = pdr_example_file("bg_lower_arm_palmar.png"))
 ```
