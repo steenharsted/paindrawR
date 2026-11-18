@@ -53,22 +53,25 @@
 <p><strong>paindrawR</strong> is an R package for analysing and visualising pain drawings — illustrations on which patients indicate where they experience pain. Pain drawings typically use a full-body outline but can also focus on specific anatomical regions.</p>
 <p>The package provides tools to import pain drawing data, visualise the marked areas, and quantify pain location, distribution, and extent. This allows researchers to turn patient-reported pain drawings into quantitative data for statistical analysis.</p>
 <p>Pain drawings have traditionally been scored by dividing the body into a fixed set of anatomical regions and recording, for each region, whether it was marked or not. Modern digital tools (web and tablet apps) instead capture each drawing as a series of pen-stroke <em>x/y coordinates</em>. This coordinate-based data is far richer, but it is also harder to work with. paindrawR provides a consistent workflow for turning that raw coordinate data into figures and quantitative summaries.</p>
+<p><br></p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version of paindrawR from <a href="https://github.com/steenharsted/paindrawR" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steenharsted/paindrawR"</span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="collect-in-redcap-browsers-or-your-own-app-analyse-with-paindrawr">Collect in REDCap, browsers or your own app, analyse with paindrawR.<a class="anchor" aria-label="anchor" href="#collect-in-redcap-browsers-or-your-own-app-analyse-with-paindrawr"></a>
 </h2>
 <p align="center">
-<img src="reference/figures/paindrawEM_and_paindrawR.png" height="400" alt="paindrawEM and paindrawR logos"></p>
+<img src="reference/figures/paindrawEM_and_paindrawR.png" height="410" alt="paindrawEM and paindrawR logos"></p>
 <p><strong>paindrawEM</strong> is a REDCap external module for collecting digital pain drawings. <a href="https://github.com/open-rsyd/PainDrawEM/tree/main" class="external-link">paindrawEM</a></p>
 <p><strong>paindraw_shiny</strong> is a shiny app running in your browser. <a href="https://github.com/steenharsted/paindraw_shiny" class="external-link">paindraw_shiny</a></p>
 <p><strong>paindrawR</strong> is an R package for importing, quantifying, analysing, and visualising pain drawings.</p>
 <p>Together, they provide a workflow from digital data collection to research-ready results.</p>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="typical-workflow">Typical workflow<a class="anchor" aria-label="anchor" href="#typical-workflow"></a>
@@ -89,12 +92,14 @@
 <strong>Visualise</strong> the results: <code><a href="reference/pdr_plot_xy.html">pdr_plot_xy()</a></code>, <code><a href="reference/pdr_plot_rgba.html">pdr_plot_rgba()</a></code>, <code><a href="reference/pdr_plot_rgba_heatmap.html">pdr_plot_rgba_heatmap()</a></code>
 </li>
 </ol>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="data-structure">Data structure<a class="anchor" aria-label="anchor" href="#data-structure"></a>
 </h2>
 <p>paindrawR works with a tibble in which each row is one respondent. The pain drawings live in a dedicated list-column (named <code>pdr_data</code> by default, but any name can be used), so that each drawing, with its metadata, strokes and point coordinates, travels alongside covariates such as sex, age, symptom duration or pain intensity.</p>
 <p>The package ships with several example datasets; this README uses <code>pdr_example_palmar</code>. In it, the drawing column is called <code>palmar</code>, which is why later code uses <code>pdr_col = palmar</code>. See <code><a href="reference/pdr_match.html">?pdr_match</a></code> for the terminology (pdr_drawing, pdr_list, pdr_tibble).</p>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -120,6 +125,7 @@
 <span><span class="co">#&gt; 10    10 &lt;named list [10]&gt; Hammer 1 meter       </span></span>
 <span><span class="co">#&gt; # ℹ 20 more rows</span></span></code></pre></div>
 <p><code>pdr_example_palmar</code> is a small, deliberately silly dataset with 30 respondents. Each person imagined that an object (<code>tool</code>: an apple or a hammer) had fallen onto their left hand from a given height (<code>distance</code>: 10 cm or 1 m), and drew their imaginary pain on a palmar lower-arm template.</p>
+<p><br></p>
 <div class="section level3">
 <h3 id="plot-a-single-drawing">Plot a single drawing<a class="anchor" aria-label="anchor" href="#plot-a-single-drawing"></a>
 </h3>
@@ -142,6 +148,7 @@
 <span>    background_image <span class="op">=</span> <span class="va">background</span>, </span>
 <span>    polygon <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot-polygon-1.png" alt="Example polygon plot with background image" width="100%"></p>
+<p><br></p>
 </div>
 <div class="section level3">
 <h3 id="quantify-drawings">Quantify drawings<a class="anchor" aria-label="anchor" href="#quantify-drawings"></a>
@@ -159,18 +166,19 @@
 <span><span class="co">#&gt; # A tibble: 30 × 6</span></span>
 <span><span class="co">#&gt;       id palmar            tool   distance       palmar_px palmar_area_prop</span></span>
 <span><span class="co">#&gt;    &lt;dbl&gt; &lt;list&gt;            &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 &lt;named list [11]&gt; Hammer 10 centimeters      4638               NA</span></span>
-<span><span class="co">#&gt;  2     2 &lt;named list [11]&gt; Apple  1 meter            14616               NA</span></span>
-<span><span class="co">#&gt;  3     3 &lt;named list [11]&gt; Apple  1 meter             3455               NA</span></span>
-<span><span class="co">#&gt;  4     4 &lt;named list [11]&gt; Apple  1 meter             2221               NA</span></span>
-<span><span class="co">#&gt;  5     5 &lt;named list [11]&gt; Apple  10 centimeters      1125               NA</span></span>
-<span><span class="co">#&gt;  6     6 &lt;named list [11]&gt; Hammer 1 meter            46686               NA</span></span>
-<span><span class="co">#&gt;  7     7 &lt;named list [11]&gt; Hammer 10 centimeters      4917               NA</span></span>
-<span><span class="co">#&gt;  8     8 &lt;named list [11]&gt; Apple  10 centimeters     13624               NA</span></span>
-<span><span class="co">#&gt;  9     9 &lt;named list [11]&gt; Apple  1 meter            13138               NA</span></span>
-<span><span class="co">#&gt; 10    10 &lt;named list [11]&gt; Hammer 1 meter            11642               NA</span></span>
+<span><span class="co">#&gt;  1     1 &lt;named list [11]&gt; Hammer 10 centimeters      4815               NA</span></span>
+<span><span class="co">#&gt;  2     2 &lt;named list [11]&gt; Apple  1 meter            14577               NA</span></span>
+<span><span class="co">#&gt;  3     3 &lt;named list [11]&gt; Apple  1 meter             3624               NA</span></span>
+<span><span class="co">#&gt;  4     4 &lt;named list [11]&gt; Apple  1 meter             2112               NA</span></span>
+<span><span class="co">#&gt;  5     5 &lt;named list [11]&gt; Apple  10 centimeters      1037               NA</span></span>
+<span><span class="co">#&gt;  6     6 &lt;named list [11]&gt; Hammer 1 meter            46887               NA</span></span>
+<span><span class="co">#&gt;  7     7 &lt;named list [11]&gt; Hammer 10 centimeters      4738               NA</span></span>
+<span><span class="co">#&gt;  8     8 &lt;named list [11]&gt; Apple  10 centimeters     13447               NA</span></span>
+<span><span class="co">#&gt;  9     9 &lt;named list [11]&gt; Apple  1 meter            13449               NA</span></span>
+<span><span class="co">#&gt; 10    10 &lt;named list [11]&gt; Hammer 1 meter            11645               NA</span></span>
 <span><span class="co">#&gt; # ℹ 20 more rows</span></span></code></pre></div>
 <p>Supplying <code>stencils</code> (for example body regions) gives statistics per region; see <code><a href="reference/pdr_summarize_rgba.html">?pdr_summarize_rgba</a></code>.</p>
+<p><br></p>
 </div>
 <div class="section level3">
 <h3 id="heatmaps-across-groups">Heatmaps across groups<a class="anchor" aria-label="anchor" href="#heatmaps-across-groups"></a>
@@ -184,6 +192,7 @@
 <span>    background_image <span class="op">=</span> <span class="va">background</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot-heatmap-1.png" alt="Heatmap" width="100%"></p>
+<p><br></p>
 </div>
 </div>
 <div class="section level2">
