@@ -44,7 +44,7 @@ pak::pak("steenharsted/paindrawR")
 ## Collect in REDCap, browsers or your own app, analyse with paindrawR.
 
 <p align="center">
-  <img src="man/figures/paindrawEM_and_paindrawR.png" height="200" alt="paindrawEM and paindrawR logos" />
+  <img src="man/figures/paindrawEM_and_paindrawR.png" height="400" alt="paindrawEM and paindrawR logos" />
 </p>
 
 **paindrawEM** is a REDCap external module for collecting digital pain drawings. [paindrawEM](https://github.com/open-rsyd/PainDrawEM/tree/main) 
