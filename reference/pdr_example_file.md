@@ -31,12 +31,14 @@ return one as output (see
 ``` r
 # Get a vector of files in the _example files_ folder
 pdr_example_file()
-#>  [1] "1_palmar.json"           "LibreCAD_test_1.dxf"    
-#>  [3] "bg_feet.png"             "bg_full_body.png"       
-#>  [5] "bg_head.png"             "bg_lower_arm_dorsal.png"
-#>  [7] "bg_lower_arm_palmar.png" "bg_lower_leg.png"       
-#>  [9] "bg_spiral.png"           "bg_spiral_grey.png"     
-#> [11] "bg_square_paper.png"     "bg_zealand.png"         
+#>  [1] "1_palmar.json"               "LibreCAD_test_1.dxf"        
+#>  [3] "bg_feet.png"                 "bg_full_body.png"           
+#>  [5] "bg_full_body_woman.png"      "bg_full_body_woman_hair.png"
+#>  [7] "bg_head.png"                 "bg_legs.png"                
+#>  [9] "bg_lower_arm_dorsal.png"     "bg_lower_arm_palmar.png"    
+#> [11] "bg_lower_leg.png"            "bg_mird.png"                
+#> [13] "bg_spiral.png"               "bg_spiral_grey.png"         
+#> [15] "bg_square_paper.png"         "bg_zealand.png"             
 
 # Get the absolute path to a file in the _example files_
 # folder
