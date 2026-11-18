@@ -41,13 +41,15 @@ You can install the development version of paindrawR from
 pak::pak("steenharsted/paindrawR")
 ```
 
-## Collect with paindrawEM. Analyse with paindrawR.
+## Collect in REDCap, browsers or your own app, analyse with paindrawR.
 
 <p align="center">
   <img src="man/figures/paindrawEM_and_paindrawR.png" height="200" alt="paindrawEM and paindrawR logos" />
 </p>
 
-**paindrawEM** is a REDCap external module for collecting digital pain drawings.
+**paindrawEM** is a REDCap external module for collecting digital pain drawings. [paindrawEM](https://github.com/open-rsyd/PainDrawEM/tree/main) 
+
+**paindraw_shiny** is a shiny app running in your browser. [paindraw_shiny](https://github.com/steenharsted/paindraw_shiny)
 
 **paindrawR** is an R package for importing, quantifying, analysing,
 and visualising pain drawings.
