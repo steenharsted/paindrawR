@@ -32,6 +32,8 @@ data is far richer, but it is also harder to work with. paindrawR provides a
 consistent workflow for turning that raw coordinate data into figures and
 quantitative summaries.
 
+<br>
+
 ## Installation
 
 You can install the development version of paindrawR from
@@ -40,11 +42,12 @@ You can install the development version of paindrawR from
 ```r
 pak::pak("steenharsted/paindrawR")
 ```
+<br>
 
 ## Collect in REDCap, browsers or your own app, analyse with paindrawR.
 
 <p align="center">
-  <img src="man/figures/paindrawEM_and_paindrawR.png" height="400" alt="paindrawEM and paindrawR logos" />
+  <img src="man/figures/paindrawEM_and_paindrawR.png" height="410" alt="paindrawEM and paindrawR logos" />
 </p>
 
 **paindrawEM** is a REDCap external module for collecting digital pain drawings. [paindrawEM](https://github.com/open-rsyd/PainDrawEM/tree/main) 
@@ -56,6 +59,8 @@ and visualising pain drawings.
 
 Together, they provide a workflow from digital data collection
 to research-ready results.
+
+<br>
 
 ## Typical workflow
 
@@ -72,6 +77,8 @@ paindrawR functions are organised around a common analysis pipeline:
 5. **Visualise** the results: `pdr_plot_xy()`, `pdr_plot_rgba()`,
    `pdr_plot_rgba_heatmap()`
 
+<br>
+
 ## Data structure
 
 paindrawR works with a tibble in which each row is one respondent. The pain
@@ -84,6 +91,8 @@ The package ships with several example datasets; this README uses
 `pdr_example_palmar`. In it, the drawing column is called `palmar`, which is
 why later code uses `pdr_col = palmar`. See `?pdr_match` for the terminology
 (pdr_drawing, pdr_list, pdr_tibble).
+
+<br>
 
 ## Example
 
@@ -104,6 +113,7 @@ respondents. Each person imagined that an object (`tool`: an apple or a hammer)
 had fallen onto their left hand from a given height (`distance`: 10 cm or 1 m),
 and drew their imaginary pain on a palmar lower-arm template.
 
+<br>
 
 ### Plot a single drawing
 
@@ -138,6 +148,8 @@ pdr_example_palmar |>
     polygon = "both")
 ```
 
+<br>
+
 ### Quantify drawings
 
 Quantification and heatmaps work on a rasterised representation of each
@@ -162,6 +174,8 @@ pd |>
 Supplying `stencils` (for example body regions) gives statistics per region;
 see `?pdr_summarize_rgba`.
 
+<br>
+
 ### Heatmaps across groups
 
 `pdr_plot_rgba_heatmap()` aggregates many drawings into density heatmaps,
@@ -178,6 +192,8 @@ pd |>
     background_image = background
   )
 ```
+
+<br>
 
 ## Importing your own data
 
