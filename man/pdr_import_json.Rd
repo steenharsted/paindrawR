@@ -86,7 +86,7 @@ columns.
 }
 \examples{
 # Load a single file
-json_file <- pdr_example_file("9_draw_zealand.json")
+json_file <- pdr_example_file("1_palmar.json")
 pdr_import_json(json_file)
 
 # Load multiple files (here, the same file twice)
@@ -94,5 +94,5 @@ pdr_import_json(c(json_file, json_file))
 
 # Plot imported data
 pdr_import_json(json_file) |>
-  pdr_plot_xy(background_image = pdr_example_file("bg_zealand.png"))
+  pdr_plot_xy(background_image = pdr_example_file("bg_lower_arm_palmar.png"))
 }
