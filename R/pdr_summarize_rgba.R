@@ -18,7 +18,9 @@
 #'   `c(a, b)` are accepted; each selected column is summarised separately.
 #' @param summary_stat Character vector of statistics to compute from the alpha
 #'   values of the included pixels. Any of `"px"` (number of pixels),
-#'   `"area_prop"` (`px` divided by `.width * .height`), `"mean"`, `"sd"`,
+#'   `"area_prop"` (`px` divided by the canvas area `.width * .height`, or by
+#'   the number of pixels inside the stencil when `stencils` is given),
+#'   `"mean"`, `"sd"`,
 #'   `"median"`, `"iqr"`, `"min"`, `"max"`, `"q1"`, `"q5"`, `"q10"`, `"q25"`,
 #'   `"q75"`, `"q90"`, `"q95"` and `"q99"` (the `q` statistics are quantiles
 #'   at probabilities 0.01, 0.05, ..., 0.99). Two shortcuts are available when
@@ -52,6 +54,10 @@
 #'   is `NA`, or its alpha channel is entirely `NA`, all statistics for that
 #'   drawing, including `px`, are `NA`. Individual `NA` pixels are ignored.
 #'
+#' @param inverted_stencil Logical. If `TRUE`, use each stencil's
+#'   `.stencil_inverted` instead of `.stencil`. Default `FALSE`. Ignored when
+#'   `stencils` is `NULL`.
+#'
 #' @seealso [pdr_add_rgba()] to add `.rgba`, [pdr_add_stencil()] and
 #'   [pdr_modify_rgba()] for stencils, [pdr_plot_rgba()] to plot the arrays.
 #'
@@ -77,7 +83,14 @@
 #'   summary_stat = "px",
 #'   stencils = pdr_stencil_full_body$pdr_data[1:2]
 #' )
-pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven", alpha_range = c(0, 1), stencils = NULL, inverted_stencil=FALSE) {
+pdr_summarize_rgba <- function(
+  .data,
+  pdr_col = pdr_data,
+  summary_stat = "seven",
+  alpha_range = c(0, 1),
+  stencils = NULL,
+  inverted_stencil = FALSE
+) {
   ############################
   ##### Helper functions #####
   ############################
@@ -90,7 +103,13 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
     )
   )
 
-  summarize_drawing_as_tibble <- function(one_pdr_list, summary_stat, alpha_range, one_stencil, col_name) {
+  summarize_drawing_as_tibble <- function(
+    one_pdr_list,
+    summary_stat,
+    alpha_range,
+    one_stencil,
+    col_name
+  ) {
     # This function is intended to take a single pdr_list as input and iterate over each drawing
     # Apply a single stencil (a matrix) and apply an alpha range, before calculating a number
     # of summary statistics and returning the result as a tibble of same number of rows as pdr_list
@@ -103,8 +122,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
     # the specificed alpha_range and in the process, convert the alpha_channel from a width x height
     # matrix to a variable length vector.
 
-    if(is.na(one_stencil)) {one_stencil <- NULL} # should never happen...
-
+    # No stencil (NULL) means the whole canvas is used
     one_pdr_list |>
       purrr::map_dfr(\(pdr_drawing) {
         # A missing drawing (NA), missing .rgba, or an alpha channel that is
@@ -116,10 +134,14 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
         if (is_missing) {
           alpha_channel <- NA_integer_
         } else {
-          # get the area of the 'parent area' -- either the canvas or stencil
-          parent_area <- ifelse(is.null(one_stencil), length(alpha_channel), length(one_stencil))
-          # apply stencil to alpha_channel (dimensions are unchanged)
           alpha_channel <- pdr_drawing$.rgba[,, 4]
+          # get the area of the 'parent area' -- either the canvas or stencil
+          parent_area <- if (is.null(one_stencil)) {
+            length(alpha_channel)
+          } else {
+            sum(one_stencil != 0, na.rm = TRUE)
+          }
+          # apply stencil to alpha_channel (dimensions are unchanged)
           if (!is.null(one_stencil)) {
             alpha_channel <- alpha_channel * one_stencil
           }
@@ -131,13 +153,13 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
           ]
         }
 
-        is_empty <- length(alpha_channel)==0 # Nothing within alpha_range inside stencil/canvas
+        is_empty <- length(alpha_channel) == 0 # Nothing within alpha_range inside stencil/canvas
 
         result_tib <- tibble::tibble(.rows = 1)
 
         if ("px" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
-            result_tib, 
+            result_tib,
             px = dplyr::case_when(
               is_missing ~ NA_integer_,
               is_empty ~ 0,
@@ -152,18 +174,18 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             area_prop = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = length(alpha_channel / parent_area)
+              .default = length(alpha_channel) / parent_area
             )
           )
         }
-        
+
         if ("mean" %in% summary_stat) {
           result_tib <- dplyr::bind_cols(
             result_tib,
             mean = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = mean(alpha_channel, na.rm=TRUE)
+              .default = mean(alpha_channel, na.rm = TRUE)
             )
           )
         }
@@ -174,7 +196,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             sd = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = sd(alpha_channel, na.rm=TRUE)
+              .default = sd(alpha_channel, na.rm = TRUE)
             )
           )
         }
@@ -185,7 +207,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             median = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = median(alpha_channel, na.rm=TRUE)
+              .default = median(alpha_channel, na.rm = TRUE)
             )
           )
         }
@@ -196,7 +218,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             iqr = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = IQR(alpha_channel, na.rm=TRUE)
+              .default = IQR(alpha_channel, na.rm = TRUE)
             )
           )
         }
@@ -207,7 +229,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             min = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = min(alpha_channel, na.rm=TRUE)
+              .default = min(alpha_channel, na.rm = TRUE)
             )
           )
         }
@@ -218,7 +240,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             max = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = max(alpha_channel, na.rm=TRUE)
+              .default = max(alpha_channel, na.rm = TRUE)
             )
           )
         }
@@ -229,7 +251,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q1 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.01, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.01, na.rm = TRUE)
             )
           )
         }
@@ -240,7 +262,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q5 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.05, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.05, na.rm = TRUE)
             )
           )
         }
@@ -251,7 +273,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q10 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.10, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.10, na.rm = TRUE)
             )
           )
         }
@@ -262,7 +284,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q25 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.25, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.25, na.rm = TRUE)
             )
           )
         }
@@ -273,7 +295,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q75 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.75, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.75, na.rm = TRUE)
             )
           )
         }
@@ -284,7 +306,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q90 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.90, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.90, na.rm = TRUE)
             )
           )
         }
@@ -295,7 +317,7 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q95 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.95, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.95, na.rm = TRUE)
             )
           )
         }
@@ -306,12 +328,11 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             q99 = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = quantile(alpha_channel, probs = 0.99, na.rm=TRUE)
+              .default = quantile(alpha_channel, probs = 0.99, na.rm = TRUE)
             )
           )
         }
 
-        
         names(result_tib) <- paste0(col_name, "_", names(result_tib))
         return(result_tib)
       })
@@ -372,15 +393,15 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
   ##########################
 
   # If no stencils are supplied:
-  if(is.null(stencils)) {
+  if (is.null(stencils)) {
     for (i in pdr_col) {
       .data <- dplyr::bind_cols(
         .data,
         summarize_drawing_as_tibble(
-          one_pdr_list = .data[[i]], 
-          summary_stat = summary_stat, 
-          alpha_range = alpha_range, 
-          one_stencil = NULL, 
+          one_pdr_list = .data[[i]],
+          summary_stat = summary_stat,
+          alpha_range = alpha_range,
+          one_stencil = NULL,
           col_name = i
         )
       )
@@ -394,7 +415,11 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
             one_pdr_list = .data[[i]],
             summary_stat = summary_stat,
             alpha_range = alpha_range,
-            one_stencil = ifelse(inverted_stencil, stencils[[j]]$.stencil_inverted, stencils[[j]]$.stencil),
+            one_stencil = if (inverted_stencil) {
+              stencils[[j]]$.stencil_inverted
+            } else {
+              stencils[[j]]$.stencil
+            },
             col_name = paste0(i, "_", stencils[[j]]$.id)
           )
         )

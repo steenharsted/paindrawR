@@ -11,6 +11,7 @@
 ^roadmap\.md$
 ^todo_paindrawR$
 ^wip$
+^schema$
 ^\.github$
 ^codecov\.yml$
 ^cran-comments\.md$

@@ -24,7 +24,9 @@ to \code{pdr_data}. Unquoted names, strings and selections such as
 
 \item{summary_stat}{Character vector of statistics to compute from the alpha
 values of the included pixels. Any of \code{"px"} (number of pixels),
-\code{"area_prop"} (\code{px} divided by \code{.width * .height}), \code{"mean"}, \code{"sd"},
+\code{"area_prop"} (\code{px} divided by the canvas area \code{.width * .height}, or by
+the number of pixels inside the stencil when \code{stencils} is given),
+\code{"mean"}, \code{"sd"},
 \code{"median"}, \code{"iqr"}, \code{"min"}, \code{"max"}, \code{"q1"}, \code{"q5"}, \code{"q10"}, \code{"q25"},
 \code{"q75"}, \code{"q90"}, \code{"q95"} and \code{"q99"} (the \code{q} statistics are quantiles
 at probabilities 0.01, 0.05, ..., 0.99). Two shortcuts are available when
@@ -49,6 +51,10 @@ all drawn pixels. Use e.g. \code{c(0.5, 1)} to restrict to heavily drawn pixels.
 the stencil dimensions must match the drawings. Defaults to \code{NULL}
 (no stencil). Note that this is deliberately plural and differs from
 \code{stencil} in \code{\link[=pdr_modify_rgba]{pdr_modify_rgba()}}.}
+
+\item{inverted_stencil}{Logical. If \code{TRUE}, use each stencil's
+\code{.stencil_inverted} instead of \code{.stencil}. Default \code{FALSE}. Ignored when
+\code{stencils} is \code{NULL}.}
 }
 \value{
 \code{.data} (a pdr_tibble) with added numeric columns, one per selected

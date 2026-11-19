@@ -5,6 +5,118 @@
 ## Without stencils area_prop should be relative to total canvas size
 ## With stencils area_prop should be relative to the size of the current stencil
 
+# Synthetic 2 x 3 px drawings; drawing 1 alpha: 0, 0.4, 0.5 / 0.6, 1, 1
+make_drawing <- function(a, id = "1") {
+  rgba <- array(0, dim = c(2, 3, 4))
+  rgba[,, 4] <- a
+  list(.id = id, .width = 3, .height = 2, .rgba = rgba)
+}
+
+alpha_mat <- matrix(c(0, 0.4, 0.5, 0.6, 1, 1), nrow = 2, byrow = TRUE)
+drawn <- c(0.4, 0.5, 0.6, 1, 1)
+
+tbl <- tibble::tibble(
+  id = 1:2,
+  pdr_data = list(make_drawing(alpha_mat), make_drawing(1))
+)
+
+make_stencil <- function(m, id) {
+  list(
+    .id = id,
+    .stencil = m,
+    .stencil_inverted = 1 - m,
+    .width = 3,
+    .height = 2
+  )
+}
+# left: first column (2 px); right: last two columns (4 px)
+st_left <- make_stencil(matrix(c(1, 0, 0, 1, 0, 0), 2, byrow = TRUE), "left")
+st_right <- make_stencil(matrix(c(0, 1, 1, 0, 1, 1), 2, byrow = TRUE), "right")
+
+test_that("no stencil summarises the whole canvas", {
+  res <- pdr_summarize_rgba(tbl, summary_stat = c("px", "mean", "max"))
+
+  expect_equal(names(res)[-(1:2)], paste0("pdr_data_", c("px", "mean", "max")))
+  expect_equal(res$pdr_data_px, c(5, 6))
+  expect_equal(res$pdr_data_mean, c(mean(drawn), 1))
+  expect_equal(res$pdr_data_max, c(1, 1))
+})
+
+test_that("stencils = NULL equals omitting it, and inverted_stencil is ignored", {
+  base <- pdr_summarize_rgba(tbl)
+
+  expect_equal(pdr_summarize_rgba(tbl, stencils = NULL), base)
+  expect_equal(pdr_summarize_rgba(tbl, inverted_stencil = TRUE), base)
+})
+
+test_that("a stencil restricts the summary to pixels inside it", {
+  res <- pdr_summarize_rgba(
+    tbl,
+    summary_stat = c("px", "mean"),
+    stencils = list(st_left, st_right)
+  )
+
+  expect_equal(res$pdr_data_left_px, c(1, 2))
+  expect_equal(res$pdr_data_left_mean, c(0.6, 1))
+  expect_equal(res$pdr_data_right_px, c(4, 4))
+  expect_equal(res$pdr_data_right_mean[1], mean(c(0.4, 0.5, 1, 1)))
+})
+
+test_that("inverted_stencil uses the full inverted stencil matrix", {
+  inv <- pdr_summarize_rgba(
+    tbl,
+    summary_stat = c("px", "mean"),
+    stencils = list(st_left),
+    inverted_stencil = TRUE
+  )
+  right <- pdr_summarize_rgba(
+    tbl,
+    summary_stat = c("px", "mean"),
+    stencils = list(st_right)
+  )
+
+  # Inverse of "first column" is "last two columns"
+  expect_equal(inv$pdr_data_left_px, right$pdr_data_right_px)
+  expect_equal(inv$pdr_data_left_mean, right$pdr_data_right_mean)
+  expect_equal(inv$pdr_data_left_px, c(4, 4))
+
+  # And differs from the non-inverted result
+  normal <- pdr_summarize_rgba(
+    tbl,
+    summary_stat = "px",
+    stencils = list(st_left)
+  )
+  expect_false(identical(inv$pdr_data_left_px, normal$pdr_data_left_px))
+})
+
+test_that("area_prop is relative to the canvas without stencils", {
+  res <- pdr_summarize_rgba(tbl, summary_stat = c("px", "area_prop"))
+
+  expect_equal(res$pdr_data_area_prop, c(5 / 6, 1))
+  expect_equal(res$pdr_data_area_prop, res$pdr_data_px / 6)
+})
+
+test_that("area_prop is relative to the stencil area with stencils", {
+  res <- pdr_summarize_rgba(
+    tbl,
+    summary_stat = c("px", "area_prop"),
+    stencils = list(st_left, st_right)
+  )
+
+  # left stencil has 2 px; right has 4 px
+  expect_equal(res$pdr_data_left_area_prop, c(1 / 2, 2 / 2))
+  expect_equal(res$pdr_data_right_area_prop, c(4 / 4, 4 / 4))
+
+  inv <- pdr_summarize_rgba(
+    tbl,
+    summary_stat = "area_prop",
+    stencils = list(st_left),
+    inverted_stencil = TRUE
+  )
+  # inverted left stencil has 4 px
+  expect_equal(inv$pdr_data_left_area_prop, c(4 / 4, 4 / 4))
+})
+
 # # Synthetic 2 x 3 px drawing; alpha: 0, 0.4, 0.5 / 0.6, 1, 1
 # make_drawing <- function(a, id = "1") {
 #   rgba <- array(0, dim = c(2, 3, 4))
