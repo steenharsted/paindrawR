@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   paindrawR: paindrawR.html
-last_built: 2026-11-18T21:35Z
+last_built: 2026-11-19T09:30Z
 urls:
   reference: https://steenharsted.github.io/paindrawR/reference
   article: https://steenharsted.github.io/paindrawR/articles

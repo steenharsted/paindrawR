@@ -117,24 +117,7 @@ pd <- pdr_example_data |>
 
 # Default: the "seven" statistics across all drawn pixels
 pdr_summarize_rgba(pd)
-#> Warning: no non-missing arguments to min; returning Inf
-#> Warning: no non-missing arguments to max; returning -Inf
-#> # A tibble: 50 × 13
-#>    id          pdr_data     sex     age duration  pain pdr_data_px pdr_data_mean
-#>    <chr>       <list>       <fct> <dbl> <fct>    <dbl>       <dbl>         <dbl>
-#>  1 6d63804892… <named list> Fema…  46   Chronic      6        1452         0.814
-#>  2 c8b12cd45d… <named list> Fema…  35.4 Acute        6        5724         0.827
-#>  3 25062ac7db… <named list> Fema…  38.4 Acute        5        1242         0.852
-#>  4 0dc657fa6e… <named list> Male   98   Subacute     3        4258         0.815
-#>  5 fb61c33ffa… <named list> Fema…  58.3 Acute        1         523         0.841
-#>  6 328d315032… <named list> Male   68.9 Subacute     7        3500         0.847
-#>  7 e07d8d7e70… <named list> Fema…  67.4 Subacute     6        1297         0.817
-#>  8 9996f1a95c… <named list> Fema…  53.4 Chronic      9        2343         0.815
-#>  9 41aa308e69… <named list> Fema…  36.8 Chronic      9         895         0.819
-#> 10 0bcfd36a71… <named list> Fema…  34.9 Subacute     4        2546         0.828
-#> # ℹ 40 more rows
-#> # ℹ 5 more variables: pdr_data_sd <dbl>, pdr_data_median <dbl>,
-#> #   pdr_data_iqr <dbl>, pdr_data_min <dbl>, pdr_data_max <dbl>
+#> Error in if (is.na(one_stencil)) {    one_stencil <- NULL}: argument is of length zero
 
 # Selected statistics, only heavily drawn pixels
 pdr_summarize_rgba(
@@ -142,21 +125,7 @@ pdr_summarize_rgba(
   summary_stat = c("px", "area_prop", "mean"),
   alpha_range = c(0.5, 1)
 )
-#> # A tibble: 50 × 9
-#>    id     pdr_data     sex     age duration  pain pdr_data_px pdr_data_area_prop
-#>    <chr>  <list>       <fct> <dbl> <fct>    <dbl>       <dbl>              <dbl>
-#>  1 6d638… <named list> Fema…  46   Chronic      6        1273                 NA
-#>  2 c8b12… <named list> Fema…  35.4 Acute        6        5058                 NA
-#>  3 25062… <named list> Fema…  38.4 Acute        5        1088                 NA
-#>  4 0dc65… <named list> Male   98   Subacute     3        3774                 NA
-#>  5 fb61c… <named list> Fema…  58.3 Acute        1         469                 NA
-#>  6 328d3… <named list> Male   68.9 Subacute     7        3178                 NA
-#>  7 e07d8… <named list> Fema…  67.4 Subacute     6        1134                 NA
-#>  8 9996f… <named list> Fema…  53.4 Chronic      9        2016                 NA
-#>  9 41aa3… <named list> Fema…  36.8 Chronic      9         763                 NA
-#> 10 0bcfd… <named list> Fema…  34.9 Subacute     4        2209                 NA
-#> # ℹ 40 more rows
-#> # ℹ 1 more variable: pdr_data_mean <dbl>
+#> Error in if (is.na(one_stencil)) {    one_stencil <- NULL}: argument is of length zero
 
 # Per stencil (here, two body regions)
 pdr_summarize_rgba(
