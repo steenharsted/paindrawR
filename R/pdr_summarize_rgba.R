@@ -116,8 +116,8 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
         if (is_missing) {
           alpha_channel <- NA_integer_
         } else {
-          # get the area of the reference area -- either the canvas or stencil
-          frame_size <- ifelse(is.null(one_stencil), length(alpha_channel), length(one_stencil))
+          # get the area of the 'parent area' -- either the canvas or stencil
+          parent_area <- ifelse(is.null(one_stencil), length(alpha_channel), length(one_stencil))
           # apply stencil to alpha_channel (dimensions are unchanged)
           alpha_channel <- pdr_drawing$.rgba[,, 4]
           if (!is.null(one_stencil)) {
@@ -147,17 +147,12 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
         }
 
         if ("area_prop" %in% summary_stat) {
-          if(stencil_size == 0) {
-            prop <- length(alpha_channel)/canvas_size
-          } else {
-            prop <- length(alpha_channel)/stencil_size
-          }
           result_tib <- dplyr::bind_cols(
             result_tib,
             area_prop = dplyr::case_when(
               is_missing ~ NA_real_,
               is_empty ~ 0,
-              .default = prop
+              .default = length(alpha_channel / parent_area)
             )
           )
         }
