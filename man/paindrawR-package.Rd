@@ -11,7 +11,7 @@ Provides tools for importing, processing, quantifying, and visualising digital p
 \section{Terminology}{
 \tabular{ll}{
    Term \tab Meaning \cr
-   pdr_drawing \tab Named list for one drawing: \code{.id}, \code{.file}, \code{.version}, \code{.width}, \code{.height}, \code{.units}, \code{.timestamp}, \code{.app}, \code{.strokes}, \code{.points}, optional \code{.rgba}, \code{.stencil}, \code{.stencil_inverted} \cr
+   pdr_drawing \tab Named list for one drawing: \code{.id}, \code{.file}, \code{.version}, \code{.width}, \code{.height}, \code{.units}, \code{.timestamp}, \code{.app}, \code{.template_file}, \code{.strokes}, \code{.points}, optional \code{.rgba}, \code{.stencil}, \code{.stencil_inverted} \cr
    pdr_list \tab A list of pdr_drawings (typically the list-column \code{pdr_data}) \cr
    pdr_tibble \tab A tibble with columns \code{id} and a pdr_list column (default name \code{pdr_data}) \cr
 }

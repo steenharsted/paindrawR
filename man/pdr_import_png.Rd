@@ -33,7 +33,7 @@ without directory and \code{.png} extension. If \code{FALSE}, \code{.id} is \cod
 A pdr_tibble (see \code{\link[=pdr_match]{pdr_match()}}; as from \code{\link[=pdr_import_json]{pdr_import_json()}}) with
 one row per file and columns \code{pdr_data} (a pdr_list of pdr_drawings, each
 containing \code{.id}, \code{.file}, \code{.version}, \code{.width}, \code{.height}, \code{.units},
-\code{.timestamp}, \code{.app}, \code{.points}, \code{.strokes} and \code{.rgba}) and \code{id}.
+\code{.timestamp}, \code{.app}, \code{.template_file}, \code{.points}, \code{.strokes} and \code{.rgba}) and \code{id}.
 \code{NA} entries in \code{files} give \code{NA} in \code{pdr_data} and \code{id}. Non-existing files
 give a warning and \code{NA} in \code{pdr_data}, with \code{id} derived from the file name
 (if \code{id_from_filename}).

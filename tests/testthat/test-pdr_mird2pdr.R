@@ -66,6 +66,7 @@ test_that("each drawing has the documented elements and defaults", {
       ".units",
       ".timestamp",
       ".app",
+      ".template_file",
       ".points",
       ".strokes"
     )
@@ -78,6 +79,7 @@ test_that("each drawing has the documented elements and defaults", {
   expect_equal(drawing$.units, "px")
   expect_equal(drawing$.timestamp, "")
   expect_equal(drawing$.app, "")
+  expect_equal(drawing$.template_file, "bg_mird.png")
 })
 
 test_that("metadata parameters are stored in the drawing", {

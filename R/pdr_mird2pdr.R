@@ -43,7 +43,8 @@
 #'   (via [pdr_modify_xy()] with `op = "flipy"`), because MIRD has its
 #'   origin in the upper left corner whereas paindrawR uses the lower left.
 #'
-#' @returns A pdr_list (see [pdr_match()]) of length `length(mird_pd)`.
+#' @returns A pdr_list (see [pdr_match()]) of length `length(mird_pd)`. `.template_file`
+#'   is set to `"bg_mird.png"` (see [pdr_example_file()]) for all drawings.
 #'
 #' @export
 #' @examples
@@ -281,6 +282,7 @@ pdr_mird2pdr <- function(
           .units = i_units,
           .timestamp = i_timestamp,
           .app = i_app,
+          .template_file = "bg_mird.png",
           .points = i_points,
           .strokes = i_strokes
         )

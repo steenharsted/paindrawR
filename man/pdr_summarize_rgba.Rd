@@ -9,7 +9,8 @@ pdr_summarize_rgba(
   pdr_col = pdr_data,
   summary_stat = "seven",
   alpha_range = c(0, 1),
-  stencils = NULL
+  stencils = NULL,
+  inverted_stencil = FALSE
 )
 }
 \arguments{

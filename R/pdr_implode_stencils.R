@@ -11,7 +11,7 @@
 #' dimensions and `.units`.
 #'
 #' The result holds no strokes or points -- it is a stencil, not a drawing.
-#' `.file`, `.version` and `.app` keep the common value if unique, otherwise
+#' `.file`, `.version`, `.app` and `.template_file` keep the common value if unique, otherwise
 #' `"multiple"` (or `NA` for `.version`). `.timestamp` is the maximum of the
 #' inputs (`NA` if all inputs are `NA`). The collapsed stencil is also stored
 #' in the alpha channel of `.rgba` (as a black image), so that
@@ -89,7 +89,9 @@ pdr_implode_stencils <- function(pdr_list, id = NULL) {
 
   # Keep a metadata value if it is common to all inputs
   common_or <- function(var, otherwise) {
-    values <- unique(purrr::map(pdr_list, var))
+    values <- unique(purrr::map(pdr_list, \(x) {
+      if (is.null(x[[var]])) NA_character_ else x[[var]]
+    }))
     if (length(values) == 1) values[[1]] else otherwise
   }
 
@@ -115,6 +117,7 @@ pdr_implode_stencils <- function(pdr_list, id = NULL) {
         max(timestamps)
       },
       .app = common_or(".app", "multiple"),
+      .template_file = common_or(".template_file", "multiple"),
       .points = tibble::tibble(
         .index = integer(),
         .x = integer(),

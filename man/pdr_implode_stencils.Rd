@@ -32,7 +32,7 @@ result should be a single drawing per group. All input drawings must have
 dimensions and \code{.units}.
 
 The result holds no strokes or points -- it is a stencil, not a drawing.
-\code{.file}, \code{.version} and \code{.app} keep the common value if unique, otherwise
+\code{.file}, \code{.version}, \code{.app} and \code{.template_file} keep the common value if unique, otherwise
 \code{"multiple"} (or \code{NA} for \code{.version}). \code{.timestamp} is the maximum of the
 inputs (\code{NA} if all inputs are \code{NA}). The collapsed stencil is also stored
 in the alpha channel of \code{.rgba} (as a black image), so that

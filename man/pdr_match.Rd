@@ -36,7 +36,7 @@ it is a given type), or coerces it to another type.
 This is where the paindrawR data types are defined; all other functions
 refer here.\tabular{ll}{
    Term \tab Meaning \cr
-   pdr_drawing \tab A named list for one drawing, with elements \code{.id}, \code{.file}, \code{.version}, \code{.width}, \code{.height}, \code{.units}, \code{.timestamp}, \code{.app}, \code{.strokes}, \code{.points}, and optionally \code{.rgba}, \code{.stencil} and \code{.stencil_inverted} \cr
+   pdr_drawing \tab A named list for one drawing, with elements \code{.id}, \code{.file}, \code{.version}, \code{.width}, \code{.height}, \code{.units}, \code{.timestamp}, \code{.app}, \code{.template_file}, \code{.strokes}, \code{.points}, and optionally \code{.rgba}, \code{.stencil} and \code{.stencil_inverted} \cr
    pdr_list \tab A list of pdr_drawings (typically the list-column \code{pdr_data}) \cr
    pdr_tibble \tab A tibble with columns \code{id} and a pdr_list column (default name \code{pdr_data}) \cr
 }

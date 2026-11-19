@@ -32,7 +32,7 @@
 #' @returns A pdr_tibble (see [pdr_match()]; as from [pdr_import_json()]) with
 #'   one row per file and columns `pdr_data` (a pdr_list of pdr_drawings, each
 #'   containing `.id`, `.file`, `.version`, `.width`, `.height`, `.units`,
-#'   `.timestamp`, `.app`, `.points`, `.strokes` and `.rgba`) and `id`.
+#'   `.timestamp`, `.app`, `.template_file`, `.points`, `.strokes` and `.rgba`) and `id`.
 #'   `NA` entries in `files` give `NA` in `pdr_data` and `id`. Non-existing files
 #'   give a warning and `NA` in `pdr_data`, with `id` derived from the file name
 #'   (if `id_from_filename`).
@@ -112,6 +112,7 @@ pdr_import_png <- function(
         .units = "px",
         .timestamp = NA_character_,
         .app = NA_character_,
+        .template_file = NA_character_,
         .points = tibble::tibble(
           .index = integer(),
           .x = integer(),

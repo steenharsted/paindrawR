@@ -62,7 +62,8 @@ pdr_mird2pdr(
 origin in the upper left corner whereas paindrawR uses the lower left.}
 }
 \value{
-A pdr_list (see \code{\link[=pdr_match]{pdr_match()}}) of length \code{length(mird_pd)}.
+A pdr_list (see \code{\link[=pdr_match]{pdr_match()}}) of length \code{length(mird_pd)}. \code{.template_file}
+is set to \code{"bg_mird.png"} (see \code{\link[=pdr_example_file]{pdr_example_file()}}) for all drawings.
 }
 \description{
 MIRD exports pain drawings in a custom format like:

@@ -14,7 +14,7 @@
 #' pulled from `.data`, not as a pdr_tibble). If the drawings have different
 #' `.units`, a warning is given and `NA` is returned. If they have different
 #' canvas widths or heights, a warning is given and the maximum width and
-#' height are used. For `.file`, `.version` and `.app` the common value is kept
+#' height are used. For `.file`, `.version`, `.app` and `.template_file` the common value is kept
 #' if unique, otherwise `"multiple"`. `.timestamp` is the maximum of the
 #' inputs. See [pdr_match()] for the terminology (pdr_tibble, pdr_list,
 #' pdr_drawing).
@@ -89,7 +89,7 @@ pdr_implode_xy <- function(.data, pdr_col = pdr_data) {
   # We build that by hand keeping a close eye on data types
   #   * `.id`: character (unique identifier)
   #   * `.version`, `.width`, `.height`: integer
-  #   * `.file`, `.units`, `.timestamp`, `.app`: character or NA
+  #   * `.file`, `.units`, `.timestamp`, `.app`, `.template_file`: character or NA
   #   * `.strokes`, `.points`: tibble or NA
   #
   # Id must always be unique, so we simple set it to 'imploded'
@@ -112,8 +112,9 @@ pdr_implode_xy <- function(.data, pdr_col = pdr_data) {
     # or the one value found for 'var' in 'pdr' (if unique)
     # We use this to retain variable values where there is only one
     # or replace multiple my "multiple" ... when imploding data
+    # Drawings without the element (e.g. built by hand) count as NA
     var_values <- pdr |>
-      purrr::map_depth(.depth = 1, {{ var }}) |>
+      purrr::map(\(x) if (is.null(x[[var]])) NA_character_ else x[[var]]) |>
       purrr::as_vector()
     ifelse(
       length(unique(var_values)) > 1,
@@ -148,6 +149,7 @@ pdr_implode_xy <- function(.data, pdr_col = pdr_data) {
           })
       ),
       .app = one_or_multiple(pdr, ".app"),
+      .template_file = one_or_multiple(pdr, ".template_file"),
       .strokes = {
         pdr |>
           purrr::imap_dfr(\(x, indx) {

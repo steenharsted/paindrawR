@@ -7,42 +7,44 @@
 #' can be provided and will be combined row-wise.
 #'
 #' @details
-#' **Expected JSON structure**
+#' **Supported JSON formats**
 #'
-#' The input JSON must conform to the following structure:
+#' The format is detected per file, so files of different formats can be
+#' mixed in one call:
 #'
-#' * A named list containing metadata for a single pain drawing, including:
-#'   * `id` (character): unique drawing identifier
-#'   * `v`, `w`, `h`, `units`, `ts`, `app`: version, canvas width, canvas
-#'     height, units, timestamp and app name
-#'   * `s`: stroke data
+#' * Schema 1.0 (see `schema/paindraw_schema_1.0.json`): has a
+#'   `schema_version` key (any `1.x`). Fields: `drawing_id`, `module_version`,
+#'   `app`, `timestamp`, `width`, `height`, `units`, `template_file`,
+#'   `template_md5` and `strokes`, where each stroke has `stroke_id`,
+#'   `draw_input_type`, `tool`, `color`, `line_width`, `spray_density`,
+#'   `spray_radius`, `alpha`, `scale_factor`, `device_pixel_ratio` and
+#'   `points` (`[x, y]` pairs).
+#' * Old format (v0.3): no `schema_version`, but the keys `v`, `id`, `w`, `h`
+#'   and `s`. Fields: `id`, `v`, `w`, `h`, `units`, `tpl`, `app`, `ts` and `s`
+#'   (strokes, with `strokeId`, `drawInputType`, `tool`, `lineWidth`, `color`,
+#'   `alpha`, `sprayRadius`, `sprayDensity` and the coordinate list-column
+#'   `p`).
 #'
-#' * `s` must be a data frame where each row represents a stroke and includes:
-#'   * `strokeId`: integer stroke identifier (unique within drawing)
-#'   * `drawInputType`, `tool`, `lineWidth`, `color`, `alpha`, `sprayRadius`,
-#'     `sprayDensity`: stroke properties
-#'   * `p`: list-column of coordinate matrices
-#'
-#' * Each element of `p` must be an integer matrix with two columns:
-#'   * column 1: x-coordinates
-#'   * column 2: y-coordinates
+#' A file in neither format (or with an unsupported `schema_version`) gives a
+#' warning and an empty placeholder row, as for invalid JSON.
 #'
 #' **Transformation details**
 #'
-#' * The metadata fields are renamed to the pdr_drawing elements `.id`,
-#'   `.version` (`v`), `.width` (`w`), `.height` (`h`), `.units`,
-#'   `.timestamp` (`ts`) and `.app`; `.file` is set to the file path. Other
-#'   fields are dropped.
-#' * Coordinates in `p` are converted into the `.points` tibble with columns
-#'   `.index` (the position of the stroke in `s`), `.x` and `.y`.
+#' Both formats give the same result:
+#'
+#' * The metadata fields are renamed to the pdr_drawing elements `.id`
+#'   (`id` / `drawing_id`), `.version` (`v` / `module_version`), `.width`,
+#'   `.height`, `.units`, `.timestamp`, `.app` and `.template_file` (`tpl` /
+#'   `template_file`); `.file` is set to the file path. Other fields are
+#'   dropped. `.template_file` is `NA` if the file has no template name.
+#' * Coordinates are converted into the `.points` tibble with columns
+#'   `.index` (the position of the stroke in the file), `.x` and `.y`.
 #' * The y-axis is flipped using the drawing height (`.height`) so that the
 #'   origin is in the lower left corner.
 #' * The remaining stroke properties are stored in the `.strokes` tibble, with
-#'   renamed columns: `strokeId` becomes `.index`, `drawInputType` becomes
-#'   `.draw_input_type`, `tool` becomes `.tool`, `lineWidth` becomes
-#'   `.tool_width`, `color` becomes `.color`, `alpha` becomes `.alpha`,
-#'   `sprayRadius` becomes `.spray_radius` and `sprayDensity` becomes
-#'   `.point_density`.
+#'   columns `.index`, `.draw_input_type`, `.tool`, `.tool_width`, `.color`,
+#'   `.alpha`, `.spray_radius` and `.point_density`. Pen strokes in schema 1.0
+#'   have `NA` for the spray columns.
 #'
 #' **Failure handling**
 #'
@@ -84,6 +86,8 @@
 #'   pdr_plot_xy(background_image = pdr_example_file("bg_lower_arm_palmar.png"))
 pdr_import_json <- function(files) {
   # This file imports json output from the redcap module paindrawEM
+  # (and paindraw_shiny). Supported formats are detected per file, see
+  # `detect_json_schema()`.
 
   # Sanity check on `files`
   if (is.list(files)) {
@@ -115,58 +119,37 @@ pdr_import_json <- function(files) {
         result <- c(result, list(list())) # Add empty placeholder element
       } else {
         # We have valid json content - now parse and add to result
-        tmp <- jsonlite::fromJSON(content)
-        tmp$.file <- f # store the file name
-        if (NROW(tmp$s) == 0) {
-          # Valid drawing without strokes: zero-row tibbles with all columns
-          tmp$.points <- tibble::tibble(
-            i = integer(),
-            x = double(),
-            y = double()
+        parsed <- jsonlite::fromJSON(content)
+        schema <- detect_json_schema(parsed)
+        parser <- switch(
+          schema,
+          "0.3" = parse_json_v0_3,
+          "1.0" = parse_json_v1_0
+        )
+        if (is.null(parser)) {
+          warning(
+            "File content is not a recognised paindraw JSON format: ",
+            f
           )
-          tmp$.strokes <- tibble::tibble(
-            strokeId = integer(),
-            drawInputType = character(),
-            tool = character(),
-            lineWidth = double(),
-            color = character(),
-            alpha = double(),
-            sprayRadius = double(),
-            sprayDensity = integer()
-          )
+          result <- c(result, list(list())) # Add empty placeholder element
         } else {
-          tmp$.points <- tmp$s$p # p is stored as list col in 's' so move up a level..
-          tmp$.strokes <- tmp$s |> dplyr::select(-p) |> tibble::as_tibble() # ..and remove from s
-          tmp$.points <- tmp$.points |>
-            purrr::imap_dfr(\(element, indx) {
-              tibble::tibble(i = indx, x = element[, 1], y = element[, 2])
-            })
-        }
-        tmp$.id <- tmp$id
-        #tmp$.file = tmp$file
-        tmp$.version <- tmp$v
-        tmp$.width <- tmp$w
-        tmp$.height <- tmp$h
-        tmp$.units <- tmp$units
-        tmp$.timestamp <- tmp$ts
-        tmp$.app <- tmp$app
-        tmp <- tmp[startsWith(names(tmp), ".")]
-        tmp$.points <- tmp$.points |>
-          dplyr::rename(.index = i, .x = x, .y = y) |>
-          # Invert Y (We want 0,0 in lower left corner)
-          dplyr::mutate(.y = tmp$.height - .y)
-        tmp$.strokes <- tmp$.strokes |>
-          dplyr::rename(
-            .index = strokeId,
-            .draw_input_type = drawInputType,
-            .tool = tool,
-            .tool_width = lineWidth,
-            .color = color,
-            .alpha = alpha,
-            .spray_radius = sprayRadius,
-            .point_density = sprayDensity
+          drawing <- tryCatch(
+            parser(parsed, f),
+            error = \(e) {
+              warning(
+                "File could not be read as paindraw JSON schema ",
+                schema,
+                " (",
+                conditionMessage(e),
+                "): ",
+                f
+              )
+              NULL
+            }
           )
-        result <- c(result, list(tmp))
+          if (is.null(drawing)) drawing <- list()
+          result <- c(result, list(drawing))
+        }
       }
     }
   }
@@ -188,4 +171,184 @@ pdr_import_json <- function(files) {
         }
       )
     ) # return
+}
+
+# Detect which JSON schema a parsed file follows. Returns "1.0" (any 1.x),
+# "0.3" (old format, no `schema_version` but a `v` key) or NA_character_
+# (not recognised, including unknown major versions).
+detect_json_schema <- function(parsed) {
+  if (!is.list(parsed) || is.null(names(parsed))) {
+    return(NA_character_)
+  }
+  if (!is.null(parsed$schema_version)) {
+    version <- parsed$schema_version
+    if (is.character(version) && length(version) == 1 && grepl("^1\\.[0-9]+$", version)) {
+      return("1.0")
+    }
+    return(NA_character_)
+  }
+  if (all(c("v", "id", "w", "h", "s") %in% names(parsed))) {
+    return("0.3")
+  }
+  NA_character_
+}
+
+# Read a string field that may be missing: NA_character_ when absent
+string_or_na <- function(x) {
+  if (is.null(x)) NA_character_ else as.character(x)
+}
+
+# Parser for the old (v0.3) format: returns a pdr_drawing
+parse_json_v0_3 <- function(parsed, file) {
+  s <- parsed$s
+  strokes <- if (NROW(s) == 0) {
+    NULL
+  } else {
+    s |>
+      dplyr::select(-p) |>
+      tibble::as_tibble() |>
+      dplyr::rename(
+        .index = strokeId,
+        .draw_input_type = drawInputType,
+        .tool = tool,
+        .tool_width = lineWidth,
+        .color = color,
+        .alpha = alpha,
+        .spray_radius = sprayRadius,
+        .point_density = sprayDensity
+      )
+  }
+
+  build_pdr_drawing(
+    file = file,
+    id = parsed$id,
+    version = parsed$v,
+    width = parsed$w,
+    height = parsed$h,
+    units = parsed$units,
+    timestamp = parsed$ts,
+    app = parsed$app,
+    template_file = string_or_na(parsed$tpl),
+    strokes = strokes,
+    points = if (NROW(s) == 0) NULL else s$p
+  )
+}
+
+# Parser for schema 1.0 (see schema/paindraw_schema_1.0.json)
+parse_json_v1_0 <- function(parsed, file) {
+  required <- c(
+    "module_version", "app", "drawing_id", "timestamp", "width", "height",
+    "units", "template_file", "strokes"
+  )
+  missing_fields <- setdiff(required, names(parsed))
+  if (length(missing_fields) > 0) {
+    stop("missing field(s): ", paste(missing_fields, collapse = ", "))
+  }
+  s <- parsed$strokes
+  stroke_fields <- c(
+    "stroke_id", "draw_input_type", "tool", "color", "line_width",
+    "spray_density", "spray_radius", "alpha", "scale_factor",
+    "device_pixel_ratio", "points"
+  )
+  if (NROW(s) > 0 && !all(stroke_fields %in% names(s))) {
+    stop(
+      "missing stroke field(s): ",
+      paste(setdiff(stroke_fields, names(s)), collapse = ", ")
+    )
+  }
+  strokes <- if (NROW(s) == 0) {
+    NULL
+  } else {
+    s |>
+      dplyr::select(-points) |>
+      # Same column names as the old format; the properties without a
+      # dotted counterpart there keep their old names (scaleFactor, dpr)
+      dplyr::rename(
+        .index = stroke_id,
+        .draw_input_type = draw_input_type,
+        .tool = tool,
+        .tool_width = line_width,
+        .color = color,
+        .alpha = alpha,
+        .spray_radius = spray_radius,
+        .point_density = spray_density,
+        scaleFactor = scale_factor,
+        dpr = device_pixel_ratio
+      ) |>
+      tibble::as_tibble() |>
+      # Pen strokes have null spray settings
+      dplyr::mutate(
+        .spray_radius = as.integer(.spray_radius),
+        .point_density = as.integer(.point_density)
+      )
+  }
+
+  build_pdr_drawing(
+    file = file,
+    id = parsed$drawing_id,
+    version = parsed$module_version,
+    width = parsed$width,
+    height = parsed$height,
+    units = parsed$units,
+    timestamp = parsed$timestamp,
+    app = parsed$app,
+    template_file = string_or_na(parsed$template_file),
+    strokes = strokes,
+    points = if (NROW(s) == 0) NULL else s$points
+  )
+}
+
+# Shared by all parsers: `strokes` is a tibble with the final `.strokes`
+# columns and `points` a list of two-column coordinate matrices (one per
+# stroke); both NULL for a drawing without strokes.
+build_pdr_drawing <- function(
+  file,
+  id,
+  version,
+  width,
+  height,
+  units,
+  timestamp,
+  app,
+  template_file,
+  strokes,
+  points
+) {
+  if (is.null(strokes)) {
+    # Valid drawing without strokes: zero-row tibbles with all columns
+    points <- tibble::tibble(.index = integer(), .x = double(), .y = double())
+    strokes <- tibble::tibble(
+      .index = integer(),
+      .draw_input_type = character(),
+      .tool = character(),
+      .tool_width = double(),
+      .color = character(),
+      .alpha = double(),
+      .spray_radius = double(),
+      .point_density = integer()
+    )
+  } else {
+    points <- points |>
+      purrr::imap_dfr(\(element, indx) {
+        if (is.null(dim(element))) {
+          element <- matrix(element, ncol = 2, byrow = TRUE)
+        }
+        tibble::tibble(.index = indx, .x = element[, 1], .y = element[, 2])
+      })
+  }
+
+  list(
+    .file = file,
+    # Invert Y (We want 0,0 in lower left corner)
+    .points = points |> dplyr::mutate(.y = height - .y),
+    .strokes = strokes,
+    .id = id,
+    .version = version,
+    .width = width,
+    .height = height,
+    .units = units,
+    .timestamp = timestamp,
+    .app = app,
+    .template_file = template_file
+  )
 }

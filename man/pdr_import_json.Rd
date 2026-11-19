@@ -25,47 +25,45 @@ them into a pdr_tibble (see \code{\link[=pdr_match]{pdr_match()}} for the termin
 Each input file is expected to contain a single pain drawing. Multiple files
 can be provided and will be combined row-wise.
 
-\strong{Expected JSON structure}
+\strong{Supported JSON formats}
 
-The input JSON must conform to the following structure:
+The format is detected per file, so files of different formats can be
+mixed in one call:
 \itemize{
-\item A named list containing metadata for a single pain drawing, including:
-\itemize{
-\item \code{id} (character): unique drawing identifier
-\item \code{v}, \code{w}, \code{h}, \code{units}, \code{ts}, \code{app}: version, canvas width, canvas
-height, units, timestamp and app name
-\item \code{s}: stroke data
+\item Schema 1.0 (see \code{schema/paindraw_schema_1.0.json}): has a
+\code{schema_version} key (any \verb{1.x}). Fields: \code{drawing_id}, \code{module_version},
+\code{app}, \code{timestamp}, \code{width}, \code{height}, \code{units}, \code{template_file},
+\code{template_md5} and \code{strokes}, where each stroke has \code{stroke_id},
+\code{draw_input_type}, \code{tool}, \code{color}, \code{line_width}, \code{spray_density},
+\code{spray_radius}, \code{alpha}, \code{scale_factor}, \code{device_pixel_ratio} and
+\code{points} (\verb{[x, y]} pairs).
+\item Old format (v0.3): no \code{schema_version}, but the keys \code{v}, \code{id}, \code{w}, \code{h}
+and \code{s}. Fields: \code{id}, \code{v}, \code{w}, \code{h}, \code{units}, \code{tpl}, \code{app}, \code{ts} and \code{s}
+(strokes, with \code{strokeId}, \code{drawInputType}, \code{tool}, \code{lineWidth}, \code{color},
+\code{alpha}, \code{sprayRadius}, \code{sprayDensity} and the coordinate list-column
+\code{p}).
 }
-\item \code{s} must be a data frame where each row represents a stroke and includes:
-\itemize{
-\item \code{strokeId}: integer stroke identifier (unique within drawing)
-\item \code{drawInputType}, \code{tool}, \code{lineWidth}, \code{color}, \code{alpha}, \code{sprayRadius},
-\code{sprayDensity}: stroke properties
-\item \code{p}: list-column of coordinate matrices
-}
-\item Each element of \code{p} must be an integer matrix with two columns:
-\itemize{
-\item column 1: x-coordinates
-\item column 2: y-coordinates
-}
-}
+
+A file in neither format (or with an unsupported \code{schema_version}) gives a
+warning and an empty placeholder row, as for invalid JSON.
 
 \strong{Transformation details}
+
+Both formats give the same result:
 \itemize{
-\item The metadata fields are renamed to the pdr_drawing elements \code{.id},
-\code{.version} (\code{v}), \code{.width} (\code{w}), \code{.height} (\code{h}), \code{.units},
-\code{.timestamp} (\code{ts}) and \code{.app}; \code{.file} is set to the file path. Other
-fields are dropped.
-\item Coordinates in \code{p} are converted into the \code{.points} tibble with columns
-\code{.index} (the position of the stroke in \code{s}), \code{.x} and \code{.y}.
+\item The metadata fields are renamed to the pdr_drawing elements \code{.id}
+(\code{id} / \code{drawing_id}), \code{.version} (\code{v} / \code{module_version}), \code{.width},
+\code{.height}, \code{.units}, \code{.timestamp}, \code{.app} and \code{.template_file} (\code{tpl} /
+\code{template_file}); \code{.file} is set to the file path. Other fields are
+dropped. \code{.template_file} is \code{NA} if the file has no template name.
+\item Coordinates are converted into the \code{.points} tibble with columns
+\code{.index} (the position of the stroke in the file), \code{.x} and \code{.y}.
 \item The y-axis is flipped using the drawing height (\code{.height}) so that the
 origin is in the lower left corner.
 \item The remaining stroke properties are stored in the \code{.strokes} tibble, with
-renamed columns: \code{strokeId} becomes \code{.index}, \code{drawInputType} becomes
-\code{.draw_input_type}, \code{tool} becomes \code{.tool}, \code{lineWidth} becomes
-\code{.tool_width}, \code{color} becomes \code{.color}, \code{alpha} becomes \code{.alpha},
-\code{sprayRadius} becomes \code{.spray_radius} and \code{sprayDensity} becomes
-\code{.point_density}.
+columns \code{.index}, \code{.draw_input_type}, \code{.tool}, \code{.tool_width}, \code{.color},
+\code{.alpha}, \code{.spray_radius} and \code{.point_density}. Pen strokes in schema 1.0
+have \code{NA} for the spray columns.
 }
 
 \strong{Failure handling}

@@ -37,7 +37,7 @@ If \code{pdr_col} holds only one drawing, it is returned as is (as the pdr_list
 pulled from \code{.data}, not as a pdr_tibble). If the drawings have different
 \code{.units}, a warning is given and \code{NA} is returned. If they have different
 canvas widths or heights, a warning is given and the maximum width and
-height are used. For \code{.file}, \code{.version} and \code{.app} the common value is kept
+height are used. For \code{.file}, \code{.version}, \code{.app} and \code{.template_file} the common value is kept
 if unique, otherwise \code{"multiple"}. \code{.timestamp} is the maximum of the
 inputs. See \code{\link[=pdr_match]{pdr_match()}} for the terminology (pdr_tibble, pdr_list,
 pdr_drawing).

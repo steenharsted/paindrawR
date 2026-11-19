@@ -27,6 +27,7 @@ test_that("a real RGBA PNG is imported as a pdr_tibble", {
       ".units",
       ".timestamp",
       ".app",
+      ".template_file",
       ".points",
       ".strokes",
       ".rgba"
