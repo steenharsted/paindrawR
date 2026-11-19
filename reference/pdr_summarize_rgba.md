@@ -17,7 +17,8 @@ pdr_summarize_rgba(
   pdr_col = pdr_data,
   summary_stat = "seven",
   alpha_range = c(0, 1),
-  stencils = NULL
+  stencils = NULL,
+  inverted_stencil = FALSE
 )
 ```
 
@@ -42,19 +43,20 @@ pdr_summarize_rgba(
 
   Character vector of statistics to compute from the alpha values of the
   included pixels. Any of `"px"` (number of pixels), `"area_prop"` (`px`
-  divided by `.width * .height`), `"mean"`, `"sd"`, `"median"`, `"iqr"`,
-  `"min"`, `"max"`, `"q1"`, `"q5"`, `"q10"`, `"q25"`, `"q75"`, `"q90"`,
-  `"q95"` and `"q99"` (the `q` statistics are quantiles at probabilities
-  0.01, 0.05, ..., 0.99). Two shortcuts are available when given as a
-  single string: `"seven"` (default) is `px`, `mean`, `max`, `min`,
-  `median`, `sd` and `iqr`; `"all"` is `seven` plus `area_prop`, `q1`,
-  `q5`, `q25`, `q75`, `q90`, `q95` and `q99` (note: `q10` is *not*
-  included in `"all"`, but can be requested explicitly). Columns are
-  returned in a fixed order, not in the order requested: `px`,
-  `area_prop`, `mean`, `sd`, `median`, `iqr`, `min`, `max`, `q1`, `q5`,
-  `q10`, `q25`, `q75`, `q90`, `q95`, `q99` (restricted to those
-  requested). Note this differs from the order in which `"seven"` is
-  listed above.
+  divided by the canvas area `.width * .height`, or by the number of
+  pixels inside the stencil when `stencils` is given), `"mean"`, `"sd"`,
+  `"median"`, `"iqr"`, `"min"`, `"max"`, `"q1"`, `"q5"`, `"q10"`,
+  `"q25"`, `"q75"`, `"q90"`, `"q95"` and `"q99"` (the `q` statistics are
+  quantiles at probabilities 0.01, 0.05, ..., 0.99). Two shortcuts are
+  available when given as a single string: `"seven"` (default) is `px`,
+  `mean`, `max`, `min`, `median`, `sd` and `iqr`; `"all"` is `seven`
+  plus `area_prop`, `q1`, `q5`, `q25`, `q75`, `q90`, `q95` and `q99`
+  (note: `q10` is *not* included in `"all"`, but can be requested
+  explicitly). Columns are returned in a fixed order, not in the order
+  requested: `px`, `area_prop`, `mean`, `sd`, `median`, `iqr`, `min`,
+  `max`, `q1`, `q5`, `q10`, `q25`, `q75`, `q90`, `q95`, `q99`
+  (restricted to those requested). Note this differs from the order in
+  which `"seven"` is listed above.
 
 - alpha_range:
 
@@ -75,6 +77,11 @@ pdr_summarize_rgba(
   drawings. Defaults to `NULL` (no stencil). Note that this is
   deliberately plural and differs from `stencil` in
   [`pdr_modify_rgba()`](https://steenharsted.github.io/paindrawR/reference/pdr_modify_rgba.md).
+
+- inverted_stencil:
+
+  Logical. If `TRUE`, use each stencil's `.stencil_inverted` instead of
+  `.stencil`. Default `FALSE`. Ignored when `stencils` is `NULL`.
 
 ## Value
 
@@ -117,7 +124,24 @@ pd <- pdr_example_data |>
 
 # Default: the "seven" statistics across all drawn pixels
 pdr_summarize_rgba(pd)
-#> Error in if (is.na(one_stencil)) {    one_stencil <- NULL}: argument is of length zero
+#> Warning: no non-missing arguments to min; returning Inf
+#> Warning: no non-missing arguments to max; returning -Inf
+#> # A tibble: 50 × 13
+#>    id          pdr_data     sex     age duration  pain pdr_data_px pdr_data_mean
+#>    <chr>       <list>       <fct> <dbl> <fct>    <dbl>       <dbl>         <dbl>
+#>  1 6d63804892… <named list> Fema…  46   Chronic      6        1452         0.814
+#>  2 c8b12cd45d… <named list> Fema…  35.4 Acute        6        5724         0.827
+#>  3 25062ac7db… <named list> Fema…  38.4 Acute        5        1242         0.852
+#>  4 0dc657fa6e… <named list> Male   98   Subacute     3        4258         0.815
+#>  5 fb61c33ffa… <named list> Fema…  58.3 Acute        1         523         0.841
+#>  6 328d315032… <named list> Male   68.9 Subacute     7        3500         0.847
+#>  7 e07d8d7e70… <named list> Fema…  67.4 Subacute     6        1297         0.817
+#>  8 9996f1a95c… <named list> Fema…  53.4 Chronic      9        2343         0.815
+#>  9 41aa308e69… <named list> Fema…  36.8 Chronic      9         895         0.819
+#> 10 0bcfd36a71… <named list> Fema…  34.9 Subacute     4        2546         0.828
+#> # ℹ 40 more rows
+#> # ℹ 5 more variables: pdr_data_sd <dbl>, pdr_data_median <dbl>,
+#> #   pdr_data_iqr <dbl>, pdr_data_min <dbl>, pdr_data_max <dbl>
 
 # Selected statistics, only heavily drawn pixels
 pdr_summarize_rgba(
@@ -125,7 +149,21 @@ pdr_summarize_rgba(
   summary_stat = c("px", "area_prop", "mean"),
   alpha_range = c(0.5, 1)
 )
-#> Error in if (is.na(one_stencil)) {    one_stencil <- NULL}: argument is of length zero
+#> # A tibble: 50 × 9
+#>    id     pdr_data     sex     age duration  pain pdr_data_px pdr_data_area_prop
+#>    <chr>  <list>       <fct> <dbl> <fct>    <dbl>       <dbl>              <dbl>
+#>  1 6d638… <named list> Fema…  46   Chronic      6        1273            0.00566
+#>  2 c8b12… <named list> Fema…  35.4 Acute        6        5058            0.0225 
+#>  3 25062… <named list> Fema…  38.4 Acute        5        1088            0.00484
+#>  4 0dc65… <named list> Male   98   Subacute     3        3774            0.0168 
+#>  5 fb61c… <named list> Fema…  58.3 Acute        1         469            0.00208
+#>  6 328d3… <named list> Male   68.9 Subacute     7        3178            0.0141 
+#>  7 e07d8… <named list> Fema…  67.4 Subacute     6        1134            0.00504
+#>  8 9996f… <named list> Fema…  53.4 Chronic      9        2016            0.00896
+#>  9 41aa3… <named list> Fema…  36.8 Chronic      9         763            0.00339
+#> 10 0bcfd… <named list> Fema…  34.9 Subacute     4        2209            0.00982
+#> # ℹ 40 more rows
+#> # ℹ 1 more variable: pdr_data_mean <dbl>
 
 # Per stencil (here, two body regions)
 pdr_summarize_rgba(

@@ -42,11 +42,11 @@ drawings must have `.stencil` elements (see
 and identical canvas dimensions and `.units`.
 
 The result holds no strokes or points – it is a stencil, not a drawing.
-`.file`, `.version` and `.app` keep the common value if unique,
-otherwise `"multiple"` (or `NA` for `.version`). `.timestamp` is the
-maximum of the inputs (`NA` if all inputs are `NA`). The collapsed
-stencil is also stored in the alpha channel of `.rgba` (as a black
-image), so that
+`.file`, `.version`, `.app` and `.template_file` keep the common value
+if unique, otherwise `"multiple"` (or `NA` for `.version`). `.timestamp`
+is the maximum of the inputs (`NA` if all inputs are `NA`). The
+collapsed stencil is also stored in the alpha channel of `.rgba` (as a
+black image), so that
 [`pdr_plot_stencil()`](https://steenharsted.github.io/paindrawR/reference/pdr_plot_stencil.md)
 works on the result.
 
@@ -65,7 +65,7 @@ pdr_stencil_full_body |>
 #> # A tibble: 1 × 1
 #>   pdr_data         
 #>   <list>           
-#> 1 <named list [13]>
+#> 1 <named list [14]>
 
 pdr_stencil_full_body |>
   dplyr::mutate(
@@ -78,7 +78,7 @@ pdr_stencil_full_body |>
 #> # A tibble: 2 × 2
 #>   view  pdr_data         
 #>   <chr> <list>           
-#> 1 Back  <named list [13]>
-#> 2 Front <named list [13]>
+#> 1 Back  <named list [14]>
+#> 2 Front <named list [14]>
 # }
 ```

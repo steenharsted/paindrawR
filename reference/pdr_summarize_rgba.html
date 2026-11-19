@@ -62,7 +62,8 @@ stencils (e.g. body regions) so that statistics are computed per region.</p>
 <span>  pdr_col <span class="op">=</span> <span class="va">pdr_data</span>,</span>
 <span>  summary_stat <span class="op">=</span> <span class="st">"seven"</span>,</span>
 <span>  alpha_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  stencils <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  stencils <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  inverted_stencil <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -85,7 +86,9 @@ to <code>pdr_data</code>. Unquoted names, strings and selections such as
 <dt id="arg-summary-stat">summary_stat<a class="anchor" aria-label="anchor" href="#arg-summary-stat"></a></dt>
 <dd><p>Character vector of statistics to compute from the alpha
 values of the included pixels. Any of <code>"px"</code> (number of pixels),
-<code>"area_prop"</code> (<code>px</code> divided by <code>.width * .height</code>), <code>"mean"</code>, <code>"sd"</code>,
+<code>"area_prop"</code> (<code>px</code> divided by the canvas area <code>.width * .height</code>, or by
+the number of pixels inside the stencil when <code>stencils</code> is given),
+<code>"mean"</code>, <code>"sd"</code>,
 <code>"median"</code>, <code>"iqr"</code>, <code>"min"</code>, <code>"max"</code>, <code>"q1"</code>, <code>"q5"</code>, <code>"q10"</code>, <code>"q25"</code>,
 <code>"q75"</code>, <code>"q90"</code>, <code>"q95"</code> and <code>"q99"</code> (the <code>q</code> statistics are quantiles
 at probabilities 0.01, 0.05, ..., 0.99). Two shortcuts are available when
@@ -114,6 +117,12 @@ all drawn pixels. Use e.g. <code>c(0.5, 1)</code> to restrict to heavily drawn p
 the stencil dimensions must match the drawings. Defaults to <code>NULL</code>
 (no stencil). Note that this is deliberately plural and differs from
 <code>stencil</code> in <code><a href="pdr_modify_rgba.html">pdr_modify_rgba()</a></code>.</p></dd>
+
+
+<dt id="arg-inverted-stencil">inverted_stencil<a class="anchor" aria-label="anchor" href="#arg-inverted-stencil"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, use each stencil's
+<code>.stencil_inverted</code> instead of <code>.stencil</code>. Default <code>FALSE</code>. Ignored when
+<code>stencils</code> is <code>NULL</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -148,7 +157,24 @@ terms pdr_drawing, pdr_list and pdr_tibble, see <code><a href="pdr_match.html">p
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Default: the "seven" statistics across all drawn pixels</span></span></span>
 <span class="r-in"><span><span class="fu">pdr_summarize_rgba</span><span class="op">(</span><span class="va">pd</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (is.na(one_stencil)) {    one_stencil &lt;- NULL}:</span> argument is of length zero</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 50 × 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id          pdr_data     sex     age duration  pain pdr_data_px pdr_data_mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 6d63804892… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  46   Chronic      6        <span style="text-decoration: underline;">1</span>452         0.814</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> c8b12cd45d… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  35.4 Acute        6        <span style="text-decoration: underline;">5</span>724         0.827</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 25062ac7db… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  38.4 Acute        5        <span style="text-decoration: underline;">1</span>242         0.852</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0dc657fa6e… <span style="color: #949494;">&lt;named list&gt;</span> Male   98   Subacute     3        <span style="text-decoration: underline;">4</span>258         0.815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> fb61c33ffa… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  58.3 Acute        1         523         0.841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 328d315032… <span style="color: #949494;">&lt;named list&gt;</span> Male   68.9 Subacute     7        <span style="text-decoration: underline;">3</span>500         0.847</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> e07d8d7e70… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  67.4 Subacute     6        <span style="text-decoration: underline;">1</span>297         0.817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 9996f1a95c… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  53.4 Chronic      9        <span style="text-decoration: underline;">2</span>343         0.815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 41aa308e69… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  36.8 Chronic      9         895         0.819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0bcfd36a71… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  34.9 Subacute     4        <span style="text-decoration: underline;">2</span>546         0.828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 40 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: pdr_data_sd &lt;dbl&gt;, pdr_data_median &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   pdr_data_iqr &lt;dbl&gt;, pdr_data_min &lt;dbl&gt;, pdr_data_max &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Selected statistics, only heavily drawn pixels</span></span></span>
 <span class="r-in"><span><span class="fu">pdr_summarize_rgba</span><span class="op">(</span></span></span>
@@ -156,7 +182,21 @@ terms pdr_drawing, pdr_list and pdr_tibble, see <code><a href="pdr_match.html">p
 <span class="r-in"><span>  summary_stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"px"</span>, <span class="st">"area_prop"</span>, <span class="st">"mean"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  alpha_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (is.na(one_stencil)) {    one_stencil &lt;- NULL}:</span> argument is of length zero</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 50 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id     pdr_data     sex     age duration  pain pdr_data_px pdr_data_area_prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 6d638… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  46   Chronic      6        <span style="text-decoration: underline;">1</span>273            0.005<span style="text-decoration: underline;">66</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> c8b12… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  35.4 Acute        6        <span style="text-decoration: underline;">5</span>058            0.022<span style="text-decoration: underline;">5</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 25062… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  38.4 Acute        5        <span style="text-decoration: underline;">1</span>088            0.004<span style="text-decoration: underline;">84</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0dc65… <span style="color: #949494;">&lt;named list&gt;</span> Male   98   Subacute     3        <span style="text-decoration: underline;">3</span>774            0.016<span style="text-decoration: underline;">8</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> fb61c… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  58.3 Acute        1         469            0.002<span style="text-decoration: underline;">08</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 328d3… <span style="color: #949494;">&lt;named list&gt;</span> Male   68.9 Subacute     7        <span style="text-decoration: underline;">3</span>178            0.014<span style="text-decoration: underline;">1</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> e07d8… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  67.4 Subacute     6        <span style="text-decoration: underline;">1</span>134            0.005<span style="text-decoration: underline;">04</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 9996f… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  53.4 Chronic      9        <span style="text-decoration: underline;">2</span>016            0.008<span style="text-decoration: underline;">96</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 41aa3… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  36.8 Chronic      9         763            0.003<span style="text-decoration: underline;">39</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0bcfd… <span style="color: #949494;">&lt;named list&gt;</span> Fema…  34.9 Subacute     4        <span style="text-decoration: underline;">2</span>209            0.009<span style="text-decoration: underline;">82</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 40 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: pdr_data_mean &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Per stencil (here, two body regions)</span></span></span>
 <span class="r-in"><span><span class="fu">pdr_summarize_rgba</span><span class="op">(</span></span></span>

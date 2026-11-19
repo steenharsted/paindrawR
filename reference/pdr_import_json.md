@@ -34,54 +34,48 @@ input, an empty [`list()`](https://rdrr.io/r/base/list.html).
 Each input file is expected to contain a single pain drawing. Multiple
 files can be provided and will be combined row-wise.
 
-**Expected JSON structure**
+**Supported JSON formats**
 
-The input JSON must conform to the following structure:
+The format is detected per file, so files of different formats can be
+mixed in one call:
 
-- A named list containing metadata for a single pain drawing, including:
+- Schema 1.0 (see `schema/paindraw_schema_1.0.json`): has a
+  `schema_version` key (any `1.x`). Fields: `drawing_id`,
+  `module_version`, `app`, `timestamp`, `width`, `height`, `units`,
+  `template_file`, `template_md5` and `strokes`, where each stroke has
+  `stroke_id`, `draw_input_type`, `tool`, `color`, `line_width`,
+  `spray_density`, `spray_radius`, `alpha`, `scale_factor`,
+  `device_pixel_ratio` and `points` (`[x, y]` pairs).
 
-  - `id` (character): unique drawing identifier
+- Old format (v0.3): no `schema_version`, but the keys `v`, `id`, `w`,
+  `h` and `s`. Fields: `id`, `v`, `w`, `h`, `units`, `tpl`, `app`, `ts`
+  and `s` (strokes, with `strokeId`, `drawInputType`, `tool`,
+  `lineWidth`, `color`, `alpha`, `sprayRadius`, `sprayDensity` and the
+  coordinate list-column `p`).
 
-  - `v`, `w`, `h`, `units`, `ts`, `app`: version, canvas width, canvas
-    height, units, timestamp and app name
-
-  - `s`: stroke data
-
-- `s` must be a data frame where each row represents a stroke and
-  includes:
-
-  - `strokeId`: integer stroke identifier (unique within drawing)
-
-  - `drawInputType`, `tool`, `lineWidth`, `color`, `alpha`,
-    `sprayRadius`, `sprayDensity`: stroke properties
-
-  - `p`: list-column of coordinate matrices
-
-- Each element of `p` must be an integer matrix with two columns:
-
-  - column 1: x-coordinates
-
-  - column 2: y-coordinates
+A file in neither format (or with an unsupported `schema_version`) gives
+a warning and an empty placeholder row, as for invalid JSON.
 
 **Transformation details**
 
-- The metadata fields are renamed to the pdr_drawing elements `.id`,
-  `.version` (`v`), `.width` (`w`), `.height` (`h`), `.units`,
-  `.timestamp` (`ts`) and `.app`; `.file` is set to the file path. Other
-  fields are dropped.
+Both formats give the same result:
 
-- Coordinates in `p` are converted into the `.points` tibble with
-  columns `.index` (the position of the stroke in `s`), `.x` and `.y`.
+- The metadata fields are renamed to the pdr_drawing elements `.id`
+  (`id` / `drawing_id`), `.version` (`v` / `module_version`), `.width`,
+  `.height`, `.units`, `.timestamp`, `.app` and `.template_file` (`tpl`
+  / `template_file`); `.file` is set to the file path. Other fields are
+  dropped. `.template_file` is `NA` if the file has no template name.
+
+- Coordinates are converted into the `.points` tibble with columns
+  `.index` (the position of the stroke in the file), `.x` and `.y`.
 
 - The y-axis is flipped using the drawing height (`.height`) so that the
   origin is in the lower left corner.
 
 - The remaining stroke properties are stored in the `.strokes` tibble,
-  with renamed columns: `strokeId` becomes `.index`, `drawInputType`
-  becomes `.draw_input_type`, `tool` becomes `.tool`, `lineWidth`
-  becomes `.tool_width`, `color` becomes `.color`, `alpha` becomes
-  `.alpha`, `sprayRadius` becomes `.spray_radius` and `sprayDensity`
-  becomes `.point_density`.
+  with columns `.index`, `.draw_input_type`, `.tool`, `.tool_width`,
+  `.color`, `.alpha`, `.spray_radius` and `.point_density`. Pen strokes
+  in schema 1.0 have `NA` for the spray columns.
 
 **Failure handling**
 
@@ -111,15 +105,15 @@ pdr_import_json(json_file)
 #> # A tibble: 1 × 2
 #>   pdr_data          id                          
 #>   <list>            <chr>                       
-#> 1 <named list [10]> PID4193-R1F-palmar-E13885-I1
+#> 1 <named list [11]> PID4193-R1F-palmar-E13885-I1
 
 # Load multiple files (here, the same file twice)
 pdr_import_json(c(json_file, json_file))
 #> # A tibble: 2 × 2
 #>   pdr_data          id                          
 #>   <list>            <chr>                       
-#> 1 <named list [10]> PID4193-R1F-palmar-E13885-I1
-#> 2 <named list [10]> PID4193-R1F-palmar-E13885-I1
+#> 1 <named list [11]> PID4193-R1F-palmar-E13885-I1
+#> 2 <named list [11]> PID4193-R1F-palmar-E13885-I1
 
 # Plot imported data
 pdr_import_json(json_file) |>

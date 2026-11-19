@@ -47,9 +47,9 @@ If `pdr_col` holds only one drawing, it is returned as is (as the
 pdr_list pulled from `.data`, not as a pdr_tibble). If the drawings have
 different `.units`, a warning is given and `NA` is returned. If they
 have different canvas widths or heights, a warning is given and the
-maximum width and height are used. For `.file`, `.version` and `.app`
-the common value is kept if unique, otherwise `"multiple"`. `.timestamp`
-is the maximum of the inputs. See
+maximum width and height are used. For `.file`, `.version`, `.app` and
+`.template_file` the common value is kept if unique, otherwise
+`"multiple"`. `.timestamp` is the maximum of the inputs. See
 [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)
 for the terminology (pdr_tibble, pdr_list, pdr_drawing).
 
@@ -60,7 +60,7 @@ pdr_example_data |> pdr_implode_xy()
 #> # A tibble: 1 × 2
 #>   id                                  pdr_data         
 #>   <chr>                               <list>           
-#> 1 imploded_2026-11-19 09:30:45.180295 <named list [10]>
+#> 1 imploded_2026-11-19 15:55:07.476469 <named list [11]>
 
 # Compare plots of three original drawings and the imploded drawing
 bg <- pdr_example_file("bg_zealand.png")

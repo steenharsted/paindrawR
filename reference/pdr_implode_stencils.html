@@ -79,7 +79,7 @@ result should be a single drawing per group. All input drawings must have
 <code>.stencil</code> elements (see <code><a href="pdr_add_stencil.html">pdr_add_stencil()</a></code>) and identical canvas
 dimensions and <code>.units</code>.</p>
 <p>The result holds no strokes or points – it is a stencil, not a drawing.
-<code>.file</code>, <code>.version</code> and <code>.app</code> keep the common value if unique, otherwise
+<code>.file</code>, <code>.version</code>, <code>.app</code> and <code>.template_file</code> keep the common value if unique, otherwise
 <code>"multiple"</code> (or <code>NA</code> for <code>.version</code>). <code>.timestamp</code> is the maximum of the
 inputs (<code>NA</code> if all inputs are <code>NA</code>). The collapsed stencil is also stored
 in the alpha channel of <code>.rgba</code> (as a black image), so that
@@ -98,7 +98,7 @@ in the alpha channel of <code>.rgba</code> (as a black image), so that
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pdr_data         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;named list [13]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;named list [14]&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pdr_stencil_full_body</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
@@ -111,8 +111,8 @@ in the alpha channel of <code>.rgba</code> (as a black image), so that
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   view  pdr_data         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Back  <span style="color: #949494;">&lt;named list [13]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Front <span style="color: #949494;">&lt;named list [13]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Back  <span style="color: #949494;">&lt;named list [14]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Front <span style="color: #949494;">&lt;named list [14]&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

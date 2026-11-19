@@ -104,7 +104,10 @@ pdr_mird2pdr(
 
 A pdr_list (see
 [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md))
-of length `length(mird_pd)`.
+of length `length(mird_pd)`. `.template_file` is set to `"bg_mird.png"`
+(see
+[`pdr_example_file()`](https://steenharsted.github.io/paindrawR/reference/pdr_example_file.md))
+for all drawings.
 
 ## Details
 
@@ -156,7 +159,7 @@ tibble::tibble(id = c("a", "b", "c"), mird = mird) |>
 #> # A tibble: 3 × 3
 #>   id    mird                                        pdr_data         
 #>   <chr> <chr>                                       <list>           
-#> 1 a     (,460,709,463,709,464,719,448,720,449,712,) <named list [10]>
-#> 2 b     (,393,682,430,672,429,682,)                 <named list [10]>
+#> 1 a     (,460,709,463,709,464,719,448,720,449,712,) <named list [11]>
+#> 2 b     (,393,682,430,672,429,682,)                 <named list [11]>
 #> 3 c     NA                                          <lgl [1]>        
 ```

@@ -66,34 +66,36 @@ JSON give an empty <code><a href="https://rdrr.io/r/base/list.html" class="exter
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Each input file is expected to contain a single pain drawing. Multiple files
 can be provided and will be combined row-wise.</p>
-<p><strong>Expected JSON structure</strong></p>
-<p>The input JSON must conform to the following structure:</p><ul><li><p>A named list containing metadata for a single pain drawing, including:</p><ul><li><p><code>id</code> (character): unique drawing identifier</p></li>
-<li><p><code>v</code>, <code>w</code>, <code>h</code>, <code>units</code>, <code>ts</code>, <code>app</code>: version, canvas width, canvas
-height, units, timestamp and app name</p></li>
-<li><p><code>s</code>: stroke data</p></li>
-</ul></li>
-<li><p><code>s</code> must be a data frame where each row represents a stroke and includes:</p><ul><li><p><code>strokeId</code>: integer stroke identifier (unique within drawing)</p></li>
-<li><p><code>drawInputType</code>, <code>tool</code>, <code>lineWidth</code>, <code>color</code>, <code>alpha</code>, <code>sprayRadius</code>,
-<code>sprayDensity</code>: stroke properties</p></li>
-<li><p><code>p</code>: list-column of coordinate matrices</p></li>
-</ul></li>
-<li><p>Each element of <code>p</code> must be an integer matrix with two columns:</p><ul><li><p>column 1: x-coordinates</p></li>
-<li><p>column 2: y-coordinates</p></li>
-</ul></li>
-</ul><p><strong>Transformation details</strong></p><ul><li><p>The metadata fields are renamed to the pdr_drawing elements <code>.id</code>,
-<code>.version</code> (<code>v</code>), <code>.width</code> (<code>w</code>), <code>.height</code> (<code>h</code>), <code>.units</code>,
-<code>.timestamp</code> (<code>ts</code>) and <code>.app</code>; <code>.file</code> is set to the file path. Other
-fields are dropped.</p></li>
-<li><p>Coordinates in <code>p</code> are converted into the <code>.points</code> tibble with columns
-<code>.index</code> (the position of the stroke in <code>s</code>), <code>.x</code> and <code>.y</code>.</p></li>
+<p><strong>Supported JSON formats</strong></p>
+<p>The format is detected per file, so files of different formats can be
+mixed in one call:</p><ul><li><p>Schema 1.0 (see <code>schema/paindraw_schema_1.0.json</code>): has a
+<code>schema_version</code> key (any <code>1.x</code>). Fields: <code>drawing_id</code>, <code>module_version</code>,
+<code>app</code>, <code>timestamp</code>, <code>width</code>, <code>height</code>, <code>units</code>, <code>template_file</code>,
+<code>template_md5</code> and <code>strokes</code>, where each stroke has <code>stroke_id</code>,
+<code>draw_input_type</code>, <code>tool</code>, <code>color</code>, <code>line_width</code>, <code>spray_density</code>,
+<code>spray_radius</code>, <code>alpha</code>, <code>scale_factor</code>, <code>device_pixel_ratio</code> and
+<code>points</code> (<code>[x, y]</code> pairs).</p></li>
+<li><p>Old format (v0.3): no <code>schema_version</code>, but the keys <code>v</code>, <code>id</code>, <code>w</code>, <code>h</code>
+and <code>s</code>. Fields: <code>id</code>, <code>v</code>, <code>w</code>, <code>h</code>, <code>units</code>, <code>tpl</code>, <code>app</code>, <code>ts</code> and <code>s</code>
+(strokes, with <code>strokeId</code>, <code>drawInputType</code>, <code>tool</code>, <code>lineWidth</code>, <code>color</code>,
+<code>alpha</code>, <code>sprayRadius</code>, <code>sprayDensity</code> and the coordinate list-column
+<code>p</code>).</p></li>
+</ul><p>A file in neither format (or with an unsupported <code>schema_version</code>) gives a
+warning and an empty placeholder row, as for invalid JSON.</p>
+<p><strong>Transformation details</strong></p>
+<p>Both formats give the same result:</p><ul><li><p>The metadata fields are renamed to the pdr_drawing elements <code>.id</code>
+(<code>id</code> / <code>drawing_id</code>), <code>.version</code> (<code>v</code> / <code>module_version</code>), <code>.width</code>,
+<code>.height</code>, <code>.units</code>, <code>.timestamp</code>, <code>.app</code> and <code>.template_file</code> (<code>tpl</code> /
+<code>template_file</code>); <code>.file</code> is set to the file path. Other fields are
+dropped. <code>.template_file</code> is <code>NA</code> if the file has no template name.</p></li>
+<li><p>Coordinates are converted into the <code>.points</code> tibble with columns
+<code>.index</code> (the position of the stroke in the file), <code>.x</code> and <code>.y</code>.</p></li>
 <li><p>The y-axis is flipped using the drawing height (<code>.height</code>) so that the
 origin is in the lower left corner.</p></li>
 <li><p>The remaining stroke properties are stored in the <code>.strokes</code> tibble, with
-renamed columns: <code>strokeId</code> becomes <code>.index</code>, <code>drawInputType</code> becomes
-<code>.draw_input_type</code>, <code>tool</code> becomes <code>.tool</code>, <code>lineWidth</code> becomes
-<code>.tool_width</code>, <code>color</code> becomes <code>.color</code>, <code>alpha</code> becomes <code>.alpha</code>,
-<code>sprayRadius</code> becomes <code>.spray_radius</code> and <code>sprayDensity</code> becomes
-<code>.point_density</code>.</p></li>
+columns <code>.index</code>, <code>.draw_input_type</code>, <code>.tool</code>, <code>.tool_width</code>, <code>.color</code>,
+<code>.alpha</code>, <code>.spray_radius</code> and <code>.point_density</code>. Pen strokes in schema 1.0
+have <code>NA</code> for the spray columns.</p></li>
 </ul><p><strong>Failure handling</strong></p>
 <p>If <code>files</code> is not a character vector (or list coercible to one), or is
 empty, a warning is given and an empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> is returned. A file that does
@@ -116,15 +118,15 @@ columns.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pdr_data          id                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;named list [10]&gt;</span> PID4193-R1F-palmar-E13885-I1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;named list [11]&gt;</span> PID4193-R1F-palmar-E13885-I1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Load multiple files (here, the same file twice)</span></span></span>
 <span class="r-in"><span><span class="fu">pdr_import_json</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">json_file</span>, <span class="va">json_file</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pdr_data          id                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;named list [10]&gt;</span> PID4193-R1F-palmar-E13885-I1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;named list [10]&gt;</span> PID4193-R1F-palmar-E13885-I1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;named list [11]&gt;</span> PID4193-R1F-palmar-E13885-I1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;named list [11]&gt;</span> PID4193-R1F-palmar-E13885-I1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot imported data</span></span></span>
 <span class="r-in"><span><span class="fu">pdr_import_json</span><span class="op">(</span><span class="va">json_file</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>

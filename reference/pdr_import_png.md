@@ -56,10 +56,11 @@ as from
 [`pdr_import_json()`](https://steenharsted.github.io/paindrawR/reference/pdr_import_json.md))
 with one row per file and columns `pdr_data` (a pdr_list of
 pdr_drawings, each containing `.id`, `.file`, `.version`, `.width`,
-`.height`, `.units`, `.timestamp`, `.app`, `.points`, `.strokes` and
-`.rgba`) and `id`. `NA` entries in `files` give `NA` in `pdr_data` and
-`id`. Non-existing files give a warning and `NA` in `pdr_data`, with
-`id` derived from the file name (if `id_from_filename`).
+`.height`, `.units`, `.timestamp`, `.app`, `.template_file`, `.points`,
+`.strokes` and `.rgba`) and `id`. `NA` entries in `files` give `NA` in
+`pdr_data` and `id`. Non-existing files give a warning and `NA` in
+`pdr_data`, with `id` derived from the file name (if
+`id_from_filename`).
 
 ## Details
 
@@ -87,12 +88,12 @@ pdr_import_png(pdr_example_file("bg_full_body.png"))
 #> # A tibble: 1 × 2
 #>   pdr_data          id          
 #>   <list>            <chr>       
-#> 1 <named list [11]> bg_full_body
+#> 1 <named list [12]> bg_full_body
 
 # Treat white pixels as background (alpha 0)
 pdr_import_png(pdr_example_file("bg_full_body.png"), background = "white")
 #> # A tibble: 1 × 2
 #>   pdr_data          id          
 #>   <list>            <chr>       
-#> 1 <named list [11]> bg_full_body
+#> 1 <named list [12]> bg_full_body
 ```
