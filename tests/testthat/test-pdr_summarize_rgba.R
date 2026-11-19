@@ -117,6 +117,25 @@ test_that("area_prop is relative to the stencil area with stencils", {
   expect_equal(inv$pdr_data_left_area_prop, c(4 / 4, 4 / 4))
 })
 
+test_that("a NULL drawing gives NA for px and area_prop", {
+  null_tbl <- tibble::tibble(
+    id = 1:3,
+    pdr_data = list(make_drawing(alpha_mat), NULL, make_drawing(1))
+  )
+
+  res <- pdr_summarize_rgba(null_tbl, summary_stat = c("px", "area_prop"))
+  expect_equal(res$pdr_data_px, c(5, NA, 6))
+  expect_equal(res$pdr_data_area_prop, c(5 / 6, NA, 1))
+
+  res_st <- pdr_summarize_rgba(
+    null_tbl,
+    summary_stat = c("px", "area_prop"),
+    stencils = list(st_left)
+  )
+  expect_equal(res_st$pdr_data_left_px[2], NA_real_)
+  expect_equal(res_st$pdr_data_left_area_prop[2], NA_real_)
+})
+
 # # Synthetic 2 x 3 px drawing; alpha: 0, 0.4, 0.5 / 0.6, 1, 1
 # make_drawing <- function(a, id = "1") {
 #   rgba <- array(0, dim = c(2, 3, 4))

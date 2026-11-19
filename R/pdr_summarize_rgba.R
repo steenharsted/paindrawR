@@ -133,6 +133,8 @@ pdr_summarize_rgba <- function(
 
         if (is_missing) {
           alpha_channel <- NA_integer_
+          # case_when() evaluates every branch, so parent_area must exist
+          parent_area <- NA_real_
         } else {
           alpha_channel <- pdr_drawing$.rgba[,, 4]
           # get the area of the 'parent area' -- either the canvas or stencil
