@@ -83,19 +83,12 @@
 #'   summary_stat = "px",
 #'   stencils = pdr_stencil_full_body$pdr_data[1:2]
 #' )
-pdr_summarize_rgba <- function(
-  .data,
-  pdr_col = pdr_data,
-  summary_stat = "seven",
-  alpha_range = c(0, 1),
-  stencils = NULL,
-  inverted_stencil = FALSE
-) {
+pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven", alpha_range = c(0, 1), stencils = NULL, inverted_stencil = FALSE) {
   ############################
   ##### Helper functions #####
   ############################
 
-  # We must handle both string input, unquaoted col names, and 1 or more at the same time
+  # We must handle both string input, unquoted col names, and 1 or more at the same time
   pdr_col <- names(
     tidyselect::eval_select(
       rlang::enquo(pdr_col),
