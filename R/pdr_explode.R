@@ -57,10 +57,13 @@ pdr_explode <- function(pdr_list) {
   # several new pain drawings/row -- one for each stroke
 
   result <- pdr_list |>
-
     purrr::imap(\(obj, indx) {
       # all stroke indices
-      idx <- obj$.strokes$.index
+      if(identical(NA, obj$.strokes)) {
+        idx <- 1
+      } else {
+        idx <- obj$.strokes$.index
+      }
 
       purrr::map(idx, \(i) {
         # copy original object
@@ -82,7 +85,7 @@ pdr_explode <- function(pdr_list) {
 
         out
       })
-    }) |>
+      }) |>
 
     purrr::list_flatten()
 

@@ -12,9 +12,9 @@ pdr_put_info <- function(pdr_list, replacement, id1 = ".id", id2 = NULL) {
     return(NA)
   }
 
-  if (length(pdr_list) != length(replacement)) {
+  if (length(pdr_list) != length(replacement) && length(replacement) != 1) {
     warning(
-      "Mismatch in length of pdr_list (or sub-element tibble) and replacement"
+      "Mismatch in length of pdr_list (or sub-element tibble) and replacement. Length of replacement may 1"
     )
     return(NA)
   }

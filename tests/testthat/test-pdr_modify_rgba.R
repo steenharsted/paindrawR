@@ -73,10 +73,10 @@ test_that("high_trim sets values above the threshold to 1", {
   expect_true(all(rgba_of(res)[,, 3] == 1))
 })
 
-test_that("trimming uses the default threshold of 0.5", {
+test_that("trimming uses the default threshold of 0", {
   expect_equal(
     pdr_modify_rgba(list(drawing), op = "low_trim"),
-    pdr_modify_rgba(list(drawing), op = "low_trim", threshold = 0.5)
+    pdr_modify_rgba(list(drawing), op = "low_trim", threshold = 0)
   )
 })
 

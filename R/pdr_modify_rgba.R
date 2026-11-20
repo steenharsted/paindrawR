@@ -65,7 +65,7 @@ pdr_modify_rgba <- function(
   op = "",
   stencil = NULL,
   inverted_stencil = FALSE,
-  threshold = 0.5
+  threshold = 0
 ) {
   # Sanity checks -- see stop message for explanation
   if (
@@ -203,6 +203,7 @@ pdr_modify_rgba <- function(
   } else if (op == "apply_stencil") {
     pdr_list <- purrr::map2(pdr_list, stencil, \(pd, st) {
       pd$.rgba[,, 4] <- pd$.rgba[,, 4] * st
+      ## CHANGE THIS TO APPLY TO ALL FOUR CHANNELS
       pd
     })
   } else if (op == "invert_alpha") {

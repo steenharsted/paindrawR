@@ -372,10 +372,10 @@ pdr_summarize_rgba <- function(.data, pdr_col = pdr_data, summary_stat = "seven"
     )
   }
   # Stencils must be a pdr_list
-  if (!pdr_match(stencils, as = "pdr_list")) {
+  if (identical(NA, stencils) || !pdr_match(stencils, as = "pdr_list")) {
     if (!is.null(stencils)) {
       stop(
-        "Parameter 'stencils' is not a valid pdr_list with .stencil elements"
+        "Parameter 'stencils' is not NULL and not a valid pdr_list with .stencil elements"
       )
     }
   }
