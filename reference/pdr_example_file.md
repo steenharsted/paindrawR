@@ -33,12 +33,13 @@ return one as output (see
 pdr_example_file()
 #>  [1] "1_palmar.json"               "LibreCAD_test_1.dxf"        
 #>  [3] "bg_feet.png"                 "bg_full_body.png"           
-#>  [5] "bg_full_body_woman.png"      "bg_full_body_woman_hair.png"
-#>  [7] "bg_head.png"                 "bg_legs.png"                
-#>  [9] "bg_lower_arm_dorsal.png"     "bg_lower_arm_palmar.png"    
-#> [11] "bg_lower_leg.png"            "bg_mird.png"                
-#> [13] "bg_spiral.png"               "bg_spiral_grey.png"         
-#> [15] "bg_square_paper.png"         "bg_zealand.png"             
+#>  [5] "bg_full_body_man.png"        "bg_full_body_woman.png"     
+#>  [7] "bg_full_body_woman_hair.png" "bg_head.png"                
+#>  [9] "bg_legs.png"                 "bg_lower_arm_dorsal.png"    
+#> [11] "bg_lower_arm_palmar.png"     "bg_lower_leg.png"           
+#> [13] "bg_mird.png"                 "bg_spiral.png"              
+#> [15] "bg_spiral_grey.png"          "bg_square_paper.png"        
+#> [17] "bg_zealand.png"             
 
 # Get the absolute path to a file in the _example files_
 # folder

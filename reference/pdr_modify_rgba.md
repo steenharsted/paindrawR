@@ -19,7 +19,7 @@ pdr_modify_rgba(
   op = "",
   stencil = NULL,
   inverted_stencil = FALSE,
-  threshold = 0.5
+  threshold = 0
 )
 ```
 
