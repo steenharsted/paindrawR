@@ -236,6 +236,36 @@ test_that("spray dots are squares with side equal to the tool width", {
   )
 })
 
+# One drawing holding a single pen stroke with one coordinate
+one_coord_pd <- function(width) {
+  pd <- pdr_example_data[1, ]
+  drawing <- pd$pdr_data[[1]]
+  drawing$.strokes <- drawing$.strokes[1, ]
+  drawing$.strokes$.tool_width <- as.integer(width)
+  drawing$.points <- tibble::tibble(.x = 225L, .y = 250L, .index = 1L)
+  pd$pdr_data[[1]] <- drawing
+  pd
+}
+
+test_that("pen strokes with one coordinate plot without warnings", {
+  pd <- one_coord_pd(20)
+
+  expect_no_warning(pdr_plot_xy(pd))
+  expect_no_warning(pdr_plot_xy(pd, rasterize = FALSE))
+  expect_no_warning(pdr_plot_xy(pd, polygon = "both", rasterize = FALSE))
+})
+
+test_that("one-coordinate pen strokes are dots with diameter equal to the tool width", {
+  for (w in c(10, 20, 40)) {
+    p <- pdr_plot_xy(one_coord_pd(w))
+    alpha <- grDevices::col2rgb(p$layers[[1]]$geom_params$raster, alpha = TRUE)[
+      4,
+    ]
+
+    expect_equal(sum(alpha) / 255, pi * (w / 2)^2, tolerance = 0.05)
+  }
+})
+
 # Comparison with the REDCap PNG export, which contains background AND drawing.
 # Spray jitter is random, so only footprint and ink are compared, with tolerance.
 png_ink <- function(img, bg) {

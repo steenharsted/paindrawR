@@ -255,7 +255,10 @@ pdr_plot_xy <- function(
   if (nrow(pdr_pen_points) > 0) {
     pdr_base <- pdr_base +
       ggplot2::geom_point(
-        data = pdr_pen_points
+        data = pdr_pen_points,
+        aes(size = .tool_width * 72 / (0.75 * render_dpi * ggplot2::.pt)),
+        shape = 16,
+        stroke = 0
       )
   }
 
