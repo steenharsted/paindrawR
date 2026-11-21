@@ -147,7 +147,17 @@ pdr_plot_xy <- function(
   ## We achieve this by making a coordinate set for Spray and Pen, respectively
 
   pdr_pen <- .data |>
-    dplyr::filter(.tool == "pen")
+    dplyr::filter(.tool == "pen") |>
+    dplyr::add_count(.id, .index)
+
+  # Counts == 1 indicate single coordinate point
+  # These will be plotted as points
+  # Both geom_path and geom_polygon will otherwise remove them
+  pdr_pen_points <- pdr_pen |>
+    dplyr::filter(n == 1)
+
+  pdr_pen <- pdr_pen |>
+    dplyr::filter(n > 1)
 
   pdr_spray <- .data |>
     dplyr::filter(.tool == "spray")
@@ -238,6 +248,14 @@ pdr_plot_xy <- function(
         linetype = 1,
         lineend = "round",
         linejoin = "round"
+      )
+  }
+
+  # Add single point pen strokes as points if they exist
+  if (nrow(pdr_pen_points) > 0) {
+    pdr_base <- pdr_base +
+      ggplot2::geom_point(
+        data = pdr_pen_points
       )
   }
 
