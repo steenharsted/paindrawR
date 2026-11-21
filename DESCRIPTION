@@ -1,7 +1,7 @@
 Package: paindrawR
 Type: Package
 Title: Quantification of pain drawings
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person(
       "Steen", "Harsted",
