@@ -119,21 +119,17 @@ to plot the arrays.
 ``` r
 pd <- pdr_example_data |>
   dplyr::mutate(pdr_data = pdr_add_rgba(pdr_data))
-#> `geom_path()`: Each group consists of only one observation.
-#> ℹ Do you need to adjust the group aesthetic?
 
 # Default: the "seven" statistics across all drawn pixels
 pdr_summarize_rgba(pd)
-#> Warning: no non-missing arguments to min; returning Inf
-#> Warning: no non-missing arguments to max; returning -Inf
 #> # A tibble: 50 × 13
 #>    id          pdr_data     sex     age duration  pain pdr_data_px pdr_data_mean
 #>    <chr>       <list>       <fct> <dbl> <fct>    <dbl>       <dbl>         <dbl>
 #>  1 6d63804892… <named list> Fema…  46   Chronic      6        1452         0.814
-#>  2 c8b12cd45d… <named list> Fema…  35.4 Acute        6        5724         0.827
-#>  3 25062ac7db… <named list> Fema…  38.4 Acute        5        1242         0.852
+#>  2 c8b12cd45d… <named list> Fema…  35.4 Acute        6        5724         0.828
+#>  3 25062ac7db… <named list> Fema…  38.4 Acute        5        1269         0.854
 #>  4 0dc657fa6e… <named list> Male   98   Subacute     3        4258         0.815
-#>  5 fb61c33ffa… <named list> Fema…  58.3 Acute        1         523         0.841
+#>  5 fb61c33ffa… <named list> Fema…  58.3 Acute        1         619         0.804
 #>  6 328d315032… <named list> Male   68.9 Subacute     7        3500         0.847
 #>  7 e07d8d7e70… <named list> Fema…  67.4 Subacute     6        1297         0.817
 #>  8 9996f1a95c… <named list> Fema…  53.4 Chronic      9        2343         0.815
@@ -153,10 +149,10 @@ pdr_summarize_rgba(
 #>    id     pdr_data     sex     age duration  pain pdr_data_px pdr_data_area_prop
 #>    <chr>  <list>       <fct> <dbl> <fct>    <dbl>       <dbl>              <dbl>
 #>  1 6d638… <named list> Fema…  46   Chronic      6        1273            0.00566
-#>  2 c8b12… <named list> Fema…  35.4 Acute        6        5058            0.0225 
-#>  3 25062… <named list> Fema…  38.4 Acute        5        1088            0.00484
+#>  2 c8b12… <named list> Fema…  35.4 Acute        6        5062            0.0225 
+#>  3 25062… <named list> Fema…  38.4 Acute        5        1111            0.00494
 #>  4 0dc65… <named list> Male   98   Subacute     3        3774            0.0168 
-#>  5 fb61c… <named list> Fema…  58.3 Acute        1         469            0.00208
+#>  5 fb61c… <named list> Fema…  58.3 Acute        1         517            0.00230
 #>  6 328d3… <named list> Male   68.9 Subacute     7        3178            0.0141 
 #>  7 e07d8… <named list> Fema…  67.4 Subacute     6        1134            0.00504
 #>  8 9996f… <named list> Fema…  53.4 Chronic      9        2016            0.00896
