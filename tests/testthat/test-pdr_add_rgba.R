@@ -85,6 +85,36 @@ test_that("pen strokes are drawn .tool_width pixels wide", {
   expect_equal(line_width_px(5, method = "file"), 5, tolerance = 0.02)
 })
 
+one_coord_drawing <- function(width) {
+  dr <- pen_drawing
+  dr$.strokes <- dr$.strokes[1, ]
+  dr$.strokes$.tool_width <- as.integer(width)
+  dr$.strokes$.alpha <- 1
+  dr$.strokes$.color <- "#000000"
+  dr$.points <- tibble::tibble(
+    .x = 225L,
+    .y = 250L,
+    .index = dr$.strokes$.index
+  )
+  dr
+}
+
+test_that("pen strokes with one coordinate plot without warnings", {
+  dr <- one_coord_drawing(20)
+
+  expect_no_warning(pdr_add_rgba(dr))
+  expect_no_warning(pdr_add_rgba(dr, method = "file"))
+  expect_no_warning(pdr_add_rgba(dr, polygon = "both"))
+})
+
+test_that("one-coordinate pen strokes are dots with diameter equal to the tool width", {
+  for (w in c(10, 20, 40)) {
+    a <- alpha_of(pdr_add_rgba(one_coord_drawing(w), rgba_only = TRUE)$.rgba)
+
+    expect_equal(sum(a), pi * (w / 2)^2, tolerance = 0.05)
+  }
+})
+
 test_that("spray dots are .tool_width squares around a uniform-radius point", {
   # One spray point, many dots; all dots lie within spray_radius + half a dot
   dr <- spray_drawing(1)
