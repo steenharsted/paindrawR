@@ -60,7 +60,7 @@ pdr_example_data |> pdr_implode_xy()
 #> # A tibble: 1 × 2
 #>   id                                  pdr_data         
 #>   <chr>                               <list>           
-#> 1 imploded_2026-11-21 19:29:40.831192 <named list [11]>
+#> 1 imploded_2026-11-22 21:04:55.874164 <named list [11]>
 
 # Compare plots of three original drawings and the imploded drawing
 bg <- pdr_example_file("bg_zealand.png")
