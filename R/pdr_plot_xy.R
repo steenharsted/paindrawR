@@ -148,13 +148,23 @@ pdr_plot_xy <- function(
 
   pdr_pen <- .data |>
     dplyr::filter(.tool == "pen") |>
-    dplyr::add_count(.id, .index)
+    dplyr::mutate(
+      n = paste(.x, ",", .y),
+      n = unique(n) |> length(),
+      .by = c(.id, .index)
+    )
 
-  # Counts == 1 indicate single coordinate point
+  # n == 1 indicate either single coordinate point or
+  # two or more points in the same stroke with identical coordinates
+  # Both geom_path and geom_polygon will remove single coordinate points (with a warning)
+  # or plot zero length lines that will not be rendered (no warning)
+  # the fix is plot these as points
+
   # These will be plotted as points
-  # Both geom_path and geom_polygon will otherwise remove them
   pdr_pen_points <- pdr_pen |>
     dplyr::filter(n == 1)
+
+  print(pdr_pen_points)
 
   pdr_pen <- pdr_pen |>
     dplyr::filter(n > 1)
