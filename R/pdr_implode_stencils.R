@@ -20,8 +20,9 @@
 #' @param pdr_list A pdr_list (see [pdr_match()]) where every pdr_drawing
 #'   has a `.stencil` element (see [pdr_add_stencil()]). All drawings must
 #'   have identical `.width`, `.height` and `.units`.
-#' @param id The `.id` of the resulting pdr_drawing. If `NULL` (default),
-#'   `"collapsed_<time>"` is used.
+#' @param id The `.id` of the resulting pdr_drawing. If `NULL` (default), the
+#'   tokens (split on non-alphanumeric characters) shared by all input `.id`s
+#'   are joined with `"_"`. If there are none, `"collapsed_<time>"` is used.
 #'
 #' @returns A pdr_list of length 1 with a single pdr_drawing whose `.stencil`
 #'   is the union of the input stencils and whose `.stencil_inverted` is its
@@ -97,7 +98,14 @@ pdr_implode_stencils <- function(pdr_list, id = NULL) {
 
   timestamps <- stats::na.omit(purrr::map_chr(pdr_list, ".timestamp"))
   if (is.null(id)) {
-    id <- paste0("collapsed_", Sys.time())
+    ids <- stats::na.omit(purrr::map_chr(pdr_list, ".id"))
+    common <- Reduce(intersect, strsplit(ids, "[^[:alnum:]]+"))
+    common <- common[nzchar(common)]
+    id <- if (length(common) > 0) {
+      paste0("imploded_", paste(common, collapse = "_"))
+    } else {
+      paste0("imploded_", Sys.time())
+    }
   }
 
   rgba <- array(0, dim = c(heights[[1]], widths[[1]], 4))

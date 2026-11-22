@@ -115,6 +115,31 @@ test_that("one-coordinate pen strokes are dots with diameter equal to the tool w
   }
 })
 
+test_that("a stroke with two identical points is drawn as one dot per point", {
+  dr <- one_coord_drawing(20)
+  dr$.points <- tibble::tibble(
+    .x = c(225L, 225L),
+    .y = c(250L, 250L),
+    .index = dr$.strokes$.index
+  )
+
+  expect_no_warning(pdr_add_rgba(dr))
+  expect_no_warning(pdr_add_rgba(dr, method = "file"))
+  expect_no_warning(pdr_add_rgba(dr, polygon = "both"))
+
+  a <- alpha_of(pdr_add_rgba(dr, rgba_only = TRUE)$.rgba)
+  expect_equal(sum(a), pi * 10^2, tolerance = 0.05)
+
+  # Semi-transparent: two stamps at the same place are more opaque than one
+  dr$.strokes$.alpha <- 0.5
+  two <- pdr_add_rgba(dr, rgba_only = TRUE)$.rgba
+  dr$.points <- dr$.points[1, ]
+  one <- pdr_add_rgba(dr, rgba_only = TRUE)$.rgba
+
+  expect_equal(max(alpha_of(one)), 0.5, tolerance = 0.02)
+  expect_equal(max(alpha_of(two)), 0.75, tolerance = 0.02)
+})
+
 test_that("spray dots are .tool_width squares around a uniform-radius point", {
   # One spray point, many dots; all dots lie within spray_radius + half a dot
   dr <- spray_drawing(1)

@@ -266,6 +266,32 @@ test_that("one-coordinate pen strokes are dots with diameter equal to the tool w
   }
 })
 
+test_that("a stroke with two identical points is drawn as one dot per point", {
+  pd <- one_coord_pd(20)
+  drawing <- pd$pdr_data[[1]]
+  drawing$.points <- tibble::tibble(
+    .x = c(225L, 225L),
+    .y = c(250L, 250L),
+    .index = 1L
+  )
+  pd$pdr_data[[1]] <- drawing
+
+  expect_no_warning(pdr_plot_xy(pd, rasterize = FALSE))
+  expect_no_warning(pdr_plot_xy(pd, polygon = "both", rasterize = FALSE))
+
+  p <- pdr_plot_xy(pd, rasterize = FALSE)
+  point_layer <- which(layer_geoms(p) == "GeomPoint")
+  expect_length(point_layer, 1)
+  # Each recorded point is a separate stamp, so semi-transparent dots accumulate
+  expect_equal(nrow(ggplot2::ggplot_build(p)$data[[point_layer]]), 2)
+
+  alpha <- grDevices::col2rgb(
+    pdr_plot_xy(pd)$layers[[1]]$geom_params$raster,
+    alpha = TRUE
+  )[4, ]
+  expect_equal(sum(alpha) / 255, pi * 10^2, tolerance = 0.05)
+})
+
 # Comparison with the REDCap PNG export, which contains background AND drawing.
 # Spray jitter is random, so only footprint and ink are compared, with tolerance.
 png_ink <- function(img, bg) {

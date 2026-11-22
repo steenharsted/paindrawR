@@ -185,13 +185,22 @@ pdr_add_rgba <- function(
     dplyr::mutate(lw = .tool_width * 96 / (render_dpi * ggplot2::.pt))
 
   # Split into pen and spray subsets
-  pdr_pen <- dplyr::filter(pd, .tool == "pen") |>
-    dplyr::add_count(.id, .index)
   pdr_spray <- dplyr::filter(pd, .tool == "spray")
 
-  # Counts == 1 indicate single coordinate point
-  # These will be plotted as points
-  # Both geom_path and geom_polygon will otherwise remove them
+  pdr_pen <- pd |>
+    dplyr::filter(.tool == "pen") |>
+    dplyr::mutate(
+      n = paste(.x, ",", .y),
+      n = unique(n) |> length(),
+      .by = c(.id, .index)
+    )
+
+  # n == 1 indicate either single coordinate point or
+  # two or more points in the same stroke with identical coordinates
+  # Both geom_path and geom_polygon will remove single coordinate points (with a warning)
+  # or plot zero length lines that will not be rendered (no warning)
+  # the fix is plot these as points (one per recorded point, so repeated
+  # semi-transparent points accumulate)
   pdr_pen_points <- pdr_pen |>
     dplyr::filter(n == 1)
 

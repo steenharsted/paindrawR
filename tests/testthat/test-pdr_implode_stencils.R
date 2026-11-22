@@ -56,14 +56,35 @@ test_that("overlapping stencils still give a 0/1 union", {
   expect_equal(res[[1]]$.stencil, matrix(c(1, 1, 0, 0, 0, 0), nrow = 2))
 })
 
-test_that("id comes from the id argument or defaults to collapsed_<time>", {
+test_that("id comes from the id argument", {
   res <- pdr_implode_stencils(list(a, b), id = "my_region")
 
   expect_equal(res[[1]]$.id, "my_region")
+})
 
-  res_default <- pdr_implode_stencils(list(a, b))
-  expect_match(res_default[[1]]$.id, "^collapsed_")
-  expect_type(res_default[[1]]$.id, "character")
+test_that("default id is the tokens shared by all input ids", {
+  with_id <- function(id) make_stencil_drawing(id, a$.stencil)
+
+  res <- pdr_implode_stencils(list(
+    with_id("Left_arm_front"),
+    with_id("Left-leg.front")
+  ))
+  expect_equal(res[[1]]$.id, "imploded_Left_front")
+
+  # Order follows the first id
+  res <- pdr_implode_stencils(list(with_id("x_a_b"), with_id("b_a_y")))
+  expect_equal(res[[1]]$.id, "imploded_a_b")
+
+  # Case-sensitive
+  res <- pdr_implode_stencils(list(with_id("Arm_x"), with_id("arm_y")))
+  expect_match(res[[1]]$.id, "^imploded_")
+})
+
+
+test_that("default id falls back to collapsed_<time> if no shared token", {
+  res <- pdr_implode_stencils(list(a, b))
+  expect_match(res[[1]]$.id, "^imploded_")
+  expect_type(res[[1]]$.id, "character")
 })
 
 test_that("metadata common to all inputs is kept, otherwise replaced", {

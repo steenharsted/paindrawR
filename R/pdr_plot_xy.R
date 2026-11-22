@@ -164,8 +164,6 @@ pdr_plot_xy <- function(
   pdr_pen_points <- pdr_pen |>
     dplyr::filter(n == 1)
 
-  print(pdr_pen_points)
-
   pdr_pen <- pdr_pen |>
     dplyr::filter(n > 1)
 
