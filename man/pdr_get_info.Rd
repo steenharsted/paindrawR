@@ -4,26 +4,24 @@
 \alias{pdr_get_info}
 \title{Extract information from pain drawing objects}
 \usage{
-pdr_get_info(pdr_list, id1 = ".id", id2 = NULL)
+pdr_get_info(pdr_list, e1 = ".id", e2 = NULL)
 }
 \arguments{
 \item{pdr_list}{A pdr_list (see \code{\link[=pdr_match]{pdr_match()}}), e.g. the \code{pdr_data}
 column of a pdr_tibble.}
 
-\item{id1}{A string specifying which element of each pdr_drawing to get.
+\item{e1}{A string specifying which element of each pdr_drawing to get.
 Default \code{".id"}.}
 
-\item{id2}{Optional string naming a column within \code{id1} (when \code{id1} is a
+\item{e2}{Optional string naming a column within \code{e1} (when \code{e1} is a
 tibble such as \code{.points} or \code{.strokes}) to extract.}
 }
 \value{
-If \code{id2} is \code{NULL} and \code{id1} is one of \code{.points}, \code{.strokes}, \code{.polygons},
-\code{.rgba} or \code{.stencil}: a list of the same length as \code{pdr_list}, with the
-element from each drawing. If \code{id2} is \code{NULL} and \code{id1} is any other
-element: a vector of the same length as \code{pdr_list}.
-If \code{id2} is given: the column \code{id2} of \code{id1} for each drawing, as a list
-with one element per drawing (simplified to a vector only if every drawing
-contributes exactly one value).
+If \code{e2} is \code{NULL} and \code{e1} is atomic in all drawings, a simplified
+vector of the extracted elements.
+If \code{e2} is \code{NULL} and \code{e1} is non-atomic, an error is raised.
+If \code{e2} is supplied, a list with one element per drawing, containing
+the extracted \code{e2} element from each \code{e1}.
 }
 \description{
 Extracts metadata or variables from a pdr_list (see \code{\link[=pdr_match]{pdr_match()}}), e.g.

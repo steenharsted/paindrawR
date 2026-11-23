@@ -11,8 +11,9 @@ pdr_implode_stencils(pdr_list, id = NULL)
 has a \code{.stencil} element (see \code{\link[=pdr_add_stencil]{pdr_add_stencil()}}). All drawings must
 have identical \code{.width}, \code{.height} and \code{.units}.}
 
-\item{id}{The \code{.id} of the resulting pdr_drawing. If \code{NULL} (default),
-\code{"collapsed_<time>"} is used.}
+\item{id}{The \code{.id} of the resulting pdr_drawing. If \code{NULL} (default), the
+tokens (split on non-alphanumeric characters) shared by all input \code{.id}s
+are joined with \code{"_"}. If there are none, \code{"collapsed_<time>"} is used.}
 }
 \value{
 A pdr_list of length 1 with a single pdr_drawing whose \code{.stencil}

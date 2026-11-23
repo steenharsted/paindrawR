@@ -29,7 +29,7 @@ test_that("atomic elements can be replaced", {
   result <- pdr_put_info(
     pdr_list,
     replacement = c("new_1", "new_2"),
-    id1 = ".id"
+    e1 = ".id"
   )
 
   expect_identical(result[[1]]$.id, "new_1")
@@ -41,12 +41,12 @@ test_that("atomic elements can be replaced", {
 })
 
 
-test_that("non-atomic elements can be modified through id2", {
+test_that("non-atomic elements can be modified through e2", {
 
   result <- pdr_put_info(
     pdr_list,
     replacement = c("new1.svg", "new2.svg"),
-    id1 = ".filename"
+    e1 = ".filename"
   )
 
   # Direct replacement of another atomic element
@@ -63,8 +63,8 @@ test_that("nested tibble columns can be replaced", {
       c(100, 200, 300),
       c(400, 500, 600)
     ),
-    id1 = ".strokes",
-    id2 = "x"
+    e1 = ".strokes",
+    e2 = "x"
   )
 
   expect_identical(
@@ -90,7 +90,7 @@ test_that("a single replacement is recycled", {
   result <- pdr_put_info(
     pdr_list,
     replacement = "same_value",
-    id1 = ".id"
+    e1 = ".id"
   )
 
   expect_identical(result[[1]]$.id, "same_value")
@@ -98,21 +98,21 @@ test_that("a single replacement is recycled", {
 })
 
 
-test_that("missing id1 produces an error", {
+test_that("missing e1 produces an error", {
   expect_error(
     pdr_put_info(pdr_list, replacement = "new_value"),
-    "Parameter 'id1' must be specified"
+    "Parameter 'e1' must be specified"
   )
 })
 
-test_that("missing id2 for non-atomic elements produces an error", {
+test_that("missing e2 for non-atomic elements produces an error", {
   expect_error(
     pdr_put_info(
       pdr_list,
       replacement = "new_value",
-      id1 = ".strokes"
+      e1 = ".strokes"
     ),
-    "Parameter 'id2' must be specified"
+    "Parameter 'e2' must be specified"
   )
 })
 
@@ -121,7 +121,7 @@ test_that("incompatible replacement length produces an error", {
     pdr_put_info(
       pdr_list,
       replacement = c("a", "b", "c"),
-      id1 = ".id"
+      e1 = ".id"
     ),
     "Mismatch in length"
   )
@@ -135,7 +135,7 @@ test_that("the original list is not modified", {
   result <- pdr_put_info(
     pdr_list,
     replacement = c("new_1", "new_2"),
-    id1 = ".id"
+    e1 = ".id"
   )
 
   expect_identical(pdr_list, original)

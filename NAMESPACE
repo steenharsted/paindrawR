@@ -17,6 +17,7 @@ export(pdr_plot_rgba)
 export(pdr_plot_rgba_heatmap)
 export(pdr_plot_stencil)
 export(pdr_plot_xy)
+export(pdr_put_info)
 export(pdr_summarize_rgba)
 importFrom(cli,
   cli_abort,

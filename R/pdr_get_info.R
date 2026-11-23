@@ -1,26 +1,25 @@
 #' Extract information from pain drawing objects
 #'
-#' Extracts metadata or variables from a pdr_list (see [pdr_match()]), e.g.
-#' the list-column `pdr_data`. Simple elements (such as `".id"` or
-#' `".timestamp"`) are returned as a vector, whereas the nested elements
-#' `.points`, `.strokes`, `.polygons`, `.rgba` and `.stencil` are returned as
-#' a list with one element per pdr_drawing.
+#' Extracts variables from a pdr_list (see [pdr_match()]). Simple 
+#' elements (such as `".id"` or `".timestamp"`) are returned as 
+#' a vector, whereas non-atomic elements like `.points` or `.strokes`, 
+#' or any subelement like `.x` or `.tool` are returned as a list with 
+#' one element per pdr_drawing. 
 #'
 #' @param pdr_list A pdr_list (see [pdr_match()]), e.g. the `pdr_data`
 #'   column of a pdr_tibble.
-#' @param id1 A string specifying which element of each pdr_drawing to get.
+#' @param e1 A string specifying which element of each pdr_drawing to get.
 #'   Default `".id"`.
-#' @param id2 Optional string naming a column within `id1` (when `id1` is a
+#' @param e2 Optional string naming a column within `e1` (when `e1` is a
 #'   tibble such as `.points` or `.strokes`) to extract.
 #'
 #' @returns
-#' If `id2` is `NULL` and `id1` is one of `.points`, `.strokes`, `.polygons`,
-#' `.rgba` or `.stencil`: a list of the same length as `pdr_list`, with the
-#' element from each drawing. If `id2` is `NULL` and `id1` is any other
-#' element: a vector of the same length as `pdr_list`.
-#' If `id2` is given: the column `id2` of `id1` for each drawing, as a list
-#' with one element per drawing (simplified to a vector only if every drawing
-#' contributes exactly one value).
+#' If `e2` is `NULL` and `e1` is atomic in all drawings, a simplified
+#' vector of the extracted elements.
+#' If `e2` is `NULL` and `e1` is non-atomic, a list with one element 
+#' (`e1`) is returned for each pain drawing.
+#' If `e2` (and `e1`) is supplied, a list with one element per drawing, 
+#' containing the extracted `e2` element from each `e1`.
 #'
 #' @examples
 #' # Extract ids (a vector)
@@ -35,35 +34,38 @@
 #'
 #' @export
 
-pdr_get_info <- function(pdr_list, id1 = ".id", id2 = NULL) {
+pdr_get_info <- function(pdr_list, e1 = ".id", e2 = NULL) {
   # pdr_list is expected to be a valid data_col list-col
   # elements[1] should be an element name in data_col (list)
   # elements[2] should be an element in var1, if var1 is tibble/list
 
-  if (is.null(id1)) {
-    stop("Parameter 'id1' is NULL.")
+  if (is.null(e1) || length(e1) != 1 || is.na(e1) || !nzchar(e1)) {
+    stop("Parameter 'e1' must be specified as a non-empty character string",
+      call. = FALSE)
   }
 
-  # This is probably not the best way to solve this task.
-  # A better solution is to check the class of element 'id1'
-  # in pdr_list and determine the result on that basis:
-  # a vector, if id1 class is int, num, chr, lgl, etc
-  # a list, if id1 class list, tibble, matrix, array, etc
+  if(length(pdr_list)==0) {
+    stop("Parameter 'pdr_list' is empty (length == 0)", call. = FALSE)
+  }
 
-  if (is.null(id2)) {
-    if (id1 %in% c(".points", ".strokes", ".polygons", ".rgba", ".stencil")) {
-      pdr_list |>
-        purrr::map(id1)
-    } else {
-      pdr_list |>
-        purrr::map(id1) |> # Just the one element
-        purrr::list_simplify(strict = FALSE) # Convert to int, chr, num, ..
-    }
+  e1_is_atomic <- all(pdr_list |> purrr::map_lgl(\(pdr_drawing) {is.atomic(pdr_drawing[[e1]])}))
+
+  result <- 
+    purrr::map(pdr_list, \(pdr_drawing) {
+      if(e1_is_atomic) {
+        pdr_drawing[[e1]]
+      } else {
+        if(is.null(e2) || length(e2) != 1 || is.na(e2) || !nzchar(e2)) {
+          pdr_drawing[[e1]]
+        } else {
+          pdr_drawing[[e1]][[e2]] 
+        }
+      }      
+    }) 
+  
+  if(e1_is_atomic) {
+    purrr::simplify(result) # Return this 
   } else {
-    # Should probably check to see if id2 is in names(id1)
-    pdr_list |>
-      purrr::map(id1) |>
-      purrr::map(~ dplyr::pull(.x, id2)) |>
-      purrr::list_simplify(strict = FALSE)
+    result
   }
 }
