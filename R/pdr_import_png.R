@@ -89,15 +89,30 @@ pdr_import_png <- function(
       rgba <- to_rgba(img, file)
 
       # Without an alpha channel, background pixels become fully transparent
+      # if (!is.null(background) && !has_alpha) {
+      #   is_bg <- abs(rgba[,, 1] - bg_rgb[1]) <= background_tolerance + 1e-9 &
+      #     abs(rgba[,, 2] - bg_rgb[2]) <= background_tolerance + 1e-9 &
+      #     abs(rgba[,, 3] - bg_rgb[3]) <= background_tolerance + 1e-9
+      #   rgba[,, 4][is_bg] <- 0
+      # }
+
       if (!is.null(background) && !has_alpha) {
-        is_bg <- abs(rgba[,, 1] - bg_rgb[1]) <= background_tolerance + 1e-9 &
-          abs(rgba[,, 2] - bg_rgb[2]) <= background_tolerance + 1e-9 &
-          abs(rgba[,, 3] - bg_rgb[3]) <= background_tolerance + 1e-9
-        rgba[,, 4][is_bg] <- 0
+        # Define limits for each channel based on bg_rgb and tolerance
+        bg_rgb_lo_limit <- bg_rgb - background_tolerance + 0.0
+        bg_rgb_hi_limit <- bg_rgb + background_tolerance + 0.0
+      
+        # Determine, pixel-by-pixel, whether all three channels 
+        # are within the limits -- if TRUE it is part of background
+        is_not_bg <- 
+          (rgba[,,1] > bg_rgb_hi_limit[1] | rgba[,,1] < bg_rgb_lo_limit[1]) |
+          (rgba[,,2] > bg_rgb_hi_limit[2] | rgba[,,2] < bg_rgb_lo_limit[2]) |
+          (rgba[,,3] > bg_rgb_hi_limit[3] | rgba[,,3] < bg_rgb_lo_limit[3]) 
+        rgba[,, 4] <- is_not_bg + 0L # Convert from logical to integer
       }
 
       # Make transparent pixels black (rather than transparent white)
       rgba[,, 1:3][rgba[,, 4] == 0] <- 0
+      # ... why? (SON)
 
       list(
         .id = if (id_from_filename) {
