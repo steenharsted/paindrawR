@@ -20,7 +20,7 @@ json_files[5] <- "Not_a_file_that_exists.json"
 # Data from png
 png_files <- list.files(
   "tests/testthat/fixtures/png",
-  pattern = "png$",
+  pattern = "(palmar_png|rgba.*_4ch)\\.png$",
   full.names = TRUE
 )
 

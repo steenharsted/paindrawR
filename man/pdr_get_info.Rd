@@ -19,16 +19,17 @@ tibble such as \code{.points} or \code{.strokes}) to extract.}
 \value{
 If \code{e2} is \code{NULL} and \code{e1} is atomic in all drawings, a simplified
 vector of the extracted elements.
-If \code{e2} is \code{NULL} and \code{e1} is non-atomic, an error is raised.
-If \code{e2} is supplied, a list with one element per drawing, containing
-the extracted \code{e2} element from each \code{e1}.
+If \code{e2} is \code{NULL} and \code{e1} is non-atomic, a list with one element
+(\code{e1}) is returned for each pain drawing.
+If \code{e2} (and \code{e1}) is supplied, a list with one element per drawing,
+containing the extracted \code{e2} element from each \code{e1}.
 }
 \description{
-Extracts metadata or variables from a pdr_list (see \code{\link[=pdr_match]{pdr_match()}}), e.g.
-the list-column \code{pdr_data}. Simple elements (such as \code{".id"} or
-\code{".timestamp"}) are returned as a vector, whereas the nested elements
-\code{.points}, \code{.strokes}, \code{.polygons}, \code{.rgba} and \code{.stencil} are returned as
-a list with one element per pdr_drawing.
+Extracts variables from a pdr_list (see \code{\link[=pdr_match]{pdr_match()}}). Simple
+elements (such as \code{".id"} or \code{".timestamp"}) are returned as
+a vector, whereas non-atomic elements like \code{.points} or \code{.strokes},
+or any subelement like \code{.x} or \code{.tool} are returned as a list with
+one element per pdr_drawing.
 }
 \examples{
 # Extract ids (a vector)
