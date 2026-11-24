@@ -23,8 +23,10 @@ pdr_implode_stencils(pdr_list, id = NULL)
 
 - id:
 
-  The `.id` of the resulting pdr_drawing. If `NULL` (default),
-  `"collapsed_<time>"` is used.
+  The `.id` of the resulting pdr_drawing. If `NULL` (default), the
+  tokens (split on non-alphanumeric characters) shared by all input
+  `.id`s are joined with `"_"`. If there are none, `"collapsed_<time>"`
+  is used.
 
 ## Value
 

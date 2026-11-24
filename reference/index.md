@@ -77,3 +77,5 @@ Example data and files
   : Check or coerce pain drawing data types
 - [`pdr_get_info()`](https://steenharsted.github.io/paindrawR/reference/pdr_get_info.md)
   : Extract information from pain drawing objects
+- [`pdr_put_info()`](https://steenharsted.github.io/paindrawR/reference/pdr_put_info.md)
+  : Replace information in a pain drawing list-column

@@ -62,8 +62,9 @@ have identical <code>.width</code>, <code>.height</code> and <code>.units</code>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>The <code>.id</code> of the resulting pdr_drawing. If <code>NULL</code> (default),
-<code>"collapsed_&lt;time&gt;"</code> is used.</p></dd>
+<dd><p>The <code>.id</code> of the resulting pdr_drawing. If <code>NULL</code> (default), the
+tokens (split on non-alphanumeric characters) shared by all input <code>.id</code>s
+are joined with <code>"_"</code>. If there are none, <code>"collapsed_&lt;time&gt;"</code> is used.</p></dd>
 
 </dl></div>
     <div class="section level2">

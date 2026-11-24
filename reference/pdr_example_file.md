@@ -38,8 +38,8 @@ pdr_example_file()
 #>  [9] "bg_head.png"                 "bg_legs.png"                
 #> [11] "bg_lower_arm_dorsal.png"     "bg_lower_arm_palmar.png"    
 #> [13] "bg_lower_leg.png"            "bg_mird.png"                
-#> [15] "bg_spiral.png"               "bg_square_paper.png"        
-#> [17] "bg_zealand.png"             
+#> [15] "bg_spiral.png"               "bg_spiral_grey.png"         
+#> [17] "bg_square_paper.png"         "bg_zealand.png"             
 
 # Get the absolute path to a file in the _example files_
 # folder

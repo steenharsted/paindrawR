@@ -1,16 +1,16 @@
 # Extract information from pain drawing objects
 
-Extracts metadata or variables from a pdr_list (see
-[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)),
-e.g. the list-column `pdr_data`. Simple elements (such as `".id"` or
-`".timestamp"`) are returned as a vector, whereas the nested elements
-`.points`, `.strokes`, `.polygons`, `.rgba` and `.stencil` are returned
-as a list with one element per pdr_drawing.
+Extracts variables from a pdr_list (see
+[`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)).
+Simple elements (such as `".id"` or `".timestamp"`) are returned as a
+vector, whereas non-atomic elements like `.points` or `.strokes`, or any
+subelement like `.x` or `.tool` are returned as a list with one element
+per pdr_drawing.
 
 ## Usage
 
 ``` r
-pdr_get_info(pdr_list, id1 = ".id", id2 = NULL)
+pdr_get_info(pdr_list, e1 = ".id", e2 = NULL)
 ```
 
 ## Arguments
@@ -21,25 +21,23 @@ pdr_get_info(pdr_list, id1 = ".id", id2 = NULL)
   [`pdr_match()`](https://steenharsted.github.io/paindrawR/reference/pdr_match.md)),
   e.g. the `pdr_data` column of a pdr_tibble.
 
-- id1:
+- e1:
 
   A string specifying which element of each pdr_drawing to get. Default
   `".id"`.
 
-- id2:
+- e2:
 
-  Optional string naming a column within `id1` (when `id1` is a tibble
+  Optional string naming a column within `e1` (when `e1` is a tibble
   such as `.points` or `.strokes`) to extract.
 
 ## Value
 
-If `id2` is `NULL` and `id1` is one of `.points`, `.strokes`,
-`.polygons`, `.rgba` or `.stencil`: a list of the same length as
-`pdr_list`, with the element from each drawing. If `id2` is `NULL` and
-`id1` is any other element: a vector of the same length as `pdr_list`.
-If `id2` is given: the column `id2` of `id1` for each drawing, as a list
-with one element per drawing (simplified to a vector only if every
-drawing contributes exactly one value).
+If `e2` is `NULL` and `e1` is atomic in all drawings, a simplified
+vector of the extracted elements. If `e2` is `NULL` and `e1` is
+non-atomic, a list with one element (`e1`) is returned for each pain
+drawing. If `e2` (and `e1`) is supplied, a list with one element per
+drawing, containing the extracted `e2` element from each `e1`.
 
 ## See also
 
